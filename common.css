@@ -1,0 +1,145 @@
+:root {
+  --gray900: #111827;
+  --gray800: #1f2937;
+  --gray700: #374151;
+  --gray600: #4b5563;
+  --gray500: #6b7280;
+  --gray400: #9ca3af;
+  --gray200: #e5e7eb;
+  --gray100: #f3f4f6;
+  --gray50: #f9fafb;
+  --blue: #3692ff;
+  --error-red: #f74747;
+  --skyblue: #cfe5ff;
+  --white: #fff;
+  --gray-header: #dfdfdf;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.background-white {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0 113px 0;
+  min-height: 100vh;
+}
+
+.main {
+  width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+li {
+  list-style: none;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 200px;
+  height: 70px;
+  border-bottom: 1px solid var(--gray-header);
+}
+@media screen and (max-width: 1199px) {
+  .header {
+    padding: 34px;
+  }
+}
+.header__inner {
+  display: flex;
+  max-width: 95rem;
+  align-items: center;
+}
+
+.header__left {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.header__logo {
+  display: flex;
+  width: 153px;
+  height: 51px;
+}
+
+.header__menu {
+  display: flex;
+  align-items: center;
+}
+
+.header__menu-item {
+  display: flex;
+  width: 109px;
+  height: 69px;
+  padding: 24px 16px 24px 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.header__menu-link {
+  color: var(--Gray-600);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 88px;
+  height: 42px;
+  border-radius: 8px;
+  background-color: var(--blue);
+  color: #fff;
+  border: 0px;
+}
+
+.header__button {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 88px;
+  height: 42px;
+  border-radius: 8px;
+  background-color: var(--blue);
+  color: #fff;
+  border: 0px;
+}
+
+.like-button {
+  display: flex;
+  background: #fff;
+  align-items: center;
+  gap: 4px;
+  height: 48px;
+  height: 16px;
+  color: var(--gray600);
+  font-family: Pretendard;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+}
+
+.category__title {
+  color: var(--gray900);
+  font-family: Pretendard;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 140%; /* 28px */
+  letter-spacing: 0.4px;
+}

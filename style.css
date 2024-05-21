@@ -1,0 +1,140 @@
+.background-skyblue {
+  padding-top: 123px;
+  background-color: var(--skyblue);
+  display: flex;
+  justify-content: center;
+}
+
+.hero {
+  width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero__inner {
+  width: 357px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  height: 200px;
+}
+
+.hero__title {
+  color: var(--Gray-700);
+  font-family: Pretendard;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%; /* 56px */
+  text-wrap: nowrap;
+}
+
+.hero__button {
+  display: flex;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 357px;
+  height: 56px;
+  border-radius: 40px;
+  background-color: var(--blue);
+  color: #fff;
+}
+
+.hero__image-container {
+  width: 100%;
+  max-width: 996px;
+  display: flex;
+  justify-content: center;
+}
+
+.hero__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 996px;
+}
+
+.background-white {
+  background-color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.article {
+  max-width: 1200px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 64px;
+  padding: 138px 0px;
+}
+
+.article--even {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.article__badge {
+  color: var(--blue);
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%; /* 25.2px */
+}
+
+.article__image {
+  height: 444px;
+}
+
+.article__text {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.article__contents {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.article__title {
+  color: var(--gray-700);
+  font-family: Pretendard;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 140%; /* 56px */
+  letter-spacing: 0.8px;
+}
+
+@media screen and (max-width: 1200px) {
+  .article__title {
+    font-size: 32px;
+  }
+}
+
+.article__description {
+  color: var(--gray-700);
+  font-family: Pretendard;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 120%; /* 28.8px */
+  letter-spacing: 1.92px;
+}
+
+@media screen and (max-width: 1919px) {
+  .article__description {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 1919px) {
+  .article__badge {
+    font-size: 18px;
+  }
+}

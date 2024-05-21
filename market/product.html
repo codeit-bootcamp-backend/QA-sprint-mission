@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../normalize.css">
+  <link rel="stylesheet" href="../common.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="product.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="../main.js"></script>
+  <title>판다마켓</title>
+</head>
+
+<body>
+  <header class="header">
+    <div class="header__inner">
+      <div class="header__left">
+        <a class="header__logo-link">
+          <image src="../images/logo.png" class="header__logo" />
+        </a>
+        <ul class="header__menu">
+          <li class="header__menu-item">
+            <a href="/board/free.html" class="header__menu-link">자유게시판</a>
+          </li>
+          <li class="header__menu-item">
+            <a href="/market/product.html" class="header__menu-link">중고마켓</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button class="header__button">
+      로그인
+    </button>
+  </header>
+  <div class="background-white">
+    <main class="main">
+      <section class="best-products">
+        <h2 class="category__title">베스트 상품</h2>
+        <ul class="best-products__list products__list">
+          <li class="best-products__item best-products__item--featured">
+            <img src="../images/1.png" class="best-products__image" />
+            <p class="products__name">상품 1</p>
+            <p class="products__price">10000원</p>
+            <button class="like-button"><img src="../icons/heart.svg" /> 9999</button>
+
+          </li>
+          <li class="best-products__item best-products__item--highlighted">상품 2</li>
+          <li class="best-products__item">상품 3</li>
+          <li class="best-products__item">상품 3</li>
+        </ul>
+      </section>
+
+      <section class="all-products">
+        <h2 class="category__title">전체 상품</h2>
+        <ul class="all-products__list products__list">
+          <li class="all-products__item all-products__item--discounted">상품 A</li>
+          <li class="all-products__item all-products__item--new">상품 B</li>
+          <li class="all-products__item">상품 C</li>
+          <li class="all-products__item">상품 C</li>
+          <li class="all-products__item">상품 C</li>
+        </ul>
+      </section>
+      <div class="pagination">
+        <button class="pagination__perv-button pagination__button"><img src="../icons/arrow_left.svg" /></button>
+        <button class="pagination__button">1</button>
+        <button class="pagination__button">2</button>
+        <button class="pagination__button">3</button>
+        <button class="pagination__next-button pagination__button"><img src="../icons/arrow_right.svg" /></button>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>
