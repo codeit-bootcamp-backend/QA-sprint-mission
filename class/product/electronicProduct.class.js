@@ -1,14 +1,14 @@
-import { Product } from "./product.class";
+import { Product } from "./product.class.js";
 
 export class ElectronicProduct extends Product {
-#manufacturer
+  #manufacturer;
 
-  constructor(name, description, price, hashtag, liked, manufacturer) {
-    super(name, description, price, hashtag, liked);
+  constructor({ name, description, price, tags, favoriteCount, manufacturer }) {
+    super({ name, description, price, tags, favoriteCount });
     this.#manufacturer = manufacturer;
   }
 
   get manufacturer() {
-    return this.#manufacturer
+    return this.#manufacturer;
   }
 }

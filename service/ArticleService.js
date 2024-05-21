@@ -1,6 +1,6 @@
 import { BASE_URL } from "../apis/config.js";
 
-export async function getArticles({}) {
+export async function getArticleList() {
   return fetch(`${BASE_URL}/articles`, { method: "GET" })
     .then((res) => res.json())
     .catch(() => {

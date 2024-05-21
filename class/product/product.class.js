@@ -2,15 +2,15 @@ export class Product {
   #name;
   #description;
   #price;
-  #hashtag;
-  #liked;
+  #tags;
+  #favoriteCount;
 
-  constructor(name, description, price, hashtag = [], liked = 0) {
+  constructor({ name, description, price, tags = [], favoriteCount = 0 }) {
     this.#name = name;
     this.#description = description;
     this.#price = price;
-    this.#hashtag = hashtag;
-    this.#liked = liked;
+    this.#tags = tags;
+    this.#favoriteCount = favoriteCount;
   }
 
   get name() {
@@ -36,18 +36,18 @@ export class Product {
     this.#price = newPrice;
   }
 
-  get hashtag() {
-    return this.#hashtag;
+  get tags() {
+    return this.#tags;
   }
-  set hashtag(newHashtag) {
-    this.#hashtag = newHashtag;
+  set tags(newHashtag) {
+    this.#tags = newHashtag;
   }
 
-  get liked() {
-    return this.#liked;
+  get favoriteCount() {
+    return this.#favoriteCount;
   }
 
   favorite() {
-    this.#liked += 1;
+    this.#favoriteCount += 1;
   }
 }

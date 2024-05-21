@@ -1,23 +1,41 @@
-import { BASE_URL } from "../apis/config.js";
+import fetcher from "../apis/instance.js";
 
-async function getProducts() {
+export async function getProductList() {
   try {
-    const response = await fetch(`${BASE_URL}/products`, { method: "GET" });
-    const data = await response.json();
-    return data;
+    return await fetcher({ url: `/products`, method: "GET" });
   } catch (err) {
     throw new Error("Error!");
   }
 }
 
-async function getProduct(id) {
+export async function getProduct(id) {
   try {
-    const response = await fetch(`${BASE_URL}/products/${id}`, { method: "GET" });
-    const data = await response.json();
-    return data;
+    return await fetcher({ url: `/products/${id}`, method: "GET" });
   } catch (err) {
     throw new Error("Error!");
   }
 }
 
-console.log(await getProduct(10));
+export async function createProduct(product) {
+  try {
+    return await fetcher({ url: `/products`, method: "POST", body: JSON.stringify(product) });
+  } catch (err) {
+    throw new Error("Error!");
+  }
+}
+
+export async function patchProduct(id, product) {
+  try {
+    return await fetcher({ url: `/products/${id}`, method: "PATCH", body: JSON.stringify(product) });
+  } catch (err) {
+    throw new Error("Error!");
+  }
+}
+
+export async function deleteProduct(id) {
+  try {
+    return await fetcher({ url: `/products/${id}`, method: "DELETE" });
+  } catch (err) {
+    throw new Error("Error!");
+  }
+}

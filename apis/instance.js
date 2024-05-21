@@ -13,7 +13,9 @@ export const request = (config) => {
 };
 
 const fetcher = async (config) => {
-  const response = await request({ ...config });
-  return response;
+  const { data } = await request({ ...config });
+
+  return data;
 };
+
 export default fetcher;

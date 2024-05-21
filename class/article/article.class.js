@@ -1,28 +1,29 @@
 export class Article {
   #title;
-  #description;
-  #author;
-  #liked;
-  
-  constructor(title, description, author, liked) {
+  #content;
+  #writer;
+  #likeCount;
+
+  constructor({ title, content, writer, likeCount }) {
     this.#title = title;
-    this.#description = description;
-    this.#author = author;
-    this.#liked = liked
+    this.#content = content;
+    this.#writer = writer;
+    this.#likeCount = likeCount;
   }
 
   get title() {
-    return this.#title
+    return this.#title;
   }
 
-  get description() {
-    return this.#description
-  }
-  get author() {
-    return this.#author;
+  get content() {
+    return this.#content;
   }
 
-  get liked() {
-    return this.#liked
+  get writer() {
+    return this.#writer;
+  }
+
+  get likeCount() {
+    return this.#likeCount;
   }
 }
