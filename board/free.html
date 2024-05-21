@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../normalize.css">
+  <link rel="stylesheet" href="../common.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="board.css">
+  <title>자유게시판</title>
+</head>
+
+<body>
+  <header class="header">
+    <div class="header__inner">
+      <div class="header__left">
+        <a class="header__logo-link">
+          <image src="../images/logo.png" class="header__logo" />
+        </a>
+        <ul class="header__menu">
+          <li class="header__menu-item">
+            <a href="/board/free.html" class="header__menu-link">자유게시판</a>
+          </li>
+          <li class="header__menu-item">
+            <a href="/market/product.html" class="header__menu-link">중고마켓</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button class="header__button">
+      로그인
+    </button>
+  </header>
+  <div class="background-white">
+    <main class="main">
+      <section class="article--best article">
+        <h3 class="category__title">
+          베스트 게시글
+        </h3>
+        <ul class="article__list--best">
+          <li class="article__item article__item--best">
+            <img src="../images//img_badge.png" />
+            <a href="/board/free/1" class="article__link">
+              <h4 class="article__title">맥북 16인치 16기가 1테라 정도 사양이면 얼마에 팔아야하나요?</h4>
+              <div class="article__image-container">
+                <img src="../images/1.png" class="article__image" />
+              </div>
+            </a>
+            <span class="article__info article__info--best">
+              <span class="article__author">
+                총명한 판다
+                <button class="like-button like-button--article"><img src="../icons/heart.svg" /> 9999+</button>
+              </span>
+              <span class="article__date">
+                2024.04.16
+              </span>
+            </span>
+          </li>
+          <li class="article__item article__item--best">
+            <img src="../images//img_badge.png" />
+            <a href="/board/free/2" class="article__link">
+              <h4 class="article__title">심심풀이 사주 봐드려요~</h4>
+              <div class="article__image-container">
+                <img src="../images/2.png" class="article__image" />
+              </div>
+
+            </a>
+          </li>
+          <li class="article__item article__item--best">
+            <img src="../images//img_badge.png" />
+            <a href="/board/free/3" class="article__link">
+              <h4 class="article__title">오늘 모각공하실 분 구합니다~</h4>
+              <div class="article__image-container">
+                <img src="../images/3.png" class="article__image" />
+              </div>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="article">
+        <h3 class="category__title">
+          게시글
+        </h3>
+        <ul class="article__list">
+          <li class="article__item">
+            <a href="/board/free/4" class="article__link">
+              <h4 class="article__title">맥북 16인치 16기가 1테라 정도 사양이면 얼마에 팔아야하나요?</h4>
+              <div class="article__image-container">
+                <img src="../images/1.png" class="article__image" />
+              </div>
+            </a>
+            <span class="article__info">
+              <span class="article__author">
+                총명한 판다
+                <span class="article__date">
+                  2024.04.16
+                </span>
+              </span>
+              <button class="like-button like-button--article"><img src="../icons/heart.svg" /> 9999+</button>
+            </span>
+          </li>
+          <li class="article__item">
+            <a href="/board/free/5" class="article__link">
+              <h4 class="article__title">심심풀이 사주 봐드려요~</h4>
+              <div class="article__image-container">
+                <img src="../images/2.png" class="article__image" />
+              </div>
+            </a>
+            <span class="article__info">
+              <span class="article__author">
+                깜찍한 판다
+                <span class="article__date">
+                  2024.04.16
+                </span>
+              </span>
+              <button class="like-button like-button--article"><img src="../icons/heart.svg" /> 9999+</button>
+            </span>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+  </div>
+
+</body>
+
+</html>

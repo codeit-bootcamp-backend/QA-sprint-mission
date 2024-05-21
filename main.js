@@ -1,12 +1,13 @@
+import * as ArticleService from "./market/ArticleService.js";
 import * as ProductService from "./market/ProductService.js";
 
-// await ProductService.getProducts();
-// await ArticleService.getArticles();
-// await ProductService.getProductList({ orderBy: "recent", page: 2, pageSize: 5 });
-// await ArticleService.getArticleList({ orderBy: "recent" });
-// await ArticleService.getArticleList({ orderBy: "like" });
-// await ProductService.getProduct(12);
-// await ArticleService.getArticle(1);
+await ProductService.getProducts();
+await ArticleService.getArticles();
+await ProductService.getProductList({ orderBy: "recent", page: 2, pageSize: 5 });
+await ArticleService.getArticleList({ orderBy: "recent" });
+await ArticleService.getArticleList({ orderBy: "like" });
+await ProductService.getProduct(12);
+await ArticleService.getArticle(1);
 // await ProductService.createProduct({
 //   name: "판다 인형",
 //   description: "귀여운 판다 인형입니다.",
