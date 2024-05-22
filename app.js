@@ -1,9 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
-import { DATABASE_URL } from "./env.js";
 import Product from "./models/product.js";
 
-mongoose.connect(DATABASE_URL).then(() => console.log("Connected to DB"));
+import * as dotenv from "dotenv";
+
+dotenv.config();
+mongoose.connect(process.env.DATABASE_URL).then(() => console.log("Connected to DB"));
 const app = express();
 
 app.use(express.json());
@@ -180,6 +182,4 @@ app.patch(
   })
 );
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
+app.listen(process.env.PORT || 3000, () => console.log("Server Started"));
