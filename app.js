@@ -1,17 +1,9 @@
-import cors from "cors";
-import * as dotenv from "dotenv";
+import { PrismaClient } from "@prisma/client";
 import express from "express";
-import mongoose from "mongoose";
-import Product from "./models/product.js";
+const prisma = new PrismaClient();
 
-dotenv.config();
-mongoose.connect(process.env.DATABASE_URL).then(() => console.log("Connected to DB"));
 const app = express();
-app.use(cors());
-const corsOptions = {
-  origin: ["http://127.0.0.1:3000", "https://panda-market.com"],
-};
-app.use(cors(corsOptions));
+
 app.use(express.json());
 
 const asyncHandler = (handler) => {
@@ -34,40 +26,8 @@ const asyncHandler = (handler) => {
 app.get(
   "/products",
   asyncHandler(async (req, res) => {
-    /**
-     * 쿼리 파라미터
-     * - offset : 가져올 데이터의 시작 지점
-     * - limit : 한 번에 가져올 데이터의 개수
-     * - orderBy : 정렬 기준 favorite, recent (기본값: recent)
-     * - keyword : 검색 키워드
-     */
-    const offset = Number(req.query.offset) || 0;
-    const limit = Number(req.query.limit) || 10;
-    const orderBy = req.query.orderBy;
-    const keyword = req.query.keyword || "";
-
-    const sortOption = orderBy === "favorite" ? { favoriteCount: "desc" } : { createdAt: "desc" };
-
-    const query = keyword
-      ? {
-          $or: [{ name: { $regex: keyword, $options: "i" } }, { description: { $regex: keyword, $options: "i" } }],
-        }
-      : {};
-
-    const products = await Product.find(query)
-      .select("_id name price images createdAt favoriteCount isFavorite")
-      .sort(sortOption)
-      .skip(offset)
-      .limit(limit);
-
-    const totalProducts = await Product.countDocuments(query);
-
-    res.send({
-      products,
-      totalProducts,
-      currentOffset: offset,
-      limit: limit,
-    });
+    const products = await prisma.product.findMany();
+    res.send(products);
   })
 );
 
@@ -75,7 +35,12 @@ app.get(
 app.get(
   "/products/:id",
   asyncHandler(async (req, res) => {
-    const product = await Product.findById(req.params.id).select("-updatedAt");
+    const { id } = req.params;
+    const product = await prisma.product.findUnique({
+      where: {
+        id,
+      },
+    });
     if (!product) {
       res.status(404).send({ message: "존재하지 않는 상품입니다." });
       return;
