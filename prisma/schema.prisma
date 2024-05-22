@@ -26,3 +26,15 @@ model Product {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
+
+model Article {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  imageUrl  String?
+  likeCount Int      @default(0)
+  isLiked   Boolean  @default(false)
+  writer    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

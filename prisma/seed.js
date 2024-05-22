@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import data from "./mock.js";
+import article from "./mockArticle.js";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -7,6 +8,13 @@ async function main() {
 
   await prisma.product.createMany({
     data,
+    skipDuplicates: true,
+  });
+
+  await prisma.article.deleteMany();
+
+  await prisma.article.createMany({
+    data: article,
     skipDuplicates: true,
   });
 }

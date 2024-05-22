@@ -1,5 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import express from "express";
+import { assert } from "superstruct";
+import { CreateProduct, PatchProduct } from "./structs.js";
 const prisma = new PrismaClient();
 
 const app = express();
@@ -11,9 +13,9 @@ const asyncHandler = (handler) => {
     try {
       await handler(req, res);
     } catch (e) {
-      if (e.name === "ValidationError") {
+      if (e.name === "StructError" || e instanceof Prisma.PrismaClientValidationError) {
         res.status(400).send({ message: e.message });
-      } else if (e.name === "CastError") {
+      } else if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2025") {
         res.status(404).send({ message: "존재하지 않는 상품입니다." });
       } else {
         res.status(500).send({ message: "서버 에러입니다." });
@@ -65,15 +67,11 @@ app.get(
   "/products/:id",
   asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const product = await prisma.product.findUnique({
+    const product = await prisma.product.findUniqueOrThrow({
       where: {
         id,
       },
     });
-    if (!product) {
-      res.status(404).send({ message: "존재하지 않는 상품입니다." });
-      return;
-    }
 
     res.send(product);
   })
@@ -83,6 +81,7 @@ app.get(
 app.post(
   "/products",
   asyncHandler(async (req, res) => {
+    assert(req.query, CreateProduct);
     const product = await prisma.product.create({
       data: req.body,
     });
@@ -94,6 +93,7 @@ app.post(
 app.patch(
   "/products/:id",
   asyncHandler(async (req, res) => {
+    assert(req.body, PatchProduct);
     const { id } = req.params;
     const product = await prisma.product.update({
       where: {
@@ -101,10 +101,6 @@ app.patch(
       },
       data: req.body,
     });
-    if (!product) {
-      res.status(404).send({ message: "존재하지 않는 상품입니다." });
-      return;
-    }
 
     res.send(product);
   })
@@ -115,16 +111,11 @@ app.delete(
   "/products/:id",
   asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const product = await prisma.product.delete({
+    await prisma.product.delete({
       where: {
         id,
       },
     });
-
-    if (!product) {
-      res.status(404).send({ message: "존재하지 않는 상품입니다." });
-      return;
-    }
 
     res.sendStatus(204);
   })
@@ -134,7 +125,18 @@ app.delete(
 app.patch(
   "/products/:id/like",
   asyncHandler(async (req, res) => {
-    const product = await prisma.product.update({
+    const product = await prisma.product.findUniqueOrThrow({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (product.isFavorite) {
+      res.status(400).send({ message: "이미 좋아요 처리된 상품입니다." });
+      return;
+    }
+
+    const updatedProduct = await prisma.product.update({
       where: {
         id: req.params.id,
       },
@@ -146,7 +148,7 @@ app.patch(
       },
     });
 
-    res.send(product);
+    res.send(updatedProduct);
   })
 );
 
@@ -154,7 +156,18 @@ app.patch(
 app.patch(
   "/products/:id/unlike",
   asyncHandler(async (req, res) => {
-    const product = await prisma.product.update({
+    const product = await prisma.product.findUniqueOrThrow({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!product.isFavorite) {
+      res.status(400).send({ message: "아직 좋아요 처리되지 않은 상품입니다." });
+      return;
+    }
+
+    const updatedProduct = await prisma.product.update({
       where: {
         id: req.params.id,
       },
@@ -166,7 +179,29 @@ app.patch(
       },
     });
 
-    res.send(product);
+    res.send(updatedProduct);
+  })
+);
+
+// 게시글 조회
+app.get(
+  "/articles",
+  asyncHandler(async (req, res) => {
+    /**
+     * 쿼리 파라미터
+     * - offset : 가져올 데이터의 시작 지점
+     * - limit : 한 번에 가져올 데이터의 개수
+     * - orderBy : 정렬 기준 favorite, recent (기본값: recent)
+     * - keyword : 검색 키워드
+     */
+    const { offset = 0, limit = 10, orderBy = "recent", keyword = "" } = req.query;
+    const order = orderBy === "favorite" ? { favoriteCount: "desc" } : { createdAt: "desc" };
+    const articles = await prisma.article.findMany({
+      orderBy: order,
+      skip: parseInt(offset),
+      take: parseInt(limit),
+    });
+    res.send(articles);
   })
 );
 

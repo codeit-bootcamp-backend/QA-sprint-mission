@@ -50,3 +50,5 @@ PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7/like
 
 PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7/unlike
 
+###
+GET http://localhost:3000/articles
