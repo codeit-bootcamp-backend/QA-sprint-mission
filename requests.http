@@ -1,0 +1,52 @@
+GET http://localhost:3000/products
+
+###
+
+GET http://localhost:3000/products?offset=0&limit=0&keyword=불곰
+
+###
+
+GET http://localhost:3000/products?keyword=판다
+
+###
+
+GET http://localhost:3000/products/664d393f71f073e051e9aaca
+
+###
+
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+  "name": "판다랑 불곰 교환원해요",
+  "description": "세종시청에서 교환원합니다.",
+  "price": 20000,
+  "tags": ["판다", "불곰"],
+  "images": ["https://www.wishbucket.io/_next/image?url=https%3A%2F%2Fd2gfz7wkiigkmv.cloudfront.net%2Fpickin%2F2%2F1%2F2%2FHereyhSJRMOmUw7I5uWAxg&w=640&q=75","https://wimg.mk.co.kr/meet/2021/09/image_listtop_2021_854860_1630738087.jpg"],
+  "ownerId":1
+}
+
+###
+
+PATCH http://localhost:3000/products/664d393f71f073e051e9aaca
+Content-Type: application/json
+
+{
+  "name":"판다 안팔려서 안판다",
+  "description":"안판다고 했지만 사실은 판다",
+  "price":7000,
+  "tags":["판다","안판다"]
+}
+
+
+###
+
+DELETE http://localhost:3000/products/664d393f71f073e051e9aaca
+
+###
+PATCH http://localhost:3000/products/664d3eb1c4d678fe7647c427/like
+
+###
+
+PATCH http://localhost:3000/products/664d3eb1c4d678fe7647c427/unlike
+
