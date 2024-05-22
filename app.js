@@ -2,10 +2,9 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import express from "express";
 import { assert } from "superstruct";
 import { CreateProduct, PatchProduct } from "./structs.js";
+
 const prisma = new PrismaClient();
-
 const app = express();
-
 app.use(express.json());
 
 const asyncHandler = (handler) => {
@@ -80,7 +79,7 @@ app.get(
 app.post(
   "/products",
   asyncHandler(async (req, res) => {
-    assert(req.query, CreateProduct);
+    assert(req.body, CreateProduct);
     const product = await prisma.product.create({
       data: req.body,
     });
