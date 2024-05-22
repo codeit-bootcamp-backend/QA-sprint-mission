@@ -26,7 +26,36 @@ const asyncHandler = (handler) => {
 app.get(
   "/products",
   asyncHandler(async (req, res) => {
-    const products = await prisma.product.findMany();
+    /**
+     * 쿼리 파라미터
+     * - offset : 가져올 데이터의 시작 지점
+     * - limit : 한 번에 가져올 데이터의 개수
+     * - orderBy : 정렬 기준 favorite, recent (기본값: recent)
+     * - keyword : 검색 키워드
+     */
+    const { offset = 0, limit = 10, orderBy = "recent", keyword = "" } = req.query;
+    const order = orderBy === "favorite" ? { favoriteCount: "desc" } : { createdAt: "desc" };
+    const products = await prisma.product.findMany({
+      orderBy: order,
+      skip: parseInt(offset),
+      take: parseInt(limit),
+      where: {
+        OR: [
+          {
+            name: {
+              contains: keyword,
+              mode: "insensitive",
+            },
+          },
+          {
+            description: {
+              contains: keyword,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
+    });
     res.send(products);
   })
 );
@@ -105,22 +134,17 @@ app.delete(
 app.patch(
   "/products/:id/like",
   asyncHandler(async (req, res) => {
-    const product = await Product.findById(req.params.id);
-
-    if (!product) {
-      res.status(404).send({ message: "존재하지 않는 상품입니다." });
-      return;
-    }
-
-    if (product.isFavorite) {
-      res.status(400).send({ message: "이미 좋아요 처리된 상품입니다." });
-      return;
-    }
-
-    product.favoriteCount += 1;
-    product.isFavorite = true;
-
-    await product.save();
+    const product = await prisma.product.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        favoriteCount: {
+          increment: 1,
+        },
+        isFavorite: true,
+      },
+    });
 
     res.send(product);
   })
@@ -130,24 +154,17 @@ app.patch(
 app.patch(
   "/products/:id/unlike",
   asyncHandler(async (req, res) => {
-    const product = await Product.findById(req.params.id);
-
-    if (!product) {
-      res.status(404).send({ message: "존재하지 않는 상품입니다." });
-      return;
-    }
-
-    if (!product.isFavorite) {
-      res.status(400).send({ message: "아직 좋아요 처리되지 않은 상품입니다." });
-      return;
-    }
-
-    if (product.favoriteCount > 0) {
-      product.favoriteCount -= 1;
-    }
-    product.isFavorite = false;
-
-    await product.save();
+    const product = await prisma.product.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        favoriteCount: {
+          decrement: 1,
+        },
+        isFavorite: false,
+      },
+    });
 
     res.send(product);
   })

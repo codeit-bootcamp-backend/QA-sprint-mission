@@ -2,7 +2,7 @@ GET http://localhost:3000/products
 
 ###
 
-GET http://localhost:3000/products?offset=0&limit=0&keyword=불곰
+GET http://localhost:3000/products?offset=1&limit=2&keyword=판다&orderBy=favorite
 
 ###
 
@@ -10,7 +10,7 @@ GET http://localhost:3000/products?keyword=판다
 
 ###
 
-GET http://localhost:3000/products/8edc68a8-8361-4411-bb9f-dcb1a4c3d0de
+GET http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7
 
 ###
 
@@ -28,7 +28,7 @@ Content-Type: application/json
 
 ###
 
-PATCH http://localhost:3000/products/8edc68a8-8361-4411-bb9f-dcb1a4c3d0de
+PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7
 Content-Type: application/json
 
 {
@@ -41,12 +41,12 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/products/8edc68a8-8361-4411-bb9f-dcb1a4c3d0de
+DELETE http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7
 
 ###
-PATCH http://localhost:3000/products/664d3eb1c4d678fe7647c427/like
+PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7/like
 
 ###
 
-PATCH http://localhost:3000/products/664d3eb1c4d678fe7647c427/unlike
+PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7/unlike
 

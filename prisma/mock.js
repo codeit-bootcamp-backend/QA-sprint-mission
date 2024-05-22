@@ -1,6 +1,6 @@
 const data = [
   {
-    favoriteCount: 0,
+    favoriteCount: 7,
     ownerId: 1,
     images: ["https://sitem.ssgcdn.com/62/11/49/item/1000559491162_i1_1100.jpg"],
     tags: ["판다인형", "인형", "판다"],
