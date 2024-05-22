@@ -28,7 +28,7 @@ Content-Type: application/json
 
 ###
 
-PATCH http://localhost:3000/products/664d393f71f073e051e9aaca
+PATCH http://localhost:3000/products/8edc68a8-8361-4411-bb9f-dcb1a4c3d0de
 Content-Type: application/json
 
 {
@@ -41,7 +41,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/products/664d393f71f073e051e9aaca
+DELETE http://localhost:3000/products/8edc68a8-8361-4411-bb9f-dcb1a4c3d0de
 
 ###
 PATCH http://localhost:3000/products/664d3eb1c4d678fe7647c427/like

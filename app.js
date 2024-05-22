@@ -54,8 +54,10 @@ app.get(
 app.post(
   "/products",
   asyncHandler(async (req, res) => {
-    const newProduct = await Product.create(req.body);
-    res.status(201).send(newProduct);
+    const product = await prisma.product.create({
+      data: req.body,
+    });
+    res.status(201).send(product);
   })
 );
 
@@ -63,25 +65,17 @@ app.post(
 app.patch(
   "/products/:id",
   asyncHandler(async (req, res) => {
-    const product = await Product.findById(req.params.id);
-
+    const { id } = req.params;
+    const product = await prisma.product.update({
+      where: {
+        id,
+      },
+      data: req.body,
+    });
     if (!product) {
       res.status(404).send({ message: "존재하지 않는 상품입니다." });
       return;
     }
-    const disallowedFields = {
-      favoriteCount: true,
-      isFavorite: true,
-      ownerId: true,
-    };
-
-    Object.keys(req.body).forEach((key) => {
-      if (!disallowedFields[key]) {
-        product[key] = req.body[key];
-      }
-    });
-
-    await product.save();
 
     res.send(product);
   })
@@ -91,7 +85,12 @@ app.patch(
 app.delete(
   "/products/:id",
   asyncHandler(async (req, res) => {
-    const product = await Product.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
+    const product = await prisma.product.delete({
+      where: {
+        id,
+      },
+    });
 
     if (!product) {
       res.status(404).send({ message: "존재하지 않는 상품입니다." });
