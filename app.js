@@ -24,32 +24,92 @@ const asyncHandler = (handler) => {
   };
 };
 
+//상품 목록 조회
 app.get(
   "/products",
   asyncHandler(async (req, res) => {
     /**
      * 쿼리 파라미터
-     * - page : 페이지 번호
-     * - pageSize : 페이지 당 상품 수
+     * - offset : 가져올 데이터의 시작 지점
+     * - limit : 한 번에 가져올 데이터의 개수
      * - orderBy : 정렬 기준 favorite, recent (기본값: recent)
      * - keyword : 검색 키워드
      */
-    const orderBy = req.query.sort;
-    const count = Number(req.query.count) || 0;
+    const offset = Number(req.query.offset) || 0;
+    const limit = Number(req.query.limit) || 10;
+    const orderBy = req.query.orderBy;
+    const keyword = req.query.keyword || "";
 
     const sortOption = orderBy === "favorite" ? { favoriteCount: "desc" } : { createdAt: "desc" };
 
-    const product = await Product.find().sort(sortOption).limit(count);
+    // 제목과 내용에서 키워드를 검색하는 쿼리
+    const query = keyword
+      ? {
+          $or: [{ name: { $regex: keyword, $options: "i" } }, { description: { $regex: keyword, $options: "i" } }],
+        }
+      : {};
+
+    const products = await Product.find(query)
+      .select("_id name price images createdAt favoriteCount isFavorite")
+      .sort(sortOption)
+      .skip(offset)
+      .limit(limit);
+
+    const totalProducts = await Product.countDocuments(query);
+
+    res.send({
+      products,
+      totalProducts,
+      currentOffset: offset,
+      limit: limit,
+    });
+  })
+);
+
+//상품 상세 조회
+app.get(
+  "/products/:id",
+  asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id).select("-updatedAt");
 
     res.send(product);
   })
 );
 
+// 상품 등록
 app.post(
   "/products",
   asyncHandler(async (req, res) => {
     const newProduct = await Product.create(req.body);
     res.status(201).send(newProduct);
+  })
+);
+
+// 상품 수정
+app.patch(
+  "/products/:id",
+  asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      res.status(404).send({ message: "존재하지 않는 상품입니다." });
+      return;
+    }
+    const disallowedFields = {
+      favoriteCount: true,
+      isFavorite: true,
+      ownerId: true,
+    };
+
+    Object.keys(req.body).forEach((key) => {
+      if (!disallowedFields[key]) {
+        product[key] = req.body[key];
+      }
+    });
+
+    await product.save();
+
+    res.send(product);
   })
 );
 
