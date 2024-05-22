@@ -38,3 +38,15 @@ Content-Type: application/json
   "tags":["판다","안판다"]
 }
 
+
+###
+
+DELETE http://localhost:3000/products/664d393f71f073e051e9aaca
+
+###
+PATCH http://localhost:3000/products/664d3eb1c4d678fe7647c427/like
+
+###
+
+PATCH http://localhost:3000/products/664d3eb1c4d678fe7647c427/unlike
+
