@@ -1,13 +1,17 @@
+import cors from "cors";
+import * as dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import Product from "./models/product.js";
 
-import * as dotenv from "dotenv";
-
 dotenv.config();
 mongoose.connect(process.env.DATABASE_URL).then(() => console.log("Connected to DB"));
 const app = express();
-
+app.use(cors());
+const corsOptions = {
+  origin: ["http://127.0.0.1:3000", "https://panda-market.com"],
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const asyncHandler = (handler) => {
@@ -44,7 +48,6 @@ app.get(
 
     const sortOption = orderBy === "favorite" ? { favoriteCount: "desc" } : { createdAt: "desc" };
 
-    // 제목과 내용에서 키워드를 검색하는 쿼리
     const query = keyword
       ? {
           $or: [{ name: { $regex: keyword, $options: "i" } }, { description: { $regex: keyword, $options: "i" } }],
@@ -73,6 +76,10 @@ app.get(
   "/products/:id",
   asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id).select("-updatedAt");
+    if (!product) {
+      res.status(404).send({ message: "존재하지 않는 상품입니다." });
+      return;
+    }
 
     res.send(product);
   })
