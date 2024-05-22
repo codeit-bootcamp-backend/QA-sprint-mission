@@ -1,25 +1,23 @@
 import { PrismaClient } from "@prisma/client";
-import { ToggleProductLike } from "./user.structs.js";
 import { assert } from "superstruct";
+import { ToggleProductLike } from "./user.structs.js";
 
 const prisma = new PrismaClient();
+
 export async function getUserList(req, res) {
   const users = await prisma.user.findMany({
-    include: {
-      favoriteProduct: true,
-    },
+    include: { ownedProduct: true, favoriteProduct: true, ownedBoard: true, favoriteBoard: true },
   });
 
   res.send(users);
 }
+
 export async function getUser(req, res) {
   const { id } = req.params;
 
   const user = await prisma.user.findUnique({
     where: { id },
-    include: {
-      favoriteProduct: true,
-    },
+    include: { ownedProduct: true, favoriteProduct: true, ownedBoard: true, favoriteBoard: true },
   });
 
   res.send(user);
@@ -71,5 +69,6 @@ export async function toggleProductLike(req, res) {
       },
     });
   }
+
   res.sendStatus(204);
 }

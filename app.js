@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 import express from "express";
 import productRoutes from "./module/products/products.controller.js";
 import userRoutes from "./module/users/user.controller.js";
+import boardRoutes from "./module/board/board.controller.js";
 
 dotenv.config();
 

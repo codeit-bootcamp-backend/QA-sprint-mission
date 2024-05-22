@@ -1,4 +1,4 @@
-import { object, define, union } from "superstruct";
+import { define, object, union } from "superstruct";
 import isUuid from "is-uuid";
 
 const Uuid = define("Uuid", (value) => isUuid.v4(value));

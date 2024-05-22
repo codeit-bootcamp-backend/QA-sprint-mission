@@ -15,8 +15,8 @@ model User {
   email           String    @unique
   ownedProduct    Product[] @relation("OwnedProducts")
   favoriteProduct Product[] @relation("FavoriteProducts")
-  ownedArticle    Article[] @relation("OwnedArticles")
-  favoriteArticle Article[] @relation("FavoriteArticles")
+  ownedBoard      Board[]   @relation("OwnedBoards")
+  favoriteBoard   Board[]   @relation("FavoriteBoards")
 }
 
 model Product {
@@ -30,20 +30,22 @@ model Product {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   // 연결 필드
-  ownerId      String
-  userId       User     @relation(fields: [ownerId], references: [id], name: "OwnedProducts")
+  owner        String
+  ownerId      User     @relation(fields: [owner], references: [id], name: "OwnedProducts", onDelete: Cascade)
   favoriteUser User[]   @relation("FavoriteProducts")
 }
 
-model Article {
+model Board {
   // 고유 필드
-  id       String   @id @default(uuid())
-  title    String
-  content  String
-  imageUrl String[]
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  imageUrl  String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // 연결 필드
-  ownerId    String
-  userId     User   @relation(fields: [ownerId], references: [id], name: "OwnedArticles")
-  isFavorite User[] @relation("FavoriteArticles")
+  owner        String
+  writer       User   @relation(fields: [owner], references: [id], name: "OwnedBoards", onDelete: Cascade)
+  favoriteUser User[] @relation("FavoriteBoards")
 }

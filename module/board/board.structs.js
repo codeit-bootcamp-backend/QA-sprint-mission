@@ -3,13 +3,9 @@ import isUuid from "is-uuid";
 
 const Uuid = define("Uuid", (value) => isUuid.v4(value));
 
-export const CreateProduct = object({
+export const CreateBoard = object({
   ownerId: Uuid,
-  name: string(),
-  description: string(),
-  price: min(string(), 0),
-  tags: array(string()),
-  images: array(string()),
+  title: string(),
+  content: string(),
+  imageUrl: array(string()),
 });
-
-export const PatchProduct = partial(CreateProduct);

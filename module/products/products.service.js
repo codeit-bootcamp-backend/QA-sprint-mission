@@ -46,16 +46,22 @@ export async function getProductList(req, res) {
       price: true,
       images: true,
       createdAt: true,
-      favoriteUser: true,
+      ownerId: true,
     },
   });
 
-  products.forEach((item) => {
-    // TODO : 추후 유저 기능 완성되면 로직 변경
-    item.isFavorite = true;
+  const queries = products.map(async (item) => {
+    const { id: userId } = item.ownerId;
+    const { favoriteUser } = await prisma.product.findUnique({
+      where: { id: item.id },
+      select: { favoriteUser: true },
+    });
 
-    item.favoriteCount = item.favoriteUser.length;
+    item.favoriteCount = favoriteUser.length;
+    item.isFavorite = favoriteUser.some((user) => user.id === userId);
   });
+
+  await Promise.all(queries);
 
   res.send(products);
 }
@@ -73,13 +79,9 @@ export async function getProduct(req, res) {
       tags: true,
       images: true,
       createdAt: true,
-      favoriteUser: true,
+      ownerID: true,
     },
   });
-
-  // TODO : 추후 유저 기능 완성되면 로직 변경
-  product.isFavorite = true;
-  product.favoriteCount = product.favoriteUser.length;
 
   res.send(product);
 }
@@ -88,10 +90,10 @@ export async function createProduct(req, res) {
   assert(req.body, CreateProduct);
   const { ownerId, ...productField } = req.body;
 
-  const product = await prisma.product.create({
+  prisma.product.create({
     data: {
       ...productField,
-      userId: {
+      ownerId: {
         connect: {
           id: ownerId,
         },
