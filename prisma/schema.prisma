@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  ownedProduct    Product[] @relation("OwnedProducts")
+  favoriteProduct Product[] @relation("FavoriteProducts")
+  ownedArticle    Article[] @relation("OwnedArticles")
+  favoriteArticle Article[] @relation("FavoriteArticles")
+}
+
+model Product {
+  // 고유 필드
+  id           String   @id @default(uuid())
+  name         String
+  description  String
+  price        String
+  tags         String[]
+  images       String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  // 연결 필드
+  ownerId      String
+  userId       User     @relation(fields: [ownerId], references: [id], name: "OwnedProducts")
+  favoriteUser User[]   @relation("FavoriteProducts")
+}
+
+model Article {
+  // 고유 필드
+  id       String   @id @default(uuid())
+  title    String
+  content  String
+  imageUrl String[]
+
+  // 연결 필드
+  ownerId    String
+  userId     User   @relation(fields: [ownerId], references: [id], name: "OwnedArticles")
+  isFavorite User[] @relation("FavoriteArticles")
+}
