@@ -6,3 +6,28 @@ GET http://localhost:3000/articles?&limit=10&&orderBy=like
 
 GET http://localhost:3000/articles/b66f0adf-0bc1-4bf7-a8bb-6fc8141fa56d
 
+###
+# 게시글 등록
+POST http://localhost:3000/articles
+Content-Type: application/json
+
+{
+  "title": "제가 아끼는 티모 인형입니다",
+  "content": "버섯 농사 짓는 모습이 너무 깜찍하지않나요?",
+  "imageUrl": "https://cdn.011st.com/11dims/resize/600x600/quality/75/11src/product/5575072075/B.jpg?51000000",
+  "writer": "티모매니아"
+}
+
+###
+# 게시글 수정
+PATCH http://localhost:3000/articles/7a640d97-ba35-4bae-bf9e-b6f30bf0ebb0
+Content-Type: application/json
+
+{
+  "title":"판다 대박이네요",
+  "content":"대나무를 잘 먹네요 ㄷㄷ"
+}
+
+###
+# 게시글 삭제
+DELETE http://localhost:3000/articles/7a640d97-ba35-4bae-bf9e-b6f30bf0ebb0

@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import express from "express";
 import { assert } from "superstruct";
-import { CreateProduct, PatchProduct } from "./structs.js";
+import { CreateArticle, CreateProduct, PatchArticle, PatchProduct } from "./structs.js";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -15,7 +15,7 @@ const asyncHandler = (handler) => {
       if (e.name === "StructError" || e instanceof Prisma.PrismaClientValidationError) {
         res.status(400).send({ message: e.message });
       } else if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2025") {
-        res.status(404).send({ message: "존재하지 않는 상품입니다." });
+        res.status(404).send({ message: "존재하지 않는 게시글입니다." });
       } else {
         res.status(500).send({ message: "서버 에러입니다." });
       }
@@ -255,6 +255,50 @@ app.get(
       },
     });
     res.send(article);
+  })
+);
+
+// 게시글 등록
+app.post(
+  "/articles",
+  asyncHandler(async (req, res) => {
+    assert(req.body, CreateArticle);
+    const article = await prisma.article.create({
+      data: req.body,
+    });
+    res.status(201).send(article);
+  })
+);
+
+// 게시글 수정
+app.patch(
+  "/articles/:id",
+  asyncHandler(async (req, res) => {
+    assert(req.body, PatchArticle);
+    const { id } = req.params;
+    const article = await prisma.article.update({
+      where: {
+        id,
+      },
+      data: req.body,
+    });
+
+    res.send(article);
+  })
+);
+
+// 게시글 삭제
+app.delete(
+  "/articles/:id",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    await prisma.article.delete({
+      where: {
+        id,
+      },
+    });
+
+    res.sendStatus(204);
   })
 );
 
