@@ -31,3 +31,12 @@ Content-Type: application/json
 ###
 # 게시글 삭제
 DELETE http://localhost:3000/articles/7a640d97-ba35-4bae-bf9e-b6f30bf0ebb0
+
+###
+# 게시글 좋아요
+PATCH http://localhost:3000/articles/7757f3a4-0075-47e0-a9e5-b38500948b8e/like
+
+###
+# 게시글 좋아요 취소
+PATCH http://localhost:3000/articles/7757f3a4-0075-47e0-a9e5-b38500948b8e/unlike
+

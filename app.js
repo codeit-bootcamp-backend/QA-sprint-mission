@@ -302,4 +302,66 @@ app.delete(
   })
 );
 
+// 게시글 좋아요
+app.patch(
+  "/articles/:id/like",
+  asyncHandler(async (req, res) => {
+    const article = await prisma.article.findUniqueOrThrow({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (article.isLiked) {
+      res.status(400).send({ message: "이미 좋아요 처리된 게시글입니다." });
+      return;
+    }
+
+    const updatedArticle = await prisma.article.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        likeCount: {
+          increment: 1,
+        },
+        isLiked: true,
+      },
+    });
+
+    res.send(updatedArticle);
+  })
+);
+
+// 게시글 좋아요 취소
+app.patch(
+  "/articles/:id/unlike",
+  asyncHandler(async (req, res) => {
+    const article = await prisma.article.findUniqueOrThrow({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!article.isLiked) {
+      res.status(400).send({ message: "아직 좋아요 처리되지 않은 게시글입니다." });
+      return;
+    }
+
+    const updatedArticle = await prisma.article.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        likeCount: {
+          decrement: 1,
+        },
+        isLiked: false,
+      },
+    });
+
+    res.send(updatedArticle);
+  })
+);
+
 app.listen(process.env.PORT || 3000, () => console.log("Server Started"));
