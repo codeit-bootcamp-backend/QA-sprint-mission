@@ -1,0 +1,8 @@
+# 게시글 목록 조회
+GET http://localhost:3000/articles?&limit=10&&orderBy=like
+
+###
+# 게시글 상세 조회
+
+GET http://localhost:3000/articles/b66f0adf-0bc1-4bf7-a8bb-6fc8141fa56d
+

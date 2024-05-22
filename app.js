@@ -72,7 +72,6 @@ app.get(
         id,
       },
     });
-
     res.send(product);
   })
 );
@@ -183,7 +182,7 @@ app.patch(
   })
 );
 
-// 게시글 조회
+// 게시글 목록 조회
 app.get(
   "/articles",
   asyncHandler(async (req, res) => {
@@ -191,17 +190,72 @@ app.get(
      * 쿼리 파라미터
      * - offset : 가져올 데이터의 시작 지점
      * - limit : 한 번에 가져올 데이터의 개수
-     * - orderBy : 정렬 기준 favorite, recent (기본값: recent)
-     * - keyword : 검색 키워드
+     * - orderBy : 정렬 기준 like, recent (기본값: recent)
      */
     const { offset = 0, limit = 10, orderBy = "recent", keyword = "" } = req.query;
-    const order = orderBy === "favorite" ? { favoriteCount: "desc" } : { createdAt: "desc" };
+    const order = orderBy === "like" ? { likeCount: "desc" } : { createdAt: "desc" };
     const articles = await prisma.article.findMany({
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        imageUrl: true,
+        createdAt: true,
+        writer: true,
+      },
       orderBy: order,
       skip: parseInt(offset),
       take: parseInt(limit),
+      where: {
+        OR: [
+          {
+            title: {
+              contains: keyword,
+              mode: "insensitive",
+            },
+          },
+          {
+            content: {
+              contains: keyword,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
     });
-    res.send(articles);
+    // 좋아요가 많은 상위 4개의 글 조회
+    const bestArticles = await prisma.article.findMany({
+      orderBy: {
+        likeCount: "desc",
+      },
+      take: 4,
+    });
+
+    res.send({ articles, bestArticles });
+  })
+);
+
+// 게시글 상세 조회
+app.get(
+  "/articles/:id",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const article = await prisma.article.findUniqueOrThrow({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        imageUrl: true,
+        createdAt: true,
+        likeCount: true,
+        isLiked: true,
+        writer: true,
+      },
+    });
+    res.send(article);
   })
 );
 

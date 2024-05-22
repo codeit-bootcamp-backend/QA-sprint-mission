@@ -1,19 +1,22 @@
+
+# 상품 조회 쿼리 x
 GET http://localhost:3000/products
 
 ###
+# 상품 조회 쿼리 o
 
 GET http://localhost:3000/products?offset=1&limit=2&keyword=판다&orderBy=favorite
 
 ###
-
+# 상품 조회 검색어 테스트
 GET http://localhost:3000/products?keyword=판다
 
 ###
-
+# 상품 상세 조회
 GET http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7
 
 ###
-
+# 상품 등록
 POST http://localhost:3000/products
 Content-Type: application/json
 
@@ -27,7 +30,7 @@ Content-Type: application/json
 }
 
 ###
-
+# 상품 수정
 PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7
 Content-Type: application/json
 
@@ -38,17 +41,15 @@ Content-Type: application/json
   "tags":["판다","안판다"]
 }
 
-
 ###
-
+# 상품 삭제
 DELETE http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7
 
 ###
+# 상품 좋아요
 PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7/like
 
 ###
-
+# 상품 좋아요 취소
 PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7/unlike
 
-###
-GET http://localhost:3000/articles
