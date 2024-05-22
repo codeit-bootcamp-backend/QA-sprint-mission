@@ -21,18 +21,19 @@ model User {
 
 model Product {
   // 고유 필드
-  id           String   @id @default(uuid())
-  name         String
-  description  String
-  price        String
-  tags         String[]
-  images       String[]
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id            String   @id @default(uuid())
+  name          String
+  description   String
+  price         String
+  tags          String[]
+  images        String[]
+  favoriteCount Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
   // 연결 필드
-  owner        String
-  ownerId      User     @relation(fields: [owner], references: [id], name: "OwnedProducts", onDelete: Cascade)
-  favoriteUser User[]   @relation("FavoriteProducts")
+  owner         String
+  ownerId       User     @relation(fields: [owner], references: [id], name: "OwnedProducts", onDelete: Cascade)
+  favoriteUser  User[]   @relation("FavoriteProducts")
 }
 
 model Board {
@@ -41,6 +42,7 @@ model Board {
   title     String
   content   String
   imageUrl  String[]
+  likeCount Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

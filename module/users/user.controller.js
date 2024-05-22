@@ -6,8 +6,6 @@ const userRoutes = Router();
 
 userRoutes.route("/").get(asyncHandler(getUserList));
 
-userRoutes.route("/");
-
 userRoutes.route("/:id").patch(asyncHandler(toggleProductLike));
 
 export default userRoutes;
