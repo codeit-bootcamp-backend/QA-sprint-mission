@@ -30,7 +30,7 @@ Content-Type: application/json
 
 ###
 # 게시글 삭제
-DELETE http://localhost:3000/articles/7a640d97-ba35-4bae-bf9e-b6f30bf0ebb0
+DELETE http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da
 
 ###
 # 게시글 좋아요
@@ -40,3 +40,36 @@ PATCH http://localhost:3000/articles/7757f3a4-0075-47e0-a9e5-b38500948b8e/like
 # 게시글 좋아요 취소
 PATCH http://localhost:3000/articles/7757f3a4-0075-47e0-a9e5-b38500948b8e/unlike
 
+
+
+
+### 
+# 자유게시판 댓글 조회
+GET http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da/comments
+
+### 
+# 자유게시판 댓글 커서 조회
+GET http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da/comments?cursor=43d35ef2-42f0-43be-b85c-f9614195bb39
+
+###
+# 자유게시판 댓글 등록
+POST http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments
+Content-Type: application/json
+
+{
+  "content":"판다가 너무 귀여워요2",
+  "writer":"판다사랑나라사랑"
+}
+
+###
+# 자유게시판 댓글 수정
+PATCH http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da/comments/3c94cbe4-bd70-4c32-969a-225af0dd1e20
+Content-Type: application/json
+
+{
+  "content":"판다가 너무 귀여워요 수정"
+}
+
+###
+# 자유게시판 댓글 삭제
+DELETE http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da/comments/3c94cbe4-bd70-4c32-969a-225af0dd1e20

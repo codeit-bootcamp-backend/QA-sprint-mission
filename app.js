@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import express from "express";
 import { assert } from "superstruct";
-import { CreateArticle, CreateProduct, PatchArticle, PatchProduct } from "./structs.js";
+import { CreateArticle, CreateComment, CreateProduct, PatchArticle, PatchComment, PatchProduct } from "./structs.js";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -370,7 +370,6 @@ app.get(
   asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { cursor } = req.query;
-    console.log(cursor);
     let queryOptions = {
       take: 10,
       orderBy: {
@@ -406,12 +405,12 @@ app.get(
 app.post(
   "/products/:id/comments",
   asyncHandler(async (req, res) => {
-    const { id, cursor } = req.params;
+    assert(req.body, CreateComment);
+    const { id } = req.params;
 
     const comment = await prisma.comment.create({
       data: {
-        content: req.body.content,
-        writer: req.body.writer,
+        ...req.body,
         productId: id,
       },
     });
@@ -423,6 +422,7 @@ app.post(
 app.patch(
   "/products/:id/comments/:commentId",
   asyncHandler(async (req, res) => {
+    assert(req.body, PatchComment);
     const { commentId } = req.params;
     const comment = await prisma.comment.update({
       where: {
@@ -438,6 +438,92 @@ app.patch(
 // 중고마켓 댓글 삭제
 app.delete(
   "/products/:id/comments/:commentId",
+  asyncHandler(async (req, res) => {
+    const { commentId } = req.params;
+    await prisma.comment.delete({
+      where: {
+        id: commentId,
+      },
+    });
+
+    res.sendStatus(204);
+  })
+);
+
+// 자유게시판 댓글 목록 조회
+app.get(
+  "/articles/:id/comments",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { cursor } = req.query;
+    let queryOptions = {
+      take: 10,
+      orderBy: {
+        createdAt: "desc",
+      },
+      where: {
+        articleId: id,
+      },
+      select: {
+        id: true,
+        content: true,
+        createdAt: true,
+        writer: true,
+      },
+    };
+
+    if (cursor) {
+      queryOptions = {
+        ...queryOptions,
+        cursor: {
+          id: cursor,
+        },
+        skip: 1,
+      };
+    }
+
+    const comments = await prisma.comment.findMany(queryOptions);
+    res.send(comments);
+  })
+);
+
+// 자유게시판 댓글 등록
+app.post(
+  "/articles/:id/comments",
+  asyncHandler(async (req, res) => {
+    assert(req.body, CreateComment);
+    const { id } = req.params;
+
+    const comment = await prisma.comment.create({
+      data: {
+        ...req.body,
+        articleId: id,
+      },
+    });
+    res.status(201).send(comment);
+  })
+);
+
+// 자유게시판 댓글 수정
+app.patch(
+  "/articles/:id/comments/:commentId",
+  asyncHandler(async (req, res) => {
+    assert(req.body, PatchComment);
+    const { commentId } = req.params;
+    const comment = await prisma.comment.update({
+      where: {
+        id: commentId,
+      },
+      data: req.body,
+    });
+
+    res.send(comment);
+  })
+);
+
+// 중고마켓 댓글 삭제
+app.delete(
+  "/articles/:id/comments/:commentId",
   asyncHandler(async (req, res) => {
     const { commentId } = req.params;
     await prisma.comment.delete({
