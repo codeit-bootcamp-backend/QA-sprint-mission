@@ -1,20 +1,25 @@
 import { PrismaClient } from "@prisma/client";
-import data from "./mock.js";
-import article from "./mockArticle.js";
+import { ARTICLES, COMMENTS, PRODUCTS } from "./mock.js";
 const prisma = new PrismaClient();
 
 async function main() {
   await prisma.product.deleteMany();
 
   await prisma.product.createMany({
-    data,
+    data: PRODUCTS,
     skipDuplicates: true,
   });
 
   await prisma.article.deleteMany();
 
   await prisma.article.createMany({
-    data: article,
+    data: ARTICLES,
+    skipDuplicates: true,
+  });
+  await prisma.comment.deleteMany();
+
+  await prisma.comment.createMany({
+    data: COMMENTS,
     skipDuplicates: true,
   });
 }
