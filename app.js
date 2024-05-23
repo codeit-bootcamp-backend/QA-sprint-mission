@@ -364,4 +364,90 @@ app.patch(
   })
 );
 
+// 중고마켓 댓글 목록 조회
+app.get(
+  "/products/:id/comments",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { cursor } = req.query;
+    console.log(cursor);
+    let queryOptions = {
+      take: 10,
+      orderBy: {
+        createdAt: "desc",
+      },
+      where: {
+        productId: id,
+      },
+      select: {
+        id: true,
+        content: true,
+        createdAt: true,
+        writer: true,
+      },
+    };
+
+    if (cursor) {
+      queryOptions = {
+        ...queryOptions,
+        cursor: {
+          id: cursor,
+        },
+        skip: 1,
+      };
+    }
+
+    const comments = await prisma.comment.findMany(queryOptions);
+    res.send(comments);
+  })
+);
+
+// 중고마켓 댓글 등록
+app.post(
+  "/products/:id/comments",
+  asyncHandler(async (req, res) => {
+    const { id, cursor } = req.params;
+
+    const comment = await prisma.comment.create({
+      data: {
+        content: req.body.content,
+        writer: req.body.writer,
+        productId: id,
+      },
+    });
+    res.status(201).send(comment);
+  })
+);
+
+// 중고마켓 댓글 수정
+app.patch(
+  "/products/:id/comments/:commentId",
+  asyncHandler(async (req, res) => {
+    const { commentId } = req.params;
+    const comment = await prisma.comment.update({
+      where: {
+        id: commentId,
+      },
+      data: req.body,
+    });
+
+    res.send(comment);
+  })
+);
+
+// 중고마켓 댓글 삭제
+app.delete(
+  "/products/:id/comments/:commentId",
+  asyncHandler(async (req, res) => {
+    const { commentId } = req.params;
+    await prisma.comment.delete({
+      where: {
+        id: commentId,
+      },
+    });
+
+    res.sendStatus(204);
+  })
+);
+
 app.listen(process.env.PORT || 3000, () => console.log("Server Started"));

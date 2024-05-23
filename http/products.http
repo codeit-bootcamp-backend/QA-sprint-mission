@@ -53,3 +53,33 @@ PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7/like
 # 상품 좋아요 취소
 PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7/unlike
 
+### 
+# 상품 댓글 조회
+GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments
+
+### 
+# 상품 댓글 커서 조회
+GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments?cursor=c45c56cf-d7d4-4592-885c-abcb56661bb5
+
+###
+# 상품 댓글 등록
+POST http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments
+Content-Type: application/json
+
+{
+  "content":"판다가 너무 귀여워요",
+  "writer":"판다사랑나라사랑"
+}
+
+###
+# 상품 댓글 수정
+PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/512b432b-7618-46ea-a500-579daacc0d02
+Content-Type: application/json
+
+{
+  "content":"판다가 너무 귀여워요 수정"
+}
+
+###
+# 상품 댓글 삭제
+DELETE http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/512b432b-7618-46ea-a500-579daacc0d02

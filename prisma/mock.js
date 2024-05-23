@@ -58,13 +58,68 @@ export const COMMENTS = [
     id: "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
     content: "판다인형 너무 귀여워요!",
     writer: "판다인형 수집가",
-    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
+    articleId: "2c027764-d7ef-4a94-8399-f15ffbf8f4da",
   },
   {
     id: "2b3c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7q",
-    content: "판다인형 너무 귀여워요!",
+    content: "판다인형 너무 귀여워요1",
     writer: "판다인형 중개인",
-    articleId: "2c027764-d7ef-4a94-8399-f15ffbf8f4da",
+    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
+  },
+  {
+    content: "판다인형 너무 귀여워요2",
+    writer: "판다인형 중개인",
+    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
+  },
+  {
+    content: "판다인형 너무 귀여워요3",
+    writer: "판다인형 중개인",
+    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
+  },
+  {
+    content: "판다인형 너무 귀여워요4",
+    writer: "판다인형 중개인",
+    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
+  },
+  {
+    content: "판다인형 너무 귀여워요5",
+    writer: "판다인형 중개인",
+    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
+  },
+  {
+    content: "판다인형 너무 귀여워요6",
+    writer: "판다인형 중개인",
+    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
+  },
+  {
+    content: "판다인형 너무 귀여워요7",
+    writer: "판다인형 중개인",
+    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
+  },
+  {
+    content: "판다인형 너무 귀여워요8",
+    writer: "판다인형 중개인",
+    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
+  },
+  {
+    content: "판다인형 너무 귀여워요9",
+    writer: "판다인형 중개인",
+    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
+  },
+  {
+    content: "판다인형 너무 귀여워요10",
+    writer: "판다인형 중개인",
+    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
+  },
+  {
+    content: "판다인형 너무 귀여워요11",
+    writer: "판다인형 중개인",
+    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
+  },
+  {
+    content: "판다인형 너무 귀여워요12",
+    writer: "판다인형 중개인",
+    productId: "377ce06c-23c8-46de-b86f-2cfd43d41cbc",
   },
   {
     id: "3c4d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8r",
