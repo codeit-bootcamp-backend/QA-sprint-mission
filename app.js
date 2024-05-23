@@ -5,7 +5,7 @@ import userRoutes from "./module/users/user.controller.js";
 import boardRoutes from "./module/board/board.controller.js";
 import commentRoutes from "./module/comment/comment.controller.js";
 import cors from "cors";
-import imageUploadRoutes from "./module/imageUpload/ImageUpload.controller.js";
+import imageUploadRoutes from "./module/imageUpload/imageUpload.controller.js";
 
 dotenv.config();
 
