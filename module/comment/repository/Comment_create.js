@@ -1,6 +1,6 @@
 import { assert } from "superstruct";
 import { PrismaClient } from "@prisma/client";
-import { CreateComment } from "../comment.struct";
+import { CreateComment } from "../comment.struct.js";
 
 const prisma = new PrismaClient();
 

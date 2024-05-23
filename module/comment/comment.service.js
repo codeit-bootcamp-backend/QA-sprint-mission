@@ -1,5 +1,5 @@
-import { Comment_delete } from "./repository/Comment_delete";
-import { Comment_update } from "./repository/Comment_update";
+import { Comment_delete } from "./repository/Comment_delete.js";
+import { Comment_update } from "./repository/Comment_update.js";
 
 export function updateComment(req, res) {
   Comment_update(req, res);
