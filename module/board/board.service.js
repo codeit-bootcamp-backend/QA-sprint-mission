@@ -6,6 +6,7 @@ import { Board_findUnique } from "./repository/Board_findUnique.js";
 import { Board_likes } from "./repository/Board_likes.js";
 import { Board_dislikes } from "./repository/Board_dislikes.js";
 import { Comment_create_onBoard } from "../comment/repository/Comment_create.js";
+import { Comment_findMany_onBoard } from "../comment/repository/Comment_findMany.js";
 
 export function getBoardList(req, res) {
   Board_findMany(req, res);
@@ -37,4 +38,8 @@ export function dislikeBoard(req, res) {
 
 export function createComment(req, res) {
   Comment_create_onBoard(req, res);
+}
+
+export function getCommentList(req, res) {
+  Comment_findMany_onBoard(req, res);
 }

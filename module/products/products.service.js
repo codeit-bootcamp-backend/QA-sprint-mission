@@ -6,6 +6,7 @@ import { Product_findMany } from "./repository/Product_findMany.js";
 import { Product_likes } from "./repository/Product_likes.js";
 import { Product_dislikes } from "./repository/Product_dislikes.js";
 import { Comment_create_onProduct } from "../comment/repository/Comment_create.js";
+import { Comment_findMany_onProduct } from "../comment/repository/Comment_findMany.js";
 
 export function getProductList(req, res) {
   Product_findMany(req, res);
@@ -37,4 +38,8 @@ export function dislikeProduct(req, res) {
 
 export function createComment(req, res) {
   Comment_create_onProduct(req, res);
+}
+
+export function getCommentList(req, res) {
+  Comment_findMany_onProduct(req, res);
 }

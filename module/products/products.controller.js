@@ -4,6 +4,7 @@ import {
   createProduct,
   deleteProduct,
   dislikeProduct,
+  getCommentList,
   getProduct,
   getProductList,
   likeProduct,
@@ -14,6 +15,8 @@ import { asyncHandler } from "../asyncHandler.js";
 const productRoutes = Router();
 
 productRoutes.route("/").get(asyncHandler(getProductList)).post(asyncHandler(createProduct));
+
+productRoutes.route("/comment").get(asyncHandler(getCommentList));
 
 productRoutes
   .route("/:id")

@@ -8,6 +8,7 @@ import {
   dislikeBoard,
   getBoard,
   getBoardList,
+  getCommentList,
   likeBoard,
   updateBoard,
 } from "./board.service.js";
@@ -15,6 +16,8 @@ import {
 const boardRoutes = Router();
 
 boardRoutes.route("/").get(asyncHandler(getBoardList)).post(asyncHandler(createBoard));
+boardRoutes.route("/comment").get(asyncHandler(getCommentList));
+
 boardRoutes
   .route("/:id")
   .get(asyncHandler(getBoard))

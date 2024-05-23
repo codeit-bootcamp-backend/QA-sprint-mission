@@ -12,7 +12,8 @@ export async function Comment_create_onProduct(req, res) {
   const comment = await prisma.comment.create({
     data: {
       ...commentField,
-      authorId: { connect: { id: ownerId } },
+      taggedUnion: "Product",
+      writerId: { connect: { id: ownerId } },
       productId: { connect: { id: productId } },
     },
   });
@@ -28,7 +29,8 @@ export async function Comment_create_onBoard(req, res) {
   const comment = await prisma.comment.create({
     data: {
       ...commentField,
-      authorId: { connect: { id: ownerId } },
+      taggedUnion: "Board",
+      writerId: { connect: { id: ownerId } },
       boardId: { connect: { id: BoardId } },
     },
   });

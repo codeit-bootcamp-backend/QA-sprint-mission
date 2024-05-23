@@ -57,14 +57,15 @@ model Board {
 
 model Comment {
   // 고유 필드
-  id        String   @id @default(uuid())
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String      @id @default(uuid())
+  content     String
+  taggedUnion TaggedUnion
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
   // 작성자
-  author   String
-  authorId User   @relation(fields: [author], references: [id], name: "commentAuthor", onDelete: Cascade)
+  writer   String
+  writerId User   @relation(fields: [writer], references: [id], name: "commentAuthor", onDelete: Cascade)
 
   // 프로덕트 댓글
   product   String
@@ -73,4 +74,9 @@ model Comment {
   // 보드 댓글
   board   String
   boardId Board  @relation(fields: [board], references: [id], name: "commentOnBoards", onDelete: Cascade)
+}
+
+enum TaggedUnion {
+  Board
+  Product
 }
