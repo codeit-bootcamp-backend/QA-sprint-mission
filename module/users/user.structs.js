@@ -1,9 +1,20 @@
-import { define, object, union } from "superstruct";
-import isUuid from "is-uuid";
+import { object, string, refine } from "superstruct";
 
-const Uuid = define("Uuid", (value) => isUuid.v4(value));
+// Custom email validator using a regular expression
+const email = refine(string(), "email", (value) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(value);
+});
 
-export const ToggleProductLike = object({
-  productId: Uuid,
-  action: union(["like", "dislike"]),
+// Custom password validator to check for letters and numbers
+const password = refine(string(), "password", (value) => {
+  const hasLetter = /[a-zA-Z]/.test(value);
+  const hasNumber = /[0-9]/.test(value);
+  return hasLetter && hasNumber;
+});
+
+export const CreateUser = object({
+  email,
+  password,
+  nickname: string(),
 });
