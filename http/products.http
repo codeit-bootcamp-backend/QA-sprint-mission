@@ -13,7 +13,7 @@ GET http://localhost:3000/products?keyword=판다
 
 ###
 # 상품 상세 조회
-GET http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7
+GET http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
 
 ###
 # 상품 등록
@@ -31,7 +31,7 @@ Content-Type: application/json
 
 ###
 # 상품 수정
-PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7
+PATCH http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
 Content-Type: application/json
 
 {
@@ -43,15 +43,15 @@ Content-Type: application/json
 
 ###
 # 상품 삭제
-DELETE http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7
+DELETE http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc
 
 ###
 # 상품 좋아요
-PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7/like
+PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/like
 
 ###
 # 상품 좋아요 취소
-PATCH http://localhost:3000/products/69c4bd5b-1281-4d6e-99de-fc18feed6de7/unlike
+PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/unlike
 
 ### 
 # 상품 댓글 조회
@@ -59,7 +59,7 @@ GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments
 
 ### 
 # 상품 댓글 커서 조회
-GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments?cursor=c45c56cf-d7d4-4592-885c-abcb56661bb5
+GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments?cursor=f81aac65-fb44-4973-8d6d-3789c6ba39d7
 
 ###
 # 상품 댓글 등록
@@ -73,7 +73,7 @@ Content-Type: application/json
 
 ###
 # 상품 댓글 수정
-PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/512b432b-7618-46ea-a500-579daacc0d02
+PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/4db38f1c-53c5-40c4-98ce-bcaa0ba7904d
 Content-Type: application/json
 
 {
@@ -82,4 +82,4 @@ Content-Type: application/json
 
 ###
 # 상품 댓글 삭제
-DELETE http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/512b432b-7618-46ea-a500-579daacc0d02
+DELETE http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/4db38f1c-53c5-40c4-98ce-bcaa0ba7904d

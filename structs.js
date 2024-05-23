@@ -16,13 +16,15 @@ export const PatchProduct = s.partial(CreateProduct);
 export const CreateArticle = s.object({
   title: s.string(),
   content: s.string(),
+  imageUrl: s.optional(s.string()),
+  writer: s.optional(s.string()),
 });
 
 export const PatchArticle = s.partial(CreateArticle);
 
 export const CreateComment = s.object({
   content: s.string(),
-  writer: s.string(),
+  writer: s.optional(s.string()),
 });
 
 export const PatchComment = s.partial(CreateComment);

@@ -32,10 +32,10 @@ model Article {
   id        String    @id @default(uuid())
   title     String
   content   String
-  imageUrl  String?
+  imageUrl  String?   @default("")
   likeCount Int       @default(0)
   isLiked   Boolean   @default(false)
-  writer    String
+  writer    String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   comments  Comment[]
@@ -44,7 +44,7 @@ model Article {
 model Comment {
   id        String   @id @default(uuid())
   content   String
-  writer    String
+  writer    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)

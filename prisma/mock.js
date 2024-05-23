@@ -127,4 +127,20 @@ export const COMMENTS = [
     writer: "불곰인형 수집가",
     articleId: "287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3",
   },
+  {
+    id: "3c4d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8r",
+    content: "불곰인형 너무 귀여워요1",
+    writer: "불곰인형 수집가",
+    articleId: "287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3",
+  },
+  {
+    content: "불곰인형 너무 귀여워요2",
+    writer: "불곰인형 수집가",
+    articleId: "287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3",
+  },
+  {
+    content: "불곰인형 너무 귀여워요3",
+    writer: "불곰인형 수집가",
+    articleId: "287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3",
+  },
 ];
