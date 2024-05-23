@@ -1,0 +1,85 @@
+
+# 상품 조회 쿼리 x
+GET http://localhost:3000/products
+
+###
+# 상품 조회 쿼리 o
+
+GET http://localhost:3000/products?offset=1&limit=2&keyword=판다&orderBy=favorite
+
+###
+# 상품 조회 검색어 테스트
+GET http://localhost:3000/products?keyword=판다
+
+###
+# 상품 상세 조회
+GET http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
+
+###
+# 상품 등록
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+  "name": "판다랑 불곰 교환원해요",
+  "description": "세종시청에서 교환원합니다.",
+  "price": 20000,
+  "tags": ["판다", "불곰"],
+  "images": ["https://www.wishbucket.io/_next/image?url=https%3A%2F%2Fd2gfz7wkiigkmv.cloudfront.net%2Fpickin%2F2%2F1%2F2%2FHereyhSJRMOmUw7I5uWAxg&w=640&q=75","https://wimg.mk.co.kr/meet/2021/09/image_listtop_2021_854860_1630738087.jpg"],
+  "ownerId":1
+}
+
+###
+# 상품 수정
+PATCH http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
+Content-Type: application/json
+
+{
+  "name":"판다 안팔려서 안판다",
+  "description":"안판다고 했지만 사실은 판다",
+  "price":7000,
+  "tags":["판다","안판다"]
+}
+
+###
+# 상품 삭제
+DELETE http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc
+
+###
+# 상품 좋아요
+PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/like
+
+###
+# 상품 좋아요 취소
+PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/unlike
+
+### 
+# 상품 댓글 조회
+GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments
+
+### 
+# 상품 댓글 커서 조회
+GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments?cursor=f81aac65-fb44-4973-8d6d-3789c6ba39d7
+
+###
+# 상품 댓글 등록
+POST http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments
+Content-Type: application/json
+
+{
+  "content":"판다가 너무 귀여워요",
+  "writer":"판다사랑나라사랑"
+}
+
+###
+# 상품 댓글 수정
+PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/4db38f1c-53c5-40c4-98ce-bcaa0ba7904d
+Content-Type: application/json
+
+{
+  "content":"판다가 너무 귀여워요 수정"
+}
+
+###
+# 상품 댓글 삭제
+DELETE http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/4db38f1c-53c5-40c4-98ce-bcaa0ba7904d

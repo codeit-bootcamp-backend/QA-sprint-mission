@@ -1,0 +1,73 @@
+# 게시글 목록 조회
+GET http://localhost:3000/articles?&limit=10&&orderBy=like
+
+###
+# 게시글 상세 조회
+
+GET http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da
+
+###
+# 게시글 등록
+POST http://localhost:3000/articles
+Content-Type: application/json
+
+{
+  "title": "제가 아끼는 티모 인형입니다",
+  "content": "버섯 농사 짓는 모습이 너무 깜찍하지않나요?",
+  "imageUrl": "https://cdn.011st.com/11dims/resize/600x600/quality/75/11src/product/5575072075/B.jpg?51000000"
+}
+
+###
+# 게시글 수정
+PATCH http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da
+Content-Type: application/json
+
+{
+  "title":"판다 대박이네요",
+  "content":"대나무를 잘 먹네요 ㄷㄷ"
+}
+
+###
+# 게시글 삭제
+DELETE http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da
+
+###
+# 게시글 좋아요
+PATCH http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da/like
+
+###
+# 게시글 좋아요 취소
+PATCH http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da/unlike
+
+
+
+
+### 
+# 자유게시판 댓글 조회
+GET http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments
+
+### 
+# 자유게시판 댓글 커서 조회
+GET http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments?cursor=4f9cd26c-09fa-441c-997f-2fdec0fb443e
+
+###
+# 자유게시판 댓글 등록
+POST http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments
+Content-Type: application/json
+
+{
+  "content":"판다가 너무 귀여워요2"
+}
+
+###
+# 자유게시판 댓글 수정
+PATCH http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments/1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p
+Content-Type: application/json
+
+{
+  "content":"판다가 너무 귀여워요 수정"
+}
+
+###
+# 자유게시판 댓글 삭제
+DELETE http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments/1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p
