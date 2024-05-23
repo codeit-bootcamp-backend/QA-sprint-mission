@@ -1,11 +1,7 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
-export async function isFavorite(item) {
+export async function addIsFavorite(item, schema) {
   const { id: userId } = item.ownerId;
 
-  const { favoriteUser } = await prisma.product.findUnique({
+  const { favoriteUser } = await schema.findUnique({
     where: { id: item.id },
     select: { favoriteUser: true },
   });

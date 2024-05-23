@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { isFavorite } from "../../../helper/isFavorite.js";
+import { addIsFavorite } from "../../../helper/addIsFavorite.js";
 
 const prisma = new PrismaClient();
 
@@ -21,7 +21,7 @@ export async function Product_findUnique(req, res) {
     },
   });
 
-  const productWithIsFavorite = await isFavorite(product);
+  const productWithIsFavorite = await addIsFavorite(product, prisma.product);
 
   res.send(productWithIsFavorite);
 }

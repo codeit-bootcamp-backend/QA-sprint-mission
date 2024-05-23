@@ -17,23 +17,25 @@ model User {
   favoriteProduct Product[] @relation("FavoriteProducts")
   ownedBoard      Board[]   @relation("OwnedBoards")
   favoriteBoard   Board[]   @relation("FavoriteBoards")
+  Comment         Comment[] @relation("commentAuthor")
 }
 
 model Product {
   // 고유 필드
-  id            String   @id @default(uuid())
+  id            String    @id @default(uuid())
   name          String
   description   String
   price         String
   tags          String[]
   images        String[]
   favoriteCount Int
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
   // 연결 필드
   owner         String
-  ownerId       User     @relation(fields: [owner], references: [id], name: "OwnedProducts", onDelete: Cascade)
-  favoriteUser  User[]   @relation("FavoriteProducts")
+  ownerId       User      @relation(fields: [owner], references: [id], name: "OwnedProducts", onDelete: Cascade)
+  favoriteUser  User[]    @relation("FavoriteProducts")
+  Comment       Comment[] @relation("commentOnProduct")
 }
 
 model Board {
@@ -48,6 +50,27 @@ model Board {
 
   // 연결 필드
   owner        String
-  writer       User   @relation(fields: [owner], references: [id], name: "OwnedBoards", onDelete: Cascade)
-  favoriteUser User[] @relation("FavoriteBoards")
+  writer       User      @relation(fields: [owner], references: [id], name: "OwnedBoards", onDelete: Cascade)
+  favoriteUser User[]    @relation("FavoriteBoards")
+  Comment      Comment[] @relation("commentOnBoards")
+}
+
+model Comment {
+  // 고유 필드
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 작성자
+  author   String
+  authorId User   @relation(fields: [author], references: [id], name: "commentAuthor", onDelete: Cascade)
+
+  // 프로덕트 댓글
+  product   String
+  productId Product @relation(fields: [product], references: [id], name: "commentOnProduct", onDelete: Cascade)
+
+  // 보드 댓글
+  board   String
+  boardId Board  @relation(fields: [board], references: [id], name: "commentOnBoards", onDelete: Cascade)
 }

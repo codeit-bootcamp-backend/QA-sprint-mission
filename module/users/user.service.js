@@ -47,13 +47,13 @@ export async function toggleProductLike(req, res) {
   }
 
   if (action === "like") {
-    await prisma.user.update({
+    await prisma.product.update({
       where: {
-        id: userId,
+        id: productId,
       },
       data: {
-        favoriteProduct: {
-          connect: { id: productId },
+        favoriteUser: {
+          connect: { id: userId },
         },
         favoriteCount: {
           increment: 1,
@@ -61,71 +61,15 @@ export async function toggleProductLike(req, res) {
       },
     });
   } else {
-    await prisma.user.update({
+    await prisma.product.update({
       where: {
-        id: userId,
+        id: productId,
       },
       data: {
-        favoriteProduct: {
-          disconnect: { id: productId },
+        favoriteUser: {
+          disconnect: { id: userId },
         },
         favoriteCount: {
-          decrement: 1,
-        },
-      },
-    });
-  }
-
-  res.sendStatus(204);
-}
-
-export async function toggleBoardLike(req, res) {
-  // assert(req.body, ToggleProductLike);
-
-  const { id: userId } = req.params;
-  const { boardId, action } = req.body;
-
-  // 좋아요를 했는지 안 했는지 확인하기 위해 제품 찾아오기
-  const product = await prisma.board.findUnique({
-    where: { id: boardId },
-    include: {
-      favoriteUser: true,
-    },
-  });
-
-  const isLiked = product.favoriteUser.some((user) => user.id === userId);
-
-  // 액션에 따른 에러 핸들
-  if (isLiked && action === "like") {
-    throw new Error("이미 좋아요를 누르셨어요");
-  } else if (!isLiked && action === "dislike") {
-    throw new Error("이미 좋아요가 해제되었어요");
-  }
-
-  if (action === "like") {
-    await prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        favoriteBoard: {
-          connect: { id: boardId },
-        },
-        likeCount: {
-          increment: 1,
-        },
-      },
-    });
-  } else {
-    await prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        favoriteBoard: {
-          disconnect: { id: boardId },
-        },
-        likeCount: {
           decrement: 1,
         },
       },

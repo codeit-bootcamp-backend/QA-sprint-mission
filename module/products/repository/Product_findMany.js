@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { isFavorite } from "../../../helper/isFavorite.js";
+import { addIsFavorite } from "../../../helper/addIsFavorite.js";
 
 const prisma = new PrismaClient();
 
@@ -51,7 +51,7 @@ export async function Product_findMany(req, res) {
   });
 
   const queries = products.map(async (item) => {
-    return isFavorite(item);
+    return addIsFavorite(item, prisma.product);
   });
 
   const productWithIsFavorite = await Promise.all(queries);
