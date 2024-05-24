@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export async function Board_create(req, res) {
   assert(req.body, CreateBoard);
-  const { ownerId, ...boardField } = req.body;
+  const { ...boardField } = req.body;
 
   const board = await prisma.board.create({
     data: {
@@ -14,7 +14,7 @@ export async function Board_create(req, res) {
       likeCount: 0,
       writer: {
         connect: {
-          id: ownerId,
+          email: req.email,
         },
       },
     },

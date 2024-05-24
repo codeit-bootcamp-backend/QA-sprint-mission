@@ -1,4 +1,4 @@
-import { object, string, refine } from "superstruct";
+import { object, string, refine, partial } from "superstruct";
 
 // Custom email validator using a regular expression
 const email = refine(string(), "email", (value) => {
@@ -17,4 +17,13 @@ export const CreateUser = object({
   email,
   password,
   nickname: string(),
+});
+
+export const UpdateUser = partial({
+  nickname: string(),
+  image: string(),
+});
+
+export const UpdateUserPassword = object({
+  password,
 });

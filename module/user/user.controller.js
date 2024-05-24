@@ -1,11 +1,18 @@
 import { Router } from "express";
 import { asyncHandler } from "../asyncHandler.js";
+import {
+  getUser,
+  getUserFavoriteProduct,
+  getUserOwnedProduct,
+  updateUser,
+  updateUserPassword,
+} from "./user.service.js";
 
-const authRoutes = Router();
+const userRouters = Router();
 
-authRoutes.route("/me").get(asyncHandler()).patch(asyncHandler());
-authRoutes.route("/me/password").patch(asyncHandler());
-authRoutes.route("/me/products").get(asyncHandler());
-authRoutes.route("/me/favorites").get(asyncHandler());
+userRouters.route("/me").get(asyncHandler(getUser)).patch(asyncHandler(updateUser));
+userRouters.route("/me/password").patch(asyncHandler(updateUserPassword));
+userRouters.route("/me/products").get(asyncHandler(getUserOwnedProduct));
+userRouters.route("/me/favorites").get(asyncHandler(getUserFavoriteProduct));
 
-export default authRoutes;
+export default userRouters;

@@ -9,6 +9,8 @@ export function asyncHandler(handler) {
         res.status(400).send({ message: e.message });
       } else if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2025") {
         res.sendStatus(404);
+      } else if (e) {
+        res.status(401).send({ message: e.message });
       } else {
         res.status(500).send({ message: e.message });
       }

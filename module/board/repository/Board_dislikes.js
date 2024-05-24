@@ -4,7 +4,6 @@ import { isLiked } from "../../../helper/isLiked.js";
 const prisma = new PrismaClient();
 
 export async function Board_dislikes(req, res) {
-  const { id: userId } = req.params;
   const { boardId } = req.body;
 
   // 액션에 따른 에러 핸들
@@ -18,7 +17,7 @@ export async function Board_dislikes(req, res) {
     },
     data: {
       favoriteUser: {
-        disconnect: { id: userId },
+        disconnect: { email: req.email },
       },
       likeCount: {
         decrement: 1,

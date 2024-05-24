@@ -1,4 +1,4 @@
-import { object, string, refine } from "superstruct";
+import { object, string, refine, assert } from "superstruct";
 
 // Custom email validator using a regular expression
 const email = refine(string(), "email", (value) => {
@@ -23,3 +23,9 @@ export const SignIn = object({
   email,
   password,
 });
+
+export const RefreshToken = object({
+  refreshToken: string(),
+});
+
+export const isEmail = string(email);

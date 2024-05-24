@@ -1,8 +1,11 @@
 import { assert } from "superstruct";
 import { PrismaClient } from "@prisma/client";
-import { SignIn, SignUp } from "./auth.structs.js";
+import { RefreshToken, SignIn, SignUp } from "./auth.structs.js";
 import pkg from "bcryptjs";
+import * as dotenv from "dotenv";
 import { generateAccessToken, generateRefreshToken } from "../../helper/jwt.js";
+
+dotenv.config();
 
 const { genSalt, hash, compare } = pkg;
 
@@ -50,6 +53,43 @@ export async function signIn(req, res) {
       .cookie("accessToken", accessToken, { maxAge: 1000 * 60 * 60, httpOnly: true })
       .cookie("refreshToken", refreshToken, { maxAge: 1000 * 60 * 60 * 60, httpOnly: true })
       .send("로그인 성공");
+  } else {
+    res.sendStatus(401);
+  }
+}
+
+// export async function refreshToken(req, res) {
+//   assert(req.body, RefreshToken);
+
+//   const oldRefreshToken = req.body.refreshToken;
+
+//   if (oldRefreshToken) {
+//     const { email, nickname } = verifyToken(oldRefreshToken, process.env.JWT_SECRET_Refresh);
+
+//     const accessToken = generateAccessToken({ email, nickname });
+//     const refreshToken = generateRefreshToken({ email, nickname });
+
+//     res
+//       .status(200)
+//       .cookie("accessToken", accessToken, { maxAge: 1000 * 60 * 60, httpOnly: true })
+//       .cookie("refreshToken", refreshToken, { maxAge: 1000 * 60 * 60 * 60, httpOnly: true })
+//       .send("로그인 성공");
+//   } else {
+//     res.sendStatus(401);
+//   }
+// }
+
+export async function signOut(req, res) {
+  const email = req.email;
+
+  const user = await prisma.user.findUnique({ where: { email } });
+
+  if (user) {
+    res
+      .status(201)
+      .cookie("accessToken", "", { maxAge: 0, httpOnly: true })
+      .cookie("refreshToken", "", { maxAge: 0, httpOnly: true })
+      .send("로그아웃");
   } else {
     res.sendStatus(401);
   }

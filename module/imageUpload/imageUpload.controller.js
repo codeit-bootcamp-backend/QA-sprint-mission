@@ -1,6 +1,7 @@
 import { Router } from "express";
 import path from "path";
 import multer from "multer";
+import { authChecker } from "../../helper/authChecker.js";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -28,16 +29,21 @@ const imageUploadRoutes = Router();
 
 imageUploadRoutes.post("", upload.array("images", 10), (req, res) => {
   try {
+    authChecker(req);
     const fileUrls = req.files.map((file) => {
       return `${req.protocol}://${req.get("host")}/uploads/${file.filename}`;
     });
+
     res.send({
       message: "파일이 성공적으로 업로드되었습니다",
       fileUrls: fileUrls,
     });
   } catch (error) {
-    console.log(error);
-    res.status(400).send({ error: error.message });
+    if (error.message === "로그인이 필요한 서비스입니다") {
+      res.status(401).send({ error: error.message });
+    } else {
+      res.status(400).send({ error: error.message });
+    }
   }
 });
 

@@ -13,8 +13,11 @@ datasource db {
 model User {
   id              String    @id @default(uuid())
   email           String    @unique
+  image           String?
   password        String
   nickname        String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
   ownedProduct    Product[] @relation("OwnedProducts")
   favoriteProduct Product[] @relation("FavoriteProducts")
   ownedBoard      Board[]   @relation("OwnedBoards")

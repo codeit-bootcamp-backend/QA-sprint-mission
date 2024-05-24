@@ -7,13 +7,13 @@ const prisma = new PrismaClient();
 export async function Comment_create_onProduct(req, res) {
   assert(req.body, CreateComment);
   const { id: productId } = req.params;
-  const { ownerId, ...commentField } = req.body;
+  const { ...commentField } = req.body;
 
   const comment = await prisma.comment.create({
     data: {
       ...commentField,
       taggedUnion: "Product",
-      writerId: { connect: { id: ownerId } },
+      writerId: { connect: { email: req.email } },
       productId: { connect: { id: productId } },
     },
   });
@@ -24,13 +24,13 @@ export async function Comment_create_onProduct(req, res) {
 export async function Comment_create_onBoard(req, res) {
   assert(req.body, CreateComment);
   const { id: BoardId } = req.params;
-  const { ownerId, ...commentField } = req.body;
+  const { ...commentField } = req.body;
 
   const comment = await prisma.comment.create({
     data: {
       ...commentField,
       taggedUnion: "Board",
-      writerId: { connect: { id: ownerId } },
+      writerId: { connect: { email: req.email } },
       boardId: { connect: { id: BoardId } },
     },
   });

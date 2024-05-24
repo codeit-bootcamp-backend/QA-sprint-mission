@@ -4,19 +4,20 @@ import productRoutes from "./module/products/products.controller.js";
 import boardRoutes from "./module/board/board.controller.js";
 import commentRoutes from "./module/comment/comment.controller.js";
 import cors from "cors";
-import imageUploadRoutes from "./module/imageUpload/imageUpload.controller.js";
 import authRoutes from "./module/auth/auth.controller.js";
 import cookieParser from "cookie-parser";
 import { authValidate } from "./helper/jwt.js";
+import imageUploadRoutes from "./module/imageUpload/ImageUpload.controller.js";
+import userRouters from "./module/user/user.controller.js";
 
 dotenv.config();
-
-const corsOptions = {
-  origin: ["http://127.0.0.1:8080"],
-};
-
 const app = express();
-app.use(cors(corsOptions));
+
+app.use(
+  cors({
+    origin: ["http://localhost:3001"],
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -25,6 +26,7 @@ app.use(authValidate);
 
 app.use("/products", productRoutes);
 app.use("/auth", authRoutes);
+app.use("/user", userRouters);
 app.use("/boards", boardRoutes);
 app.use("/comments", commentRoutes);
 app.use("/upload", imageUploadRoutes);

@@ -6,8 +6,8 @@ const prisma = new PrismaClient();
 
 export async function Product_update(req, res) {
   assert(req.body, PatchProduct);
-
   const { id } = req.params;
+
   const product = await prisma.product.update({
     where: {
       id,

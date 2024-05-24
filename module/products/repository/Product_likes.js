@@ -4,7 +4,6 @@ import { isLiked } from "../../../helper/isLiked.js";
 const prisma = new PrismaClient();
 
 export async function Product_likes(req, res) {
-  const { id: userId } = req.params;
   const { productId } = req.body;
 
   // 액션에 따른 에러 핸들
@@ -18,7 +17,7 @@ export async function Product_likes(req, res) {
     },
     data: {
       favoriteUser: {
-        connect: { id: userId },
+        connect: { email: req.email },
       },
       favoriteCount: {
         increment: 1,

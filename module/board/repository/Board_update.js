@@ -12,6 +12,7 @@ export async function Board_update(req, res) {
     where: {
       id,
     },
+
     data: req.body,
   });
 

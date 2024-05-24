@@ -17,26 +17,32 @@ export function getBoard(req, res) {
 }
 
 export function createBoard(req, res) {
+  authChecker(req);
   Board_create(req, res);
 }
 
 export function deleteBoard(req, res) {
+  authChecker(req);
   Board_delete(req, res);
 }
 
 export function updateBoard(req, res) {
+  authChecker(req);
   Board_update(req, res);
 }
 
 export function likeBoard(req, res) {
+  authChecker(req);
   Board_likes(req, res);
 }
 
 export function dislikeBoard(req, res) {
+  authChecker(req);
   Board_dislikes(req, res);
 }
 
 export function createComment(req, res) {
+  authChecker(req);
   Comment_create_onBoard(req, res);
 }
 

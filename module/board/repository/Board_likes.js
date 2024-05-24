@@ -4,7 +4,6 @@ import { isLiked } from "../../../helper/isLiked.js";
 const prisma = new PrismaClient();
 
 export async function Board_likes(req, res) {
-  const { id: userId } = req.params;
   const { boardId } = req.body;
 
   if (isLiked(boardId, prisma.board)) {
@@ -17,7 +16,7 @@ export async function Board_likes(req, res) {
     },
     data: {
       favoriteUser: {
-        connect: { id: userId },
+        connect: { email: req.email },
       },
       likeCount: {
         increment: 1,
