@@ -4,6 +4,7 @@ import { addIsFavorite } from "../../../helper/addIsFavorite.js";
 const prisma = new PrismaClient();
 
 export async function Comment_findMany_onBoard(req, res) {
+  const { id } = req.params;
   const { offset = 0, limit = 10, order = "recent" } = req.query;
 
   let orderBy;
@@ -17,7 +18,7 @@ export async function Comment_findMany_onBoard(req, res) {
   }
 
   const comment = await prisma.comment.findMany({
-    where: { taggedUnion: "Board" },
+    where: { id },
 
     orderBy,
     skip: parseInt(offset),
@@ -35,6 +36,7 @@ export async function Comment_findMany_onBoard(req, res) {
 }
 
 export async function Comment_findMany_onProduct(req, res) {
+  const { id } = req.params;
   const { offset = 0, limit = 10, order = "recent" } = req.query;
 
   let orderBy;
@@ -48,7 +50,7 @@ export async function Comment_findMany_onProduct(req, res) {
   }
 
   const comment = await prisma.comment.findMany({
-    where: { taggedUnion: "Product" },
+    where: { id },
 
     orderBy,
     skip: parseInt(offset),

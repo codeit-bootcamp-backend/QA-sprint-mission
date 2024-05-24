@@ -48,6 +48,5 @@ export function createComment(req, res) {
 }
 
 export function getCommentList(req, res) {
-  authChecker(req);
   Comment_findMany_onProduct(req, res);
 }

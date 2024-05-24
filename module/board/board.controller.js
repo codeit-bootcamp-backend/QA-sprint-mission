@@ -16,7 +16,7 @@ import {
 const boardRoutes = Router();
 
 boardRoutes.route("/").get(asyncHandler(getBoardList)).post(asyncHandler(createBoard));
-boardRoutes.route("/comment").get(asyncHandler(getCommentList));
+boardRoutes.route("/comment");
 
 boardRoutes
   .route("/:id")
@@ -24,8 +24,7 @@ boardRoutes
   .delete(asyncHandler(deleteBoard))
   .patch(asyncHandler(updateBoard));
 
-boardRoutes.route("/:id/comment").post(asyncHandler(createComment));
-boardRoutes.route("/:id/like").patch(asyncHandler(likeBoard));
-boardRoutes.route("/:id/dislike").patch(asyncHandler(dislikeBoard));
+boardRoutes.route("/:id/comments").post(asyncHandler(createComment)).get(asyncHandler(getCommentList));
+boardRoutes.route("/:id/like").post(asyncHandler(likeBoard)).delete(asyncHandler(dislikeBoard));
 
 export default boardRoutes;
