@@ -62,11 +62,10 @@ model Board {
 
 model Comment {
   // 고유 필드
-  id          String      @id @default(uuid())
-  content     String
-  taggedUnion TaggedUnion
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // 작성자
   writer   String
