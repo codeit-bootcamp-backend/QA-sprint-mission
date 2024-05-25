@@ -17,6 +17,7 @@
 	"ignorePatterns": ["node_modules/"],
 	"rules": {
 		"no-unused-vars": "off",
+		"@typescript-eslint/no-explicit-any": "off",
 		"import/extensions": [
 			"error",
 			"ignorePackages",

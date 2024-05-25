@@ -5,7 +5,7 @@ export function asyncHandler(handler: (req: Request, res: Response) => void) {
 	return async function (req: Request, res: Response) {
 		try {
 			await handler(req, res);
-		} catch (e) {
+		} catch (e: any) {
 			if (
 				e.name === 'StructError' ||
 				e instanceof Prisma.PrismaClientValidationError

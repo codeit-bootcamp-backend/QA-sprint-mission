@@ -31,7 +31,6 @@
 		"nodemon": "^3.0.1",
 		"prettier": "^3.2.5"
 	},
-	"type": "module",
 	"scripts": {
 		"build": "tsc",
 		"dev": "nodemon dist/app.js",

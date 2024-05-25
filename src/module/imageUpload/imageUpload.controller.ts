@@ -19,7 +19,7 @@ export const upload = multer({
 	fileFilter: (req, file, cb) => {
 		// 이미지 파일만 허용
 		if (!file.mimetype.startsWith('image/')) {
-			return cb(new Error('이미지 파일이 아닙니다'), false);
+			return cb(new Error('이미지 파일이 아닙니다'));
 		}
 		cb(null, true);
 	},
@@ -27,25 +27,29 @@ export const upload = multer({
 
 const imageUploadRoutes = Router();
 
-imageUploadRoutes.post('', upload.array('images', 10), (req, res) => {
-	try {
-		authChecker(req);
-		const fileUrls = req.files!.map((file) => {
-			return `${req.protocol}://${req.get('host')}/uploads/${file.filename}`;
-		});
+imageUploadRoutes.post(
+	'',
+	upload.array('images', 10),
+	(req: Request, res: Response) => {
+		try {
+			authChecker(req);
+			const fileUrls = req.files!.map((file) => {
+				return `${req.protocol}://${req.get('host')}/uploads/${file.filename}`;
+			});
 
-		res.send({
-			message: '파일이 성공적으로 업로드되었습니다',
-			fileUrls: fileUrls,
-		});
-	} catch (error) {
-		if (error.message === '로그인이 필요한 서비스입니다') {
-			res.status(401).send({ error: error.message });
-		} else {
-			res.status(400).send({ error: error.message });
+			res.send({
+				message: '파일이 성공적으로 업로드되었습니다',
+				fileUrls: fileUrls,
+			});
+		} catch (error: any) {
+			if (error.message === '로그인이 필요한 서비스입니다') {
+				res.status(401).send({ error: error?.message });
+			} else {
+				res.status(400).send({ error: error.message });
+			}
 		}
-	}
-});
+	},
+);
 
 imageUploadRoutes.use((err: any, req: Request, res: Response): void => {
 	if (err instanceof multer.MulterError) {
