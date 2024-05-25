@@ -7,6 +7,7 @@ import { Board_likes } from "./repository/Board_likes.js";
 import { Board_dislikes } from "./repository/Board_dislikes.js";
 import { Comment_create_onBoard } from "../comment/repository/Comment_create.js";
 import { Comment_findMany_onBoard } from "../comment/repository/Comment_findMany.js";
+import { authChecker } from "../../helper/authChecker.js";
 
 export function getBoardList(req, res) {
   Board_findMany(req, res);
