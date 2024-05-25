@@ -30,7 +30,7 @@ model Product {
   id            String    @id @default(uuid())
   name          String
   description   String
-  price         String
+  price         Int
   tags          String[]
   images        String[]
   favoriteCount Int
@@ -72,12 +72,12 @@ model Comment {
   writerId User   @relation(fields: [writer], references: [id], name: "commentAuthor", onDelete: Cascade)
 
   // 프로덕트 댓글
-  product   String
-  productId Product @relation(fields: [product], references: [id], name: "commentOnProduct", onDelete: Cascade)
+  product   String?
+  productId Product? @relation(fields: [product], references: [id], name: "commentOnProduct", onDelete: Cascade)
 
   // 보드 댓글
-  board   String
-  boardId Board  @relation(fields: [board], references: [id], name: "commentOnBoards", onDelete: Cascade)
+  board   String?
+  boardId Board?  @relation(fields: [board], references: [id], name: "commentOnBoards", onDelete: Cascade)
 }
 
 enum TaggedUnion {
