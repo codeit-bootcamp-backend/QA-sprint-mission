@@ -33,7 +33,10 @@ imageUploadRoutes.post(
 	(req: Request, res: Response) => {
 		try {
 			authChecker(req);
-			const fileUrls = req.files!.map((file) => {
+
+			const fileList = req.files as Express.Multer.File[];
+
+			const fileUrls = fileList.map((file) => {
 				return `${req.protocol}://${req.get('host')}/uploads/${file.filename}`;
 			});
 
