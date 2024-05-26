@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  image           String?
+  password        String
+  nickname        String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  ownedProduct    Product[] @relation("OwnedProducts")
+  favoriteProduct Product[] @relation("FavoriteProducts")
+  ownedBoard      Board[]   @relation("OwnedBoards")
+  favoriteBoard   Board[]   @relation("FavoriteBoards")
+  Comment         Comment[] @relation("commentAuthor")
+}
+
+model Product {
+  // 고유 필드
+  id            String    @id @default(uuid())
+  name          String
+  description   String
+  price         String
+  tags          String[]
+  images        String[]
+  favoriteCount Int
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  // 연결 필드
+  owner         String
+  ownerId       User      @relation(fields: [owner], references: [id], name: "OwnedProducts", onDelete: Cascade)
+  favoriteUser  User[]    @relation("FavoriteProducts")
+  Comment       Comment[] @relation("commentOnProduct")
+}
+
+model Board {
+  // 고유 필드
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  imageUrl  String[]
+  likeCount Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 연결 필드
+  owner        String
+  writer       User      @relation(fields: [owner], references: [id], name: "OwnedBoards", onDelete: Cascade)
+  favoriteUser User[]    @relation("FavoriteBoards")
+  Comment      Comment[] @relation("commentOnBoards")
+}
+
+model Comment {
+  // 고유 필드
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 작성자
+  writer   String
+  writerId User   @relation(fields: [writer], references: [id], name: "commentAuthor", onDelete: Cascade)
+
+  // 프로덕트 댓글
+  product   String
+  productId Product @relation(fields: [product], references: [id], name: "commentOnProduct", onDelete: Cascade)
+
+  // 보드 댓글
+  board   String
+  boardId Board  @relation(fields: [board], references: [id], name: "commentOnBoards", onDelete: Cascade)
+}
+
+enum TaggedUnion {
+  Board
+  Product
+}
