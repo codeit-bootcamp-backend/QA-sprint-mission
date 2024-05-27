@@ -3,7 +3,6 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,34 +12,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  name      String?
+  nickname  String
+  image     String?
+  password  String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  products  Product[]
+  articles  Article[]
+  favorites Favorite[]
+}
+
 model Product {
-  id            String    @id @default(uuid())
+  id            String     @id @default(uuid())
   name          String
   description   String
   price         Float
   tags          String[]
   images        String[]
-  favoriteCount Int       @default(0)
-  isFavorite    Boolean   @default(false)
+  favoriteCount Int        @default(0)
   ownerId       Int
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   comments      Comment[]
   Image         Image[]
+  User          User?      @relation(fields: [userId], references: [id])
+  userId        Int?
+  favorites     Favorite[]
 }
 
 model Article {
-  id        String    @id @default(uuid())
+  id        String     @id @default(uuid())
   title     String
   content   String
-  imageUrl  String?   @default("")
-  likeCount Int       @default(0)
-  isLiked   Boolean   @default(false)
+  imageUrl  String?    @default("")
+  likeCount Int        @default(0)
   writer    String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   comments  Comment[]
   Image     Image[]
+  User      User?      @relation(fields: [userId], references: [id])
+  userId    Int?
+  favorites Favorite[]
 }
 
 model Comment {
@@ -70,4 +87,17 @@ model Image {
 
   @@index([productId])
   @@index([articleId])
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
+  article   Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId String?
+
+  @@unique([userId, productId, articleId])
 }
