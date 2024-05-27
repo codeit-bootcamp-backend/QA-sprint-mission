@@ -3,7 +3,6 @@ import * as s from "superstruct";
 const PositivePrice = s.refine(s.number(), "PositivePrice", (value) => value > 0 && value < 1000000000);
 
 export const CreateProduct = s.object({
-  ownerId: s.number(),
   images: s.array(s.string()),
   tags: s.array(s.size(s.string(), 1, 32)),
   price: PositivePrice,

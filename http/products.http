@@ -18,7 +18,7 @@ GET http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
 ###
 # 상품 등록
 POST http://localhost:3000/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5MzQwOSwiZXhwIjoxNzE2Nzk0MzA5fQ.uWsTo5_mKNsXmWdYpYlE492MMv_PV513S2mbs_bELTE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjc5NjIzMiwiZXhwIjoxNzE2Nzk3MTMyfQ.h5Jq-cMim3LixOqibNgMh3yAr0m03ajCXaxBUb25v3M
 Content-Type: application/json
 
 {
@@ -26,8 +26,7 @@ Content-Type: application/json
   "description": "세종시청에서 교환원합니다.",
   "price": 20000,
   "tags": ["판다", "불곰"],
-  "images": ["https://www.wishbucket.io/_next/image?url=https%3A%2F%2Fd2gfz7wkiigkmv.cloudfront.net%2Fpickin%2F2%2F1%2F2%2FHereyhSJRMOmUw7I5uWAxg&w=640&q=75","https://wimg.mk.co.kr/meet/2021/09/image_listtop_2021_854860_1630738087.jpg"],
-  "ownerId":1
+  "images": ["https://www.wishbucket.io/_next/image?url=https%3A%2F%2Fd2gfz7wkiigkmv.cloudfront.net%2Fpickin%2F2%2F1%2F2%2FHereyhSJRMOmUw7I5uWAxg&w=640&q=75","https://wimg.mk.co.kr/meet/2021/09/image_listtop_2021_854860_1630738087.jpg"]
 }
 
 ###

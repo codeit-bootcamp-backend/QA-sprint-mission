@@ -48,8 +48,9 @@ router
     authenticate,
     asyncHandler(async (req, res) => {
       assert(req.body, CreateProduct);
+      const { userId } = req;
       const product = await prisma.product.create({
-        data: req.body,
+        data: { ...req.body, userId },
       });
       res.status(201).send(product);
     })
