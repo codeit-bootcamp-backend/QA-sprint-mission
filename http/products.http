@@ -51,12 +51,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhd
 ###
 # 상품 좋아요
 PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/like
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5MzQwOSwiZXhwIjoxNzE2Nzk0MzA5fQ.uWsTo5_mKNsXmWdYpYlE492MMv_PV513S2mbs_bELTE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5NDc3MCwiZXhwIjoxNzE2Nzk1NjcwfQ.4jHyaxo0BgeSCSfTGAwnTlMLyRZGEJPoEOqUe-Xdo9w
 
 ###
 # 상품 좋아요 취소
 PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/unlike
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5MzQwOSwiZXhwIjoxNzE2Nzk0MzA5fQ.uWsTo5_mKNsXmWdYpYlE492MMv_PV513S2mbs_bELTE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5NDc3MCwiZXhwIjoxNzE2Nzk1NjcwfQ.4jHyaxo0BgeSCSfTGAwnTlMLyRZGEJPoEOqUe-Xdo9w
 
 ### 
 # 상품 댓글 조회

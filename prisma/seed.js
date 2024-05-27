@@ -1,8 +1,14 @@
 import { PrismaClient } from "@prisma/client";
-import { ARTICLES, COMMENTS, PRODUCTS } from "./mock.js";
+import { ARTICLES, COMMENTS, FAVORITE, PRODUCTS, USERS } from "./mock.js";
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.user.deleteMany();
+
+  await prisma.user.createMany({
+    data: USERS,
+    skipDuplicates: true,
+  });
   await prisma.product.deleteMany();
 
   await prisma.product.createMany({
@@ -16,6 +22,14 @@ async function main() {
     data: ARTICLES,
     skipDuplicates: true,
   });
+
+  await prisma.favorite.deleteMany();
+
+  await prisma.favorite.createMany({
+    data: FAVORITE,
+    skipDuplicates: true,
+  });
+
   await prisma.comment.deleteMany();
 
   await prisma.comment.createMany({

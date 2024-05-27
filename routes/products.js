@@ -101,26 +101,43 @@ router.patch(
   "/:id/like",
   authenticate,
   asyncHandler(async (req, res) => {
+    const { id: productId } = req.params;
+    const { userId } = req;
     const product = await prisma.product.findUniqueOrThrow({
       where: {
-        id: req.params.id,
+        id: productId,
       },
     });
 
-    if (product.isFavorite) {
+    const favorite = await prisma.favorite.findUnique({
+      where: {
+        userId_productId: {
+          userId,
+          productId,
+        },
+      },
+    });
+
+    if (favorite) {
       res.status(400).send({ message: "이미 좋아요 처리된 상품입니다." });
       return;
     }
 
+    await prisma.favorite.create({
+      data: {
+        userId,
+        productId,
+      },
+    });
+
     const updatedProduct = await prisma.product.update({
       where: {
-        id: req.params.id,
+        id: productId,
       },
       data: {
         favoriteCount: {
           increment: 1,
         },
-        isFavorite: true,
       },
     });
 
@@ -132,26 +149,43 @@ router.patch(
   "/:id/unlike",
   authenticate,
   asyncHandler(async (req, res) => {
+    const { id: productId } = req.params;
+    const { userId } = req;
     const product = await prisma.product.findUniqueOrThrow({
       where: {
-        id: req.params.id,
+        id: productId,
       },
     });
 
-    if (!product.isFavorite) {
-      res.status(400).send({ message: "아직 좋아요 처리되지 않은 상품입니다." });
-      return;
+    const favorite = await prisma.favorite.findUnique({
+      where: {
+        userId_productId: {
+          userId,
+          productId,
+        },
+      },
+    });
+
+    if (!favorite) {
+      return res.status(400).send({ message: "아직 좋아요 처리되지 않은 상품입니다." });
     }
 
+    await prisma.favorite.delete({
+      where: {
+        userId_productId: {
+          userId,
+          productId,
+        },
+      },
+    });
     const updatedProduct = await prisma.product.update({
       where: {
-        id: req.params.id,
+        id: productId,
       },
       data: {
         favoriteCount: {
           decrement: 1,
         },
-        isFavorite: false,
       },
     });
 
