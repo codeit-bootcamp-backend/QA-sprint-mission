@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { asyncHandler } from '../asyncHandler';
-import { updateComment } from './comment.service';
-import { Comment_delete } from './repository/Comment_delete';
+import { deleteComment, updateComment } from './comment.service';
 
 const commentRoutes = Router();
 
@@ -9,6 +8,6 @@ const commentRoutes = Router();
 commentRoutes
 	.route('/:id')
 	.patch(asyncHandler(updateComment))
-	.delete(asyncHandler(Comment_delete));
+	.delete(asyncHandler(deleteComment));
 
 export default commentRoutes;

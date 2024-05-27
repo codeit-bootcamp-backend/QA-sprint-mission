@@ -2,7 +2,9 @@ import { Prisma } from '@prisma/client';
 import { Request, Response } from 'express';
 import { CustomError } from '../helper/CustomError';
 
-export function asyncHandler(handler: (req: Request, res: Response) => void) {
+export function asyncHandler(
+	handler: (req: Request, res: Response) => void | Promise<void>,
+) {
 	return async function (req: Request, res: Response) {
 		try {
 			await handler(req, res);

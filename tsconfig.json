@@ -16,6 +16,8 @@
 		"isolatedModules": true,
 		// Import non-ES modules as default imports.
 		"esModuleInterop": true,
+		// Import Json modules as default imports.
+		"resolveJsonModule": true,
 		"jsx": "preserve",
 		"outDir": "dist"
 	},

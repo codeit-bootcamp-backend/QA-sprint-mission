@@ -30,17 +30,7 @@ export async function signUp(req: Request, res: Response) {
 	const accessToken = generateAccessToken({ email, nickname });
 	const refreshToken = generateRefreshToken({ email, nickname });
 
-	res
-		.status(201)
-		.cookie('accessToken', accessToken, {
-			maxAge: 1000 * 60 * 60,
-			httpOnly: true,
-		})
-		.cookie('refreshToken', refreshToken, {
-			maxAge: 1000 * 60 * 60 * 60,
-			httpOnly: true,
-		})
-		.send('회원가입 성공');
+	res.status(201).send({ accessToken, refreshToken });
 }
 
 export async function signIn(req: Request, res: Response) {
@@ -57,18 +47,7 @@ export async function signIn(req: Request, res: Response) {
 			email,
 			nickname: user.nickname,
 		});
-		// Secure: true
-		res
-			.status(200)
-			.cookie('accessToken', accessToken, {
-				maxAge: 1000 * 60 * 60,
-				httpOnly: true,
-			})
-			.cookie('refreshToken', refreshToken, {
-				maxAge: 1000 * 60 * 60 * 60,
-				httpOnly: true,
-			})
-			.send('로그인 성공');
+		res.status(200).send({ accessToken, refreshToken });
 	} else {
 		res.sendStatus(401);
 	}

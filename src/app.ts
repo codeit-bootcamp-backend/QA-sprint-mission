@@ -9,19 +9,19 @@ import commentRoutes from './module/comment/comment.controller';
 import { authValidate } from './helper/jwt';
 import imageUploadRoutes from './module/imageUpload/imageUpload.controller';
 import userRouters from './module/user/user.controller';
+import swaggerDocs from './helper/swagger';
 
 dotenv.config();
 const app = express();
 
-app.use(
-	cors({
-		origin: ['http://localhost:3001'],
-	}),
-);
+// app.use(
+// 	cors({
+// 		origin: ['http://localhost:3001'],
+// 	}),
+// );
 app.use(express.json());
 app.use(cookieParser());
 
-// 엑세스 토큰 관련
 app.use(authValidate);
 
 app.use('/products', productRoutes);
@@ -31,4 +31,7 @@ app.use('/boards', boardRoutes);
 app.use('/comments', commentRoutes);
 app.use('/upload', imageUploadRoutes);
 
-app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
+app.listen(process.env.PORT || 3000, () => {
+	console.log('Server Started');
+	swaggerDocs(app, 3000);
+});
