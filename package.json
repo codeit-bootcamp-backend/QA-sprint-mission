@@ -33,7 +33,7 @@
 	},
 	"scripts": {
 		"build": "tsc",
-		"dev": "nodemon dist/app.js",
+		"dev": "nodemon src/app.js",
 		"start": "node dist/app.js"
 	},
 	"prisma": {
