@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { addIsFavorite } from '../../../helper/addIsFavorite';
 import { Request, Response } from 'express';
+import { ownerIdFormatter } from '../../../helper/ownerIdFormatter';
 
 const prisma = new PrismaClient();
 
@@ -26,6 +26,23 @@ export async function Product_findMany(req: Request, res: Response) {
 			orderBy = { createdAt: 'desc' };
 			break;
 	}
+
+	const totalCount = await prisma.product.count({
+		where: {
+			OR: [
+				{
+					name: {
+						contains: search as string,
+					},
+				},
+				{
+					description: {
+						contains: search as string,
+					},
+				},
+			],
+		},
+	});
 
 	const products = await prisma.product.findMany({
 		where: {
@@ -58,11 +75,12 @@ export async function Product_findMany(req: Request, res: Response) {
 		},
 	});
 
-	const queries = products.map(async (item) => {
-		return addIsFavorite(item);
-	});
+	const formattedProducts = ownerIdFormatter(products);
 
-	const productWithIsFavorite = await Promise.all(queries);
+	const response = {
+		totalCount,
+		list: formattedProducts,
+	};
 
-	res.send(productWithIsFavorite);
+	res.send(response);
 }

@@ -68,15 +68,17 @@ export function decodeToken(token: string, secret: string) {
 }
 
 export function authValidate(req: Request, res: Response, next: NextFunction) {
-	const token = req.headers['authorization']?.split(' ')[1];
+	const token = req.headers['authorization']?.split('Bearer ')[1];
 
 	if (token) {
 		const decoded = decodeToken(token, process.env.JWT_SECRET!);
 		const isOK = verifyToken(decoded);
 
 		if (isOK) {
-			req.cookies.email = decoded.email;
-			req.cookies.nickname = decoded.nickname;
+			req.cookies = {
+				email: decoded.email,
+				nickname: decoded.nickname,
+			};
 		} else {
 			throw new Error(`token expired`);
 		}

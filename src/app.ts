@@ -33,5 +33,5 @@ app.use('/upload', imageUploadRoutes);
 
 app.listen(process.env.PORT || 3000, () => {
 	console.log('Server Started');
-	swaggerDocs(app, 3000);
+	swaggerDocs(app);
 });

@@ -20,21 +20,19 @@ const options: swaggerJsdoc.Options = {
 				},
 			},
 		},
+		servers: [{ url: 'http://localhost:3000' }],
 		security: [
 			{
 				bearerAuth: [],
 			},
 		],
 	},
-	apis: [
-		'../module/products/products.controller.ts',
-		'../../prisma/schema.prisma',
-	],
+	apis: [`./src/module/**/*.controller.ts`],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
 
-export default function swaggerDocs(app: Express, port: number) {
+export default function swaggerDocs(app: Express) {
 	// 스웨거 페이지
 	app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

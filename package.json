@@ -1,5 +1,5 @@
 {
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"dependencies": {
 		"@prisma/client": "^5.14.0",
 		"bcryptjs": "^2.4.3",
@@ -39,7 +39,7 @@
 	"scripts": {
 		"build": "tsc",
 		"dev": "nodemon src/app.ts",
-		"start": "node dist/app.js"
+		"start": "node dist/src/app.js"
 	},
 	"prisma": {
 		"seed": "node seeding/seed.js"
