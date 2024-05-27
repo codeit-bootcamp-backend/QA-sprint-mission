@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import { assert } from "superstruct";
 import { CreateUser } from "../structs.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import { generateAccessToken, generateRefreshToken } from "../utils/tokens.js";
+import { generateAccessToken, generateRefreshToken, regenerateRefreshToken } from "../utils/tokens.js";
 
 dotenv.config();
 const router = express.Router();
@@ -67,7 +67,6 @@ router.post(
     res.json({ accessToken, refreshToken });
   })
 );
-
 router.post(
   "/refresh-token",
   asyncHandler(async (req, res) => {
@@ -78,7 +77,8 @@ router.post(
     }
 
     try {
-      const decoded = jwt.verify(refreshToken, JWT_SECRET);
+      const newRefreshToken = regenerateRefreshToken(refreshToken);
+      const decoded = jwt.verify(newRefreshToken, JWT_SECRET);
       const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
 
       if (!user) {
@@ -87,7 +87,7 @@ router.post(
 
       const accessToken = generateAccessToken(user);
 
-      res.json({ accessToken });
+      res.json({ accessToken, refreshToken: newRefreshToken });
     } catch (error) {
       return res.status(401).json({ message: "유효하지 않은 토큰입니다." });
     }

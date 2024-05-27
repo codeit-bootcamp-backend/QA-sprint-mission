@@ -12,3 +12,12 @@ export const generateAccessToken = (user) => {
 export const generateRefreshToken = (user) => {
   return jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: JWT_REFRESH_EXPIRES_IN });
 };
+
+export const regenerateRefreshToken = (refreshToken) => {
+  try {
+    const decoded = jwt.verify(refreshToken, JWT_SECRET);
+    return jwt.sign({ userId: decoded.userId }, JWT_SECRET, { expiresIn: "7d" });
+  } catch (error) {
+    throw new Error("Invalid refresh token");
+  }
+};
