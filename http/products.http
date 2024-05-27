@@ -18,6 +18,7 @@ GET http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
 ###
 # 상품 등록
 POST http://localhost:3000/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5MzQwOSwiZXhwIjoxNzE2Nzk0MzA5fQ.uWsTo5_mKNsXmWdYpYlE492MMv_PV513S2mbs_bELTE
 Content-Type: application/json
 
 {
@@ -32,6 +33,7 @@ Content-Type: application/json
 ###
 # 상품 수정
 PATCH http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5MzQwOSwiZXhwIjoxNzE2Nzk0MzA5fQ.uWsTo5_mKNsXmWdYpYlE492MMv_PV513S2mbs_bELTE
 Content-Type: application/json
 
 {
@@ -44,14 +46,17 @@ Content-Type: application/json
 ###
 # 상품 삭제
 DELETE http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5MzQwOSwiZXhwIjoxNzE2Nzk0MzA5fQ.uWsTo5_mKNsXmWdYpYlE492MMv_PV513S2mbs_bELTE
 
 ###
 # 상품 좋아요
 PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/like
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5MzQwOSwiZXhwIjoxNzE2Nzk0MzA5fQ.uWsTo5_mKNsXmWdYpYlE492MMv_PV513S2mbs_bELTE
 
 ###
 # 상품 좋아요 취소
 PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/unlike
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5MzQwOSwiZXhwIjoxNzE2Nzk0MzA5fQ.uWsTo5_mKNsXmWdYpYlE492MMv_PV513S2mbs_bELTE
 
 ### 
 # 상품 댓글 조회
@@ -64,6 +69,7 @@ GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments
 ###
 # 상품 댓글 등록
 POST http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5MzQwOSwiZXhwIjoxNzE2Nzk0MzA5fQ.uWsTo5_mKNsXmWdYpYlE492MMv_PV513S2mbs_bELTE
 Content-Type: application/json
 
 {
@@ -74,6 +80,7 @@ Content-Type: application/json
 ###
 # 상품 댓글 수정
 PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/4db38f1c-53c5-40c4-98ce-bcaa0ba7904d
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5MzQwOSwiZXhwIjoxNzE2Nzk0MzA5fQ.uWsTo5_mKNsXmWdYpYlE492MMv_PV513S2mbs_bELTE
 Content-Type: application/json
 
 {
@@ -82,4 +89,5 @@ Content-Type: application/json
 
 ###
 # 상품 댓글 삭제
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5MzQwOSwiZXhwIjoxNzE2Nzk0MzA5fQ.uWsTo5_mKNsXmWdYpYlE492MMv_PV513S2mbs_bELTE
 DELETE http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/4db38f1c-53c5-40c4-98ce-bcaa0ba7904d

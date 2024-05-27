@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import express from "express";
 import multer from "multer";
 import path from "path";
-
+import authenticate from "../middlewares/authenticate.js";
 const prisma = new PrismaClient();
 const SERVER_URL = "http://localhost:3000";
 
@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // 이미지 업로드
-router.post("/upload", upload.single("image"), async (req, res) => {
+router.post("/upload", authenticate, upload.single("image"), async (req, res) => {
   const file = req.file;
   console.log(req);
   if (!file) {
