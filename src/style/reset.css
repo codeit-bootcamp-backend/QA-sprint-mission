@@ -1,0 +1,44 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  vertical-align: top;
+  font-family: "Pretendard";
+}
+
+:root {
+  --White: #ffffff;
+  --Cool-Gray50: #f9fafb;
+  --Cool-Gray100: #f3f4f6;
+  --Cool-Gray200: #e5e7eb;
+  --Cool-Gray300: #d1d5db;
+  --Cool-Gray400: #9ca3af;
+  --Cool-Gray500: #6b7280;
+  --Cool-Gray600: #4b5563;
+  --Cool-Gray700: #374151;
+  --Cool-Gray800: #1f2937;
+  --Cool-Gray900: #111827;
+  --gray-gray500: #737373;
+  --error-red: #f74747;
+  --Brand-Blue: #3182f6;
+  --brand-blue: #3692ff;
+}
+
+html,
+body {
+  position: relative;
+  background-color: --var(--White);
+  font-size: 62.5%;
+  overflow-x: hidden;
+}
+
+button {
+  outline: none;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: inherit;
+}

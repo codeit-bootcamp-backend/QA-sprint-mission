@@ -1,0 +1,273 @@
+@import "./reset.css";
+
+/* header */
+.header_nav {
+  max-width: 192rem;
+  margin: auto;
+  padding-left: 20rem;
+  padding-right: 20rem;
+  top: 0;
+
+  position: sticky;
+  display: flex;
+  align-items: center;
+
+  background-color: var(--White);
+}
+
+.header_category {
+  width: 100%;
+  margin-left: 3.2rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.category_btn {
+  padding: 2.4rem 1.6rem;
+
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  color: var(--Cool-Gray600);
+}
+
+.login_btn {
+  height: 4.2rem;
+  padding: 1.2rem 2.3rem;
+  border-radius: 0.8rem;
+
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+
+  background: var(--Brand-Blue);
+  color: var(--White);
+
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.header_section {
+  width: 100%;
+  height: 54rem;
+  position: relative;
+
+  background-color: #cfe5ff;
+}
+.header_container {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.header_title {
+  padding-right: 6.2rem;
+
+  color: var(--Cool-Gray700);
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 140%;
+}
+
+.header_btn {
+  margin-top: 3.2rem;
+  padding: 1.6rem 12.4rem;
+  border-radius: 4rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--Brand-Blue);
+  color: var(--White);
+
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.header_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.header_img_container {
+  margin-left: -1.4rem;
+  padding-top: 3rem;
+  margin-top: 9.3rem;
+
+  display: flex;
+  flex-direction: row;
+}
+
+/* section */
+main {
+  max-width: 120rem;
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.section_container_left {
+  width: 100%;
+  padding: 13.8rem 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.section_container_right {
+  width: 100%;
+  padding: 13.8rem 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.section_wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.text_content_left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-right: 6.4em;
+}
+
+.text_content_right {
+  margin-left: 6.4rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.section_badge {
+  color: var(--brand-blue, #3692ff);
+  font-family: Pretendard;
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%;
+}
+
+.section_title {
+  margin-top: 1.2rem;
+  margin-bottom: 2.4rem;
+
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%;
+  letter-spacing: 0.08rem;
+  color: var(--Cool-Gray700);
+}
+
+.section_summary {
+  font-size: 2.4rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
+  letter-spacing: 0.192rem;
+  color: var(--Cool-Gray700);
+}
+
+.section_img {
+  width: 58.8rem;
+  height: 44.4rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+/* bottom_header */
+.bottom_header_img_container {
+  display: flex;
+  flex-direction: row;
+}
+
+.bottom_header_section {
+  width: 100%;
+  height: 54rem;
+  margin-top: 13.8rem;
+
+  position: relative;
+
+  background-color: #cfe5ff;
+}
+
+/*  footer */
+footer {
+  width: 100%;
+  height: 16rem;
+  padding-top: 3.2rem;
+
+  display: flex;
+  justify-content: center;
+
+  background-color: var(--Cool-Gray900);
+}
+
+.footer_wrapper {
+  width: 100%;
+  max-width: 192rem;
+  height: fit-content;
+  padding: 0 10.4rem;
+
+  display: grid;
+  grid-template: "copyright explain sns_icon";
+  justify-content: space-between;
+}
+
+.copyright {
+  grid-area: copyright;
+
+  font-size: 1.6rem;
+  color: var(--Cool-Gray400);
+}
+
+.explain {
+  grid-area: explain;
+  padding-right: 1.8rem;
+  display: flex;
+  column-gap: 3rem;
+}
+
+.footer_link {
+  font-size: 1.6rem;
+  color: var(--Cool-Gray400);
+}
+
+.sns_icon {
+  grid-area: sns_icon;
+  height: 2rem;
+  display: flex;
+  column-gap: 1.2rem;
+}
