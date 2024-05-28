@@ -10,6 +10,8 @@ const commentRoutes = Router();
  *   patch:
  *     tags:
  *     - comment
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchCommentCommentIdPath'
  *     responses:
@@ -33,6 +35,8 @@ const commentRoutes = Router();
  *   delete:
  *     tags:
  *     - comment
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchCommentCommentIdPath'
  *     responses:

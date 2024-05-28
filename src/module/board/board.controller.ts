@@ -21,6 +21,8 @@ const boardRoutes = Router();
  *   post:
  *     tags:
  *     - boards
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -64,6 +66,8 @@ boardRoutes.route('/comment');
  *   get:
  *     tags:
  *     - boards
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchBoardBoardIdPath'
  *     responses:
@@ -81,6 +85,8 @@ boardRoutes.route('/comment');
  *   patch:
  *     tags:
  *     - boards
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchBoardBoardIdPath'
  *     requestBody:
@@ -111,6 +117,8 @@ boardRoutes.route('/comment');
  *   delete:
  *     tags:
  *     - boards
+ *     security:
+ *       - bearerAuth: []
  *     description: 상품 삭제
  *     parameters:
  *       - $ref: '#/components/schemas/SearchBoardBoardIdPath'
@@ -147,6 +155,8 @@ boardRoutes
  *   post:
  *     tags:
  *     - comment
+ *     security:
+ *       - bearerAuth: []
  *     description: 게시글의 댓글 작성
  *     parameters:
  *       - $ref: '#/components/schemas/SearchBoardBoardIdPath'
@@ -202,6 +212,8 @@ boardRoutes
  *   post:
  *     tags:
  *     - boards
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchBoardBoardIdPath'
  *     responses:
@@ -220,6 +232,8 @@ boardRoutes
  *   delete:
  *     tags:
  *     - boards
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchBoardBoardIdPath'
  *     responses:

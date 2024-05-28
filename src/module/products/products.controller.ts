@@ -20,6 +20,8 @@ const productRoutes = Router();
  *   post:
  *     tags:
  *     - products
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -62,6 +64,8 @@ productRoutes
  *   get:
  *     tags:
  *     - products
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchProductProductIdPath'
  *     responses:
@@ -79,6 +83,8 @@ productRoutes
  *   patch:
  *     tags:
  *     - products
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchProductProductIdPath'
  *     requestBody:
@@ -109,6 +115,8 @@ productRoutes
  *   delete:
  *     tags:
  *     - products
+ *     security:
+ *       - bearerAuth: []
  *     description: 상품 삭제
  *     parameters:
  *       - $ref: '#/components/schemas/SearchProductProductIdPath'
@@ -146,6 +154,8 @@ productRoutes
  *   post:
  *     tags:
  *     - comment
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchProductProductIdPath'
  *     requestBody:
@@ -199,6 +209,8 @@ productRoutes
  *   post:
  *     tags:
  *     - products
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchProductProductIdPath'
  *     responses:
@@ -217,6 +229,8 @@ productRoutes
  *   delete:
  *     tags:
  *     - products
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchProductProductIdPath'
  *     responses:

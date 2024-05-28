@@ -29,7 +29,7 @@ app.use('/auth', authRoutes);
 app.use('/user', userRouters);
 app.use('/boards', boardRoutes);
 app.use('/comments', commentRoutes);
-app.use('/upload', imageUploadRoutes);
+app.use('/images/upload', imageUploadRoutes);
 
 app.listen(process.env.PORT || 3000, () => {
 	console.log('Server Started');

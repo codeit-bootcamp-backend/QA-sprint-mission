@@ -16,6 +16,8 @@ const userRouters = Router();
  *   get:
  *     tags:
  *     - User
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Ok
@@ -31,6 +33,8 @@ const userRouters = Router();
  *   patch:
  *     tags:
  *     - User
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -67,6 +71,8 @@ userRouters
  *   patch:
  *     tags:
  *     - User
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -96,6 +102,8 @@ userRouters.route('/me/password').patch(asyncHandler(updateUserPassword));
  *   get:
  *     tags:
  *     - User
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchPageQuery'
  *       - $ref: '#/components/schemas/SearchPageSizeQuery'
@@ -117,6 +125,8 @@ userRouters.route('/me/password').patch(asyncHandler(updateUserPassword));
  *   get:
  *     tags:
  *     - User
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/schemas/SearchPageQuery'
  *       - $ref: '#/components/schemas/SearchPageSizeQuery'

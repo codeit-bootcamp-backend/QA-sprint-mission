@@ -11,8 +11,8 @@ const options: swaggerJsdoc.Options = {
 			title: 'Panda Market API Docs',
 			version,
 		},
-		component: {
-			securitySchemas: {
+		components: {
+			securitySchemes: {
 				bearerAuth: {
 					type: 'http',
 					scheme: 'bearer',
@@ -20,12 +20,11 @@ const options: swaggerJsdoc.Options = {
 				},
 			},
 		},
-		servers: [{ url: 'http://localhost:3000' }],
-		security: [
-			{
-				bearerAuth: [],
-			},
-		],
+		// security: [
+		// 	{
+		// 		bearerAuth: [],
+		// 	},
+		// ],
 	},
 	apis: [`./src/module/**/*.controller.ts`, './src/swagger/*.ts'],
 };
