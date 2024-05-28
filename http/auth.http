@@ -15,7 +15,7 @@ POST http://localhost:3000/auth/signIn
 Content-Type: application/json
 
 {
-  "email":"test5@gmail.com", 
+  "email":"test2@gmail.com", 
   "password":"pandapower"
 }
 
