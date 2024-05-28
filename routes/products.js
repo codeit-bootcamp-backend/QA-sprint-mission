@@ -139,23 +139,24 @@ router.patch(
       return;
     }
 
-    await prisma.favorite.create({
-      data: {
-        userId,
-        productId,
-      },
-    });
-
-    const updatedProduct = await prisma.product.update({
-      where: {
-        id: productId,
-      },
-      data: {
-        favoriteCount: {
-          increment: 1,
+    const [createdFavorite, updatedProduct] = await prisma.$transaction([
+      prisma.favorite.create({
+        data: {
+          userId,
+          productId,
         },
-      },
-    });
+      }),
+      prisma.product.update({
+        where: {
+          id: productId,
+        },
+        data: {
+          likeCount: {
+            increment: 1,
+          },
+        },
+      }),
+    ]);
 
     res.send(updatedProduct);
   })
@@ -181,25 +182,26 @@ router.patch(
       return res.status(400).send({ message: "아직 좋아요 처리되지 않은 상품입니다." });
     }
 
-    await prisma.favorite.delete({
-      where: {
-        userId_productId: {
-          userId,
-          productId,
+    const [deletedFavorite, updatedProduct] = await prisma.$transaction([
+      prisma.favorite.delete({
+        where: {
+          userId_productId: {
+            userId,
+            productId,
+          },
         },
-      },
-    });
-
-    const updatedProduct = await prisma.product.update({
-      where: {
-        id: productId,
-      },
-      data: {
-        favoriteCount: {
-          decrement: 1,
+      }),
+      prisma.product.update({
+        where: {
+          id: productId,
         },
-      },
-    });
+        data: {
+          likeCount: {
+            decrement: 1,
+          },
+        },
+      }),
+    ]);
 
     res.send(updatedProduct);
   })

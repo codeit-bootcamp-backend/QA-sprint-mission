@@ -23,12 +23,14 @@ const upload = multer({ storage: storage });
 // 이미지 업로드
 router.post("/upload", authenticate, upload.single("image"), async (req, res) => {
   const file = req.file;
-  console.log(req);
+
   if (!file) {
     return res.status(400).send("이미지 파일을 선택해주세요.");
   }
+
   const imagePath = file.path;
   const imageUrl = `${SERVER_URL}/${imagePath.replace(/\\/g, "/")}`;
+
   const image = await prisma.image.create({
     data: {
       imagePath: imagePath,

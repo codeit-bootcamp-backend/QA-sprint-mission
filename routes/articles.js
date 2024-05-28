@@ -164,24 +164,24 @@ router.patch(
       res.status(400).send({ message: "이미 좋아요 처리된 게시글입니다." });
       return;
     }
-
-    await prisma.favorite.create({
-      data: {
-        userId,
-        articleId,
-      },
-    });
-
-    const updatedArticle = await prisma.article.update({
-      where: {
-        id: articleId,
-      },
-      data: {
-        likeCount: {
-          increment: 1,
+    const [createdFavorite, updatedArticle] = await prisma.$transaction([
+      prisma.favorite.create({
+        data: {
+          userId,
+          articleId,
         },
-      },
-    });
+      }),
+      prisma.article.update({
+        where: {
+          id: articleId,
+        },
+        data: {
+          likeCount: {
+            increment: 1,
+          },
+        },
+      }),
+    ]);
 
     res.send(updatedArticle);
   })
@@ -208,25 +208,26 @@ router.patch(
       return;
     }
 
-    await prisma.favorite.delete({
-      where: {
-        userId_articleId: {
-          userId,
-          articleId,
+    const [deletedFavorite, updatedArticle] = await prisma.$transaction([
+      prisma.favorite.delete({
+        where: {
+          userId_articleId: {
+            userId,
+            articleId,
+          },
         },
-      },
-    });
-
-    const updatedArticle = await prisma.article.update({
-      where: {
-        id: articleId,
-      },
-      data: {
-        likeCount: {
-          decrement: 1,
+      }),
+      prisma.article.update({
+        where: {
+          id: articleId,
         },
-      },
-    });
+        data: {
+          likeCount: {
+            decrement: 1,
+          },
+        },
+      }),
+    ]);
 
     res.send(updatedArticle);
   })
