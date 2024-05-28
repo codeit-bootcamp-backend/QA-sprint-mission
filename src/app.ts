@@ -9,7 +9,7 @@ import commentRoutes from './module/comment/comment.controller';
 import { authValidate } from './helper/jwt';
 import imageUploadRoutes from './module/imageUpload/imageUpload.controller';
 import userRouters from './module/user/user.controller';
-import swaggerDocs from './helper/swagger';
+import swaggerDocs from './swagger/swagger';
 
 dotenv.config();
 const app = express();

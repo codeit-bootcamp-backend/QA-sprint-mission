@@ -19,11 +19,11 @@ export async function Product_delete(req: Request, res: Response) {
 				.send({ error: 'You are not authorized to delete this product' });
 		}
 
-		await prisma.product.delete({
+		const response = await prisma.product.delete({
 			where: { id },
 		});
 
-		res.sendStatus(204);
+		res.status(200).send({ id: response.id });
 	} catch (error) {
 		res.status(500).send({ error: 'Error deleting product' });
 	}

@@ -25,96 +25,30 @@ const productRoutes = Router();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               images:
- *                 type: array
- *                 items:
- *                   type: string
- *                 example:
- *                   - "https://example.com/..."
- *               tags:
- *                 type: array
- *                 items:
- *                   type: string
- *                 example:
- *                   - "전자제품"
- *               price:
- *                 type: integer
- *                 example: 0
- *               description:
- *                 type: string
- *                 example: "string"
- *               name:
- *                 type: string
- *                 example: "상품 이름"
+ *             $ref: '#/components/schemas/ProductBaseRequest'
  *     responses:
  *       200:
  *         description: Ok
  *         content:
  *           application/json:
- *             example:
- *               id: 1
- *               name: "상품 이름"
- *               description: "string"
- *               price: 0
- *               tags:
- *               - "전자제품"
- *               images:
- *               - "https://example.com/..."
- *               ownerId: 1
- *               favoriteCount: 0
- *               createdAt: "2024-05-27T10:13:03.625Z"
+ *             schema:
+ *               $ref: '#/components/schemas/ProductBaseResponse'
  *   get:
  *     tags:
  *     - products
  *     description: 상품 목록 조회
  *     parameters:
- *       - in: query
- *         name: page
- *         description: 페이지 번호
- *         default: 1
- *         schema:
- *           type: number
- *           format: double
- *       - in: query
- *         name: pageSize
- *         description: 페이지 당 상품 수
- *         default: 10
- *         schema:
- *           type: number
- *           format: double
- *       - in: query
- *         name: orderBy
- *         schema:
- *           type: string
- *           enum: [favorite, recent]
- *         description: 정렬 기준
- *         default: recent
- *       - in: query
- *         name: keyword
- *         schema:
- *           type: string
- *         description: 검색 키워드
+ *       - $ref: '#/components/schemas/SearchProductsPageQuery'
+ *       - $ref: '#/components/schemas/SearchProductsPageSizeQuery'
+ *       - $ref: '#/components/schemas/SearchProductsOrderByQuery'
+ *       - $ref: '#/components/schemas/SearchProductsKeywordQuery'
  *     responses:
  *       200:
  *         description: Ok
  *         content:
  *           application/json:
- *             example:
- *               totalCount: 0
- *               list:
- *               - id: 1
- *                 name: "상품 이름"
- *                 price: 0
- *                 description: "string"
- *                 tags:
- *                 - "전자제품"
- *                 images:
- *                 - "https://example.com/..."
- *                 ownerId: 1
- *                 favoriteCount: 0
- *                 createdAt: "2024-05-27T10:13:03.625Z"
+ *             schema:
+ *               $ref: '#/components/schemas/SearchProductAll'
  */
 
 productRoutes
@@ -124,7 +58,80 @@ productRoutes
 
 /**
  * @openapi
- * '/products':
+ * '/products/{productId}':
+ *   get:
+ *     tags:
+ *     - products
+ *     parameters:
+ *       - $ref: '#/components/schemas/SearchProductProductIdPath'
+ *     responses:
+ *       200:
+ *         description: Ok
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SearchProductSome'
+ *       404:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
+ *   patch:
+ *     tags:
+ *     - products
+ *     parameters:
+ *       - $ref: '#/components/schemas/SearchProductProductIdPath'
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ProductBaseRequest'
+ *     responses:
+ *       200:
+ *         description: Ok
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SearchProductSome'
+ *               isFavorites:
+ *                 type: boolean
+ *       403:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
+ *       404:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
+ *   delete:
+ *     tags:
+ *     - products
+ *     description: 상품 삭제
+ *     parameters:
+ *       - $ref: '#/components/schemas/SearchProductProductIdPath'
+ *     responses:
+ *       200:
+ *         description: Ok
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                  $ref: '#/components/schemas/Uuid'
+ *       403:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
+ *       404:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
  */
 
 productRoutes
@@ -138,8 +145,49 @@ productRoutes
 	.post(asyncHandler(createComment))
 	.get(asyncHandler(getCommentList));
 
+/**
+ * @openapi
+ * '/products/{productId}/favorite':
+ *   post:
+ *     tags:
+ *     - products
+ *     parameters:
+ *       - $ref: '#/components/schemas/SearchProductProductIdPath'
+ *     responses:
+ *       200:
+ *         description: Ok
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SearchProductSome'
+ *       404:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
+ *
+ *   delete:
+ *     tags:
+ *     - products
+ *     parameters:
+ *       - $ref: '#/components/schemas/SearchProductProductIdPath'
+ *     responses:
+ *       200:
+ *         description: Ok
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SearchProductSome'
+ *       404:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
+ *
+ */
+
 productRoutes
-	.route('/:id/like')
+	.route('/:id/favorite')
 	.post(asyncHandler(likeProduct))
 	.delete(asyncHandler(dislikeProduct));
 
