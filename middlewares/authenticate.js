@@ -8,7 +8,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    return res.status(401).json({ message: "No token provided" });
+    return res.status(401).json({ message: "인증 토큰이 제공되지 않았습니다." });
   }
 
   const token = authHeader.split(" ")[1];

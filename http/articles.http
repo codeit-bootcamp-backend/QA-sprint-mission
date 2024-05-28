@@ -9,7 +9,7 @@ GET http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da
 ###
 # 게시글 등록
 POST http://localhost:3000/articles
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg4MjIxMCwiZXhwIjoxNzE2ODgzMTEwfQ.HKPt_52tCohwFBk5yESkDiChtWpqd7pf531uQsI47kY
 Content-Type: application/json
 
 {

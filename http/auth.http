@@ -2,7 +2,7 @@ POST http://localhost:3000/auth/signUp
 Content-Type: application/json
 
 {
-  "email":"test5@gmail.com", 
+  "email":"test52@gmail.com", 
   "password":"pandapower", 
   "name":"김판다",
   "nickname":"판다의 왕"

@@ -145,7 +145,7 @@ export const unlikeArticle = async (articleId, userId) => {
   });
 
   if (!favorite) {
-    throw new AppError("아직 좋아요 처리되지 않은 게시글입니다.", 400);
+    throw new AppError("아직 좋아요 처리되지 않은 게시글입니다.", 409);
   }
 
   const [deletedFavorite, updatedArticle] = await prisma.$transaction([
