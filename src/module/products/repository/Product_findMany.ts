@@ -1,10 +1,16 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
 import { ownerIdFormatter } from '../../../helper/ownerIdFormatter';
+import { User_findUnique } from '../../user/repository/User_findUnique';
+import { addIsFavorite } from '../../../helper/addIsFavorite';
 
 const prisma = new PrismaClient();
 
 export async function Product_findMany(req: Request, res: Response) {
+	const user = await User_findUnique(req);
+
+	console.log('b', user, 'b');
+
 	const {
 		offset = '0',
 		limit = '10',
@@ -77,9 +83,15 @@ export async function Product_findMany(req: Request, res: Response) {
 
 	const formattedProducts = ownerIdFormatter(products);
 
+	const queries = formattedProducts.map(async (product) => {
+		return await addIsFavorite(product, user);
+	});
+
+	const updatedProducts = await Promise.all(queries);
+
 	const response = {
 		totalCount,
-		list: formattedProducts,
+		list: updatedProducts,
 	};
 
 	res.send(response);

@@ -1,24 +1,17 @@
-import { PrismaClient } from '@prisma/client';
+import { isFavorite } from './isFavorite';
 
-const prisma = new PrismaClient();
+export async function addIsFavorite(
+	item: {
+		id: string;
+		isFavorite?: boolean;
+	},
+	user: { [key in 'id']: string } | null,
+) {
+	//
 
-export async function addIsFavorite(item: {
-	ownerId: { id: string };
-	id: string;
-	isFavorite?: boolean;
-}) {
-	const { id: userId } = item.ownerId;
+	const boolean = await isFavorite(item.id, user);
 
-	const favoriteUser = await prisma.product.findUnique({
-		where: { id: item.id },
-		select: { favoriteUser: true },
-	});
-
-	item.isFavorite = favoriteUser!.favoriteUser.some(
-		(user) => user.id === userId,
-	);
+	item.isFavorite = boolean;
 
 	return item;
 }
-
-export async function addIsLiked() {}

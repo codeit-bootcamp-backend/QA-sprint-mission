@@ -1,11 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
+import { User_findUnique } from '../../user/repository/User_findUnique';
 import { addIsFavorite } from '../../../helper/addIsFavorite';
 
 const prisma = new PrismaClient();
 
 export async function Product_findUnique(req: Request, res: Response) {
 	const { id } = req.params;
+
+	const user = await User_findUnique(req);
 
 	const product = await prisma.product.findUnique({
 		where: { id },
@@ -23,7 +26,7 @@ export async function Product_findUnique(req: Request, res: Response) {
 	});
 
 	if (product) {
-		const productWithIsFavorite = await addIsFavorite(product);
+		const productWithIsFavorite = await addIsFavorite(product, user);
 
 		res.send(productWithIsFavorite);
 	} else {

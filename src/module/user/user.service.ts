@@ -4,21 +4,14 @@ import { UpdateUser, UpdateUserPassword } from './user.structs';
 import { authChecker } from '../../helper/authChecker';
 import { Request, Response } from 'express';
 import pkg from 'bcryptjs';
+import { User_findUnique } from './repository/User_findUnique';
 
 const prisma = new PrismaClient();
 
 export async function getUser(req: Request, res: Response) {
 	authChecker(req);
 
-	const user = await prisma.user.findUnique({
-		where: { email: req.cookies.email },
-		include: {
-			ownedProduct: true,
-			favoriteProduct: true,
-			ownedBoard: true,
-			favoriteBoard: true,
-		},
-	});
+	const user = await User_findUnique(req);
 
 	res.send(user);
 }

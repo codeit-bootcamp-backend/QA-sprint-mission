@@ -68,7 +68,7 @@ export function decodeToken(token: string, secret: string) {
 }
 
 export function authValidate(req: Request, res: Response, next: NextFunction) {
-	const token = req.headers['authorization']?.split('Bearer ')[1];
+	const token = req.headers['authorization']?.split(' ')[1];
 
 	if (token) {
 		const decoded = decodeToken(token, process.env.JWT_SECRET!);
