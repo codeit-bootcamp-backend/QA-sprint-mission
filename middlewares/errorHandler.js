@@ -1,8 +1,8 @@
 import AppError from "../utils/errors.js";
 
-const errorHandler = (err, req, res) => {
-  console.error(err.stack);
-
+const errorHandler = (err, req, res, next) => {
+  console.error("Error handler triggered:", err.stack);
+  console.log("Response object:", res);
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       status: err.status,

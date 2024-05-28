@@ -1,10 +1,12 @@
 import cors from "cors";
 import express from "express";
+import session from "express-session";
 import fs from "fs";
 import moment from "moment-timezone";
 import morgan from "morgan";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import passport from "./config/passport.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import articlesRouter from "./routes/articleRoutes.js";
 import authRouter from "./routes/authRoutes.js";
@@ -27,6 +29,9 @@ app.use(morgan(customFormat, { stream: accessLogStream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(session({ secret: "secret", resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/products", productsRouter);
 app.use("/articles", articlesRouter);
