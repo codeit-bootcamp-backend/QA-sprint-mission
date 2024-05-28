@@ -64,8 +64,9 @@ router
     authenticate,
     asyncHandler(async (req, res) => {
       assert(req.body, CreateArticle);
+      const { userId } = req;
       const article = await prisma.article.create({
-        data: req.body,
+        data: { ...req.body, userId },
       });
       res.status(201).send(article);
     })
@@ -97,24 +98,45 @@ router
     authenticate,
     asyncHandler(async (req, res) => {
       assert(req.body, PatchArticle);
-      const { id } = req.params;
-      const article = await prisma.article.update({
+
+      const { id: articleId } = req.params;
+      const { userId } = req;
+
+      const article = await prisma.article.findUniqueOrThrow({
+        where: { id: articleId },
+      });
+
+      if (article.userId !== userId) {
+        return res.status(403).json({ error: "게시글을 수정할 권한이 없습니다." });
+      }
+
+      const updatedArticle = await prisma.article.update({
         where: {
-          id,
+          id: articleId,
         },
         data: req.body,
       });
 
-      res.send(article);
+      res.send(updatedArticle);
     })
   )
   .delete(
     authenticate,
     asyncHandler(async (req, res) => {
-      const { id } = req.params;
+      const { id: articleId } = req.params;
+      const { userId } = req;
+
+      const article = await prisma.article.findUniqueOrThrow({
+        where: { id: articleId },
+      });
+
+      if (article.userId !== userId) {
+        return res.status(403).json({ error: "게시글을 삭제할 권한이 없습니다." });
+      }
+
       await prisma.article.delete({
         where: {
-          id,
+          id: articleId,
         },
       });
 
@@ -126,17 +148,14 @@ router.patch(
   "/:id/like",
   authenticate,
   asyncHandler(async (req, res) => {
-    const article = await prisma.article.findUniqueOrThrow({
-      where: {
-        id: req.params.id,
-      },
-    });
+    const { id: articleId } = req.params;
+    const { userId } = req;
 
     const favorite = await prisma.favorite.findUnique({
       where: {
-        userId_productId_articleId: {
-          userId: req.userId,
-          articleId: req.params.id,
+        userId_articleId: {
+          userId,
+          articleId,
         },
       },
     });
@@ -146,15 +165,21 @@ router.patch(
       return;
     }
 
+    await prisma.favorite.create({
+      data: {
+        userId,
+        articleId,
+      },
+    });
+
     const updatedArticle = await prisma.article.update({
       where: {
-        id: req.params.id,
+        id: articleId,
       },
       data: {
         likeCount: {
           increment: 1,
         },
-        isLiked: true,
       },
     });
 
@@ -166,17 +191,14 @@ router.patch(
   "/:id/unlike",
   authenticate,
   asyncHandler(async (req, res) => {
-    const article = await prisma.article.findUniqueOrThrow({
-      where: {
-        id: req.params.id,
-      },
-    });
+    const { id: articleId } = req.params;
+    const { userId } = req;
 
     const favorite = await prisma.favorite.findUnique({
       where: {
-        userId_productId_articleId: {
-          userId: req.userId,
-          articleId: req.params.id,
+        userId_articleId: {
+          userId,
+          articleId,
         },
       },
     });
@@ -186,15 +208,23 @@ router.patch(
       return;
     }
 
+    await prisma.favorite.delete({
+      where: {
+        userId_articleId: {
+          userId,
+          articleId,
+        },
+      },
+    });
+
     const updatedArticle = await prisma.article.update({
       where: {
-        id: req.params.id,
+        id: articleId,
       },
       data: {
         likeCount: {
           decrement: 1,
         },
-        isLiked: false,
       },
     });
 
@@ -242,12 +272,14 @@ router
     authenticate,
     asyncHandler(async (req, res) => {
       assert(req.body, CreateComment);
-      const { id } = req.params;
+      const { userId } = req;
+      const { id: articleId } = req.params;
 
       const comment = await prisma.comment.create({
         data: {
           ...req.body,
-          articleId: id,
+          articleId,
+          userId,
         },
       });
       res.status(201).send(comment);
@@ -260,25 +292,43 @@ router
     authenticate,
     asyncHandler(async (req, res) => {
       assert(req.body, PatchComment);
+
+      const { userId } = req;
+      const { content } = req.body;
       const { commentId } = req.params;
-      const comment = await prisma.comment.update({
-        where: {
-          id: commentId,
-        },
-        data: req.body,
+
+      const comment = await prisma.comment.findUniqueOrThrow({
+        where: { id: commentId },
       });
 
-      res.send(comment);
+      if (comment.userId !== userId) {
+        return res.status(403).json({ error: "이 댓글을 수정할 권한이 없습니다." });
+      }
+
+      const updatedComment = await prisma.comment.update({
+        where: { id: commentId },
+        data: { content },
+      });
+
+      res.send(updatedComment);
     })
   )
   .delete(
     authenticate,
     asyncHandler(async (req, res) => {
       const { commentId } = req.params;
+      const { userId } = req;
+
+      const comment = await prisma.comment.findUniqueOrThrow({
+        where: { id: commentId },
+      });
+
+      if (comment.userId !== userId) {
+        return res.status(403).json({ error: "이 댓글을 삭제할 권한이 없습니다." });
+      }
+
       await prisma.comment.delete({
-        where: {
-          id: commentId,
-        },
+        where: { id: commentId },
       });
 
       res.sendStatus(204);

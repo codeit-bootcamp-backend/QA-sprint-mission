@@ -72,8 +72,11 @@ router
   .patch(
     authenticate,
     asyncHandler(async (req, res) => {
+      assert(req.body, PatchProduct);
+
       const { id: productId } = req.params;
       const { userId } = req;
+
       const product = await prisma.product.findUniqueOrThrow({
         where: { id: productId },
       });
@@ -81,7 +84,6 @@ router
       if (product.userId !== userId) {
         return res.status(403).json({ error: "상품을 수정할 권한이 없습니다." });
       }
-      assert(req.body, PatchProduct);
 
       const updatedProduct = await prisma.product.update({
         where: {
@@ -98,6 +100,7 @@ router
     asyncHandler(async (req, res) => {
       const { id: productId } = req.params;
       const { userId } = req;
+
       const product = await prisma.product.findUniqueOrThrow({
         where: { id: productId },
       });
@@ -263,15 +266,19 @@ router
     authenticate,
     asyncHandler(async (req, res) => {
       assert(req.body, PatchComment);
+
       const { userId } = req;
       const { content } = req.body;
       const { commentId } = req.params;
+
       const comment = await prisma.comment.findUniqueOrThrow({
         where: { id: commentId },
       });
+
       if (comment.userId !== userId) {
         return res.status(403).json({ error: "이 댓글을 수정할 권한이 없습니다." });
       }
+
       const updatedComment = await prisma.comment.update({
         where: { id: commentId },
         data: { content },
@@ -294,9 +301,7 @@ router
       }
 
       await prisma.comment.delete({
-        where: {
-          id: commentId,
-        },
+        where: { id: commentId },
       });
 
       res.sendStatus(204);
