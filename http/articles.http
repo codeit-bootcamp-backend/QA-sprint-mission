@@ -9,7 +9,7 @@ GET http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da
 ###
 # 게시글 등록
 POST http://localhost:3000/articles
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NzYyMSwiZXhwIjoxNzE2ODY4NTIxfQ.fLV77AhiNJ_mlIzQ_dc5qv8v2gxth6_LKxSrUv3NXYQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 Content-Type: application/json
 
 {
@@ -20,8 +20,8 @@ Content-Type: application/json
 
 ###
 # 게시글 수정
-PATCH http://localhost:3000/articles/9c96039f-e56d-470e-847f-aa24b8da981c
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NzYyMSwiZXhwIjoxNzE2ODY4NTIxfQ.fLV77AhiNJ_mlIzQ_dc5qv8v2gxth6_LKxSrUv3NXYQ
+PATCH http://localhost:3000/articles/c058e3ae-00d2-4b5a-a0dc-acd284f03e7b
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 Content-Type: application/json
 
 {
@@ -32,17 +32,17 @@ Content-Type: application/json
 ###
 # 게시글 삭제
 DELETE http://localhost:3000/articles/9c96039f-e56d-470e-847f-aa24b8da981c
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NzYyMSwiZXhwIjoxNzE2ODY4NTIxfQ.fLV77AhiNJ_mlIzQ_dc5qv8v2gxth6_LKxSrUv3NXYQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 
 ###
 # 게시글 좋아요
 PATCH http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da/like
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NzYyMSwiZXhwIjoxNzE2ODY4NTIxfQ.fLV77AhiNJ_mlIzQ_dc5qv8v2gxth6_LKxSrUv3NXYQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 
 ###
 # 게시글 좋아요 취소
 PATCH http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da/unlike
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NzYyMSwiZXhwIjoxNzE2ODY4NTIxfQ.fLV77AhiNJ_mlIzQ_dc5qv8v2gxth6_LKxSrUv3NXYQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 
 
 
@@ -59,7 +59,7 @@ GET http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments
 # 자유게시판 댓글 등록
 POST http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NzYyMSwiZXhwIjoxNzE2ODY4NTIxfQ.fLV77AhiNJ_mlIzQ_dc5qv8v2gxth6_LKxSrUv3NXYQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 
 {
   "content":"판다가 너무 귀여워요2"
@@ -67,9 +67,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhd
 
 ###
 # 자유게시판 댓글 수정
-PATCH http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments/98b65e20-e12b-43fb-8b04-6525b019eb8b
+PATCH http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments/31599931-2aac-47fb-85ad-8de4c0a4a56d
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NzYyMSwiZXhwIjoxNzE2ODY4NTIxfQ.fLV77AhiNJ_mlIzQ_dc5qv8v2gxth6_LKxSrUv3NXYQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 
 {
   "content":"판다가 너무 귀여워요 수정"
@@ -78,4 +78,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhd
 ###
 # 자유게시판 댓글 삭제
 DELETE http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments/98b65e20-e12b-43fb-8b04-6525b019eb8b
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NzYyMSwiZXhwIjoxNzE2ODY4NTIxfQ.fLV77AhiNJ_mlIzQ_dc5qv8v2gxth6_LKxSrUv3NXYQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88

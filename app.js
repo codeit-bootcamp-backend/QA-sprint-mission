@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import fs from "fs";
 import moment from "moment-timezone";
@@ -5,11 +6,10 @@ import morgan from "morgan";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import errorHandler from "./middlewares/errorHandler.js";
-import articlesRouter from "./routes/articles.js";
-import authRouter from "./routes/auth.js";
-import imagesRouter from "./routes/images.js";
-import productsRouter from "./routes/products.js";
-
+import articlesRouter from "./routes/articleRoutes.js";
+import authRouter from "./routes/authRoutes.js";
+import imagesRouter from "./routes/imageRoutes.js";
+import productsRouter from "./routes/productRoutes.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -26,6 +26,7 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"),
 app.use(morgan(customFormat, { stream: accessLogStream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use("/products", productsRouter);
 app.use("/articles", articlesRouter);

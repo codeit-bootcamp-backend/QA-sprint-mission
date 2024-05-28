@@ -4,14 +4,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Upload Image</title>
 </head>
 
 <body>
-  <form action="http://localhost:3000/images/upload" method="post" enctype="multipart/form-data">
+  <form id="uploadForm" enctype="multipart/form-data">
     <input type="file" name="image" id="image">
-    <input type="submit" value="Submit">
+    <input type="submit" value="Upload">
   </form>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const form = event.target;
+      const formData = new FormData(form);
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NTQ4MCwiZXhwIjoxNzE2ODc2MzgwfQ.c07c8gt-7uMUXVssa1cf5CtZFCFaWXHczV1m_rAtSJo'; // 여기에 실제 JWT 토큰을 넣습니다.
+
+      try {
+        const response = await fetch('http://localhost:3000/images/upload', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        const data = await response.json();
+        console.log('Success:', data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
+  </script>
 </body>
 
 </html>

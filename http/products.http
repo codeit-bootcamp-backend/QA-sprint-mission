@@ -13,12 +13,12 @@ GET http://localhost:3000/products?keyword=판다
 
 ###
 # 상품 상세 조회
-GET http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
+GET http://localhost:3000/products/d44e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
 
 ###
 # 상품 등록
 POST http://localhost:3000/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NTcxNywiZXhwIjoxNzE2ODY2NjE3fQ.1zbdGjqysDNVmAGnkd-FWEt8jOUQQ58FoyqMryklj3E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 Content-Type: application/json
 
 {
@@ -32,7 +32,7 @@ Content-Type: application/json
 ###
 # 상품 수정
 PATCH http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NTMyNSwiZXhwIjoxNzE2ODY2MjI1fQ.yHZTsbdl-ZWTUM0_5RTe6wt2mAgF11uLTmN0MuLda9U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 Content-Type: application/json
 
 {
@@ -45,17 +45,17 @@ Content-Type: application/json
 ###
 # 상품 삭제
 DELETE http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NTMyNSwiZXhwIjoxNzE2ODY2MjI1fQ.yHZTsbdl-ZWTUM0_5RTe6wt2mAgF11uLTmN0MuLda9U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 
 ###
 # 상품 좋아요
 PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/like
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NjY3NiwiZXhwIjoxNzE2ODY3NTc2fQ.TiC1uKaRL28Y1WM-ADHCzo0Ply-l_IfYZx9e_rjyEqI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 
 ###
 # 상품 좋아요 취소
 PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/unlike
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcxNjc5NDc3MCwiZXhwIjoxNzE2Nzk1NjcwfQ.4jHyaxo0BgeSCSfTGAwnTlMLyRZGEJPoEOqUe-Xdo9w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 
 ### 
 # 상품 댓글 조회
@@ -68,7 +68,7 @@ GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments
 ###
 # 상품 댓글 등록
 POST http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NTcxNywiZXhwIjoxNzE2ODY2NjE3fQ.1zbdGjqysDNVmAGnkd-FWEt8jOUQQ58FoyqMryklj3E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 Content-Type: application/json
 
 {
@@ -78,8 +78,8 @@ Content-Type: application/json
 
 ###
 # 상품 댓글 수정
-PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/9d7d8a72-693e-44d3-bf72-889c9ebac0d9
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NTcxNywiZXhwIjoxNzE2ODY2NjE3fQ.1zbdGjqysDNVmAGnkd-FWEt8jOUQQ58FoyqMryklj3E
+PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/536a7b1b-83c9-42c1-93b9-c4755e7fc8d6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
 Content-Type: application/json
 
 {
@@ -89,4 +89,4 @@ Content-Type: application/json
 ###
 # 상품 댓글 삭제
 DELETE http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/9d7d8a72-693e-44d3-bf72-889c9ebac0d9
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg2NjY3NiwiZXhwIjoxNzE2ODY3NTc2fQ.TiC1uKaRL28Y1WM-ADHCzo0Ply-l_IfYZx9e_rjyEqI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
