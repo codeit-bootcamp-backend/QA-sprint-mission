@@ -2,58 +2,38 @@
  * @openapi
  * components:
  *   schemas:
- *     BoardBaseResponse:
+ *     CommentBaseResponse:
  *       type: object
  *       properties:
+ *         writer:
+ *           $ref: '#/components/schemas/CommentWriter'
  *         createdAt:
  *           type: string
  *           format: date-time
  *         updatedAt:
  *           type: string
  *           format: date-time
- *         likeCount:
- *           type: integer
- *           format: int32
- *         writer:
- *           $ref: '#/components/schemas/BoardWriter'
- *         images:
- *           $ref: '#/components/schemas/UrlType'
  *         content:
- *           $ref: '#/components/schemas/BoardContent'
- *         title:
- *           $ref: '#/components/schemas/BoardTitle'
+ *           type: string
  *         id:
  *           $ref: '#/components/schemas/Uuid'
  * 
- *     BoardBaseRequest:
+ *     CommentBaseRequest:
  *       type: object
  *       properties:
- *         images:
- *           $ref: '#/components/schemas/UrlType'
  *         content:
- *           $ref: '#/components/schemas/BoardContent'
- *         title:
- *           $ref: '#/components/schemas/BoardTitle'
+ *           type: string
  * 
- *     SearchBoardAll:
+ *     SearchCommentAll:
  *       type: object
  *       properties:
- *         totalCount:
+ *         nextCursor:
  *           type: number
  *           default: 0
  *         list:
  *           type: array
  *           items:
- *             $ref: '#/components/schemas/BoardBaseResponse'
- *     SearchBoardSome:
- *       allOf:
- *         - $ref: '#/components/schemas/BoardBaseResponse'
- *         - type: object
- *           properties:
- *             isFavorite:
- *               type: boolean
- *               default: true
- *  
+ *             $ref: '#/components/schemas/CommentBaseResponse'
  *       
  *     
 
@@ -73,16 +53,32 @@
  *
  *
  *
+ * 
+ *     SearchCommentsLimitQuery:
+ *       in: query
+ *       name: limit
+ *       schema:
+ *         type: number
+ *         format: double
+ *       required: true
  *
  *
+ * 
+ *     SearchCommentsCursorQuery:
+ *       in: query
+ *       name: cursor
+ *       schema:
+ *         type: number
+ *         format: double
  *
  *
- *     SearchBoardBoardIdPath:
+ *     SearchCommentCommentIdPath:
  *       in: path
- *       name: boardId
+ *       name: commentId
  *       schema:
  *         $ref: '#/components/schemas/Uuid'
  *       required: true
+ *
  *
  *
  *

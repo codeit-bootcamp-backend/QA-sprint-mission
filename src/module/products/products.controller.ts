@@ -38,10 +38,10 @@ const productRoutes = Router();
  *     - products
  *     description: 상품 목록 조회
  *     parameters:
- *       - $ref: '#/components/schemas/SearchProductsPageQuery'
- *       - $ref: '#/components/schemas/SearchProductsPageSizeQuery'
+ *       - $ref: '#/components/schemas/SearchPageQuery'
+ *       - $ref: '#/components/schemas/SearchPageSizeQuery'
  *       - $ref: '#/components/schemas/SearchProductsOrderByQuery'
- *       - $ref: '#/components/schemas/SearchProductsKeywordQuery'
+ *       - $ref: '#/components/schemas/SearchKeywordQuery'
  *     responses:
  *       200:
  *         description: Ok
@@ -139,6 +139,54 @@ productRoutes
 	.get(asyncHandler(getProduct))
 	.patch(asyncHandler(updateProduct))
 	.delete(asyncHandler(deleteProduct));
+
+/**
+ * @openapi
+ * '/product/{product}/comments':
+ *   post:
+ *     tags:
+ *     - comment
+ *     parameters:
+ *       - $ref: '#/components/schemas/SearchProductProductIdPath'
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/CommentBaseRequest'
+ *     responses:
+ *       200:
+ *         description: Ok
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/CommentBaseResponse'
+ *       404:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
+ *   get:
+ *     tags:
+ *     - comment
+ *     parameters:
+ *       - $ref: '#/components/schemas/SearchProductProductIdPath'
+ *       - $ref: '#/components/schemas/SearchCommentsLimitQuery'
+ *       - $ref: '#/components/schemas/SearchCommentsCursorQuery'
+ *     responses:
+ *       200:
+ *         description: Ok
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SearchCommentAll'
+ *       404:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
+ *
+ */
 
 productRoutes
 	.route('/:id/comments')

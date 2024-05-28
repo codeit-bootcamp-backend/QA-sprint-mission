@@ -9,7 +9,6 @@
  *     Uuid:
  *       type: string
  *       format: uuid
- *       example: 'e0e72e5e-8a42-4005-9c56-e6bdee91f149'
  * 
  *     Nickname:
  *       type: string
@@ -26,6 +25,35 @@
  *       example: password
  *       minLength: 8
  *       pattern: ^([a-zA-Z0-9!@#$%^&*])+$
+ *  
+ *     CommentWriter:
+ *       allOf:
+ *         - type: object
+ *           properties:
+ *             image:
+ *               type: string
+ *         - $ref: '#/components/schemas/BoardWriter'
+ * 
+ * 
+ *     BoardWriter:
+ *       type: object
+ *       properties:
+ *         nickname:
+ *           $ref: '#/components/schemas/Nickname'
+ *         id:
+ *           $ref: '#/components/schemas/Uuid'
+ *           default: 'e0e72e5e-8a42-4005-9c56-e6bdee91f149'
+ * 
+ *     BoardContent:
+ *       type: string
+ *       example: '게시글 내용입니다.'
+ *
+ *     BoardTitle:
+ *       type: string
+ *       example: '게시글 제목입니다.'
+ *       minLength: 1
+ *       maxLength: 30  
+ * 
 
  *     ProductName:
  *       type: string
@@ -55,4 +83,60 @@
  *          format: url
  *          example: 'https://example.com/...'
  *          pattern: ^https?://.*
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ *     SearchPageQuery:
+ *       in: query
+ *       name: page
+ *       description: 페이지 번호
+ *       default: 1
+ *       schema:
+ *         type: number
+ *         format: double
+ * 
+ *     SearchPageSizeQuery:
+ *       in: query
+ *       name: pageSize
+ *       description: 페이지 당 상품 수
+ *       default: 10
+ *       schema:
+ *         type: number
+ *         format: double
+ * 
+ *     SearchProductsOrderByQuery:
+ *       in: query
+ *       name: orderBy
+ *       schema:
+ *         type: string
+ *         enum: [favorite, recent]
+ *       description: 정렬 기준
+ *       default: recent
+ * 
+ *     SearchBoardsOrderByQuery:
+ *       in: query
+ *       name: orderBy
+ *       schema:
+ *         type: string
+ *         enum: [like, recent]
+ *       description: 정렬 기준
+ *       default: recent
+ * 
+ *     SearchKeywordQuery:
+ *       in: query
+ *       name: keyword
+ *       schema:
+ *         type: string
+ *       description: 검색 키워드
+ * 
+ * 
  */

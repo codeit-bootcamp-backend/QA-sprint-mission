@@ -100,7 +100,7 @@
  *             nickname:
  *               $ref: '#/components/schemas/Nickname'
  *             id:
- *               $ref: '#/components/schemas/Id'
+ *               $ref: '#/components/schemas/Uuid'
  *         updatedAt:
  *           type: string
  *           format: date-time
