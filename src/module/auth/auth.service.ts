@@ -1,10 +1,15 @@
 import { assert } from 'superstruct';
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
-import { SignIn, SignUp } from './auth.structs';
+import { RefreshToken, SignIn, SignUp } from './auth.structs';
 import pkg from 'bcryptjs';
 import * as dotenv from 'dotenv';
-import { generateAccessToken, generateRefreshToken } from '../../helper/jwt';
+import {
+	decodeToken,
+	generateAccessToken,
+	generateRefreshToken,
+	verifyToken,
+} from '../../helper/jwt';
 
 dotenv.config();
 
@@ -53,26 +58,25 @@ export async function signIn(req: Request, res: Response) {
 	}
 }
 
-// export async function refreshToken(req: Request, res: Response) {
-//   assert(req.body, RefreshToken);
+export async function refreshToken(req: Request, res: Response) {
+	assert(req.body, RefreshToken);
 
-//   const oldRefreshToken = req.body.refreshToken;
+	const oldRefreshToken = req.body.refreshToken;
 
-//   if (oldRefreshToken) {
-//     const { email, nickname } = verifyToken(oldRefreshToken, process.env.JWT_SECRET_Refresh);
+	const decoded = decodeToken(oldRefreshToken, process.env.JWT_SECRET_REFRESH!);
+	const isOk = verifyToken(decoded);
 
-//     const accessToken = generateAccessToken({ email, nickname });
-//     const refreshToken = generateRefreshToken({ email, nickname });
+	if (isOk) {
+		const accessToken = generateAccessToken({
+			email: decoded.email,
+			nickname: decoded.nickname,
+		});
 
-//     res
-//       .status(200)
-//       .cookie("accessToken", accessToken, { maxAge: 1000 * 60 * 60, httpOnly: true })
-//       .cookie("refreshToken", refreshToken, { maxAge: 1000 * 60 * 60 * 60, httpOnly: true })
-//       .send("로그인 성공");
-//   } else {
-//     res.sendStatus(401);
-//   }
-// }
+		res.status(200).send({ accessToken });
+	} else {
+		res.status(400).send({ message: '리프레시 토큰이 만료되었습니다 ' });
+	}
+}
 
 export async function signOut(req: Request, res: Response) {
 	const email = req.cookies.email;

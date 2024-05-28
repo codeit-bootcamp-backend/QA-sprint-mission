@@ -115,11 +115,6 @@
  *       properties:
  *         content:
  *           type: string
- *     Email:
- *       type: string
- *       format: email
- *       example: example@email.com
- *       pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$
  *     SignUpResponse:
  *       type: object
  *       properties:
