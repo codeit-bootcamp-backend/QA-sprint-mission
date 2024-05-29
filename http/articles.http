@@ -1,0 +1,81 @@
+# 게시글 목록 조회
+GET http://localhost:3000/articles?&limit=10&&orderBy=like
+
+###
+# 게시글 상세 조회
+
+GET http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da
+
+###
+# 게시글 등록
+POST http://localhost:3000/articles
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg4MjIxMCwiZXhwIjoxNzE2ODgzMTEwfQ.HKPt_52tCohwFBk5yESkDiChtWpqd7pf531uQsI47kY
+Content-Type: application/json
+
+{
+  "title": "제가 아끼는 티모 인형입니다",
+  "content": "버섯 농사 짓는 모습이 너무 깜찍하지않나요?",
+  "imageUrl": "https://cdn.011st.com/11dims/resize/600x600/quality/75/11src/product/5575072075/B.jpg?51000000"
+}
+
+###
+# 게시글 수정
+PATCH http://localhost:3000/articles/c058e3ae-00d2-4b5a-a0dc-acd284f03e7b
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
+Content-Type: application/json
+
+{
+  "title":"판다 대박이네요",
+  "content":"대나무를 잘 먹네요 ㄷㄷ"
+}
+
+###
+# 게시글 삭제
+DELETE http://localhost:3000/articles/9c96039f-e56d-470e-847f-aa24b8da981c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
+
+###
+# 게시글 좋아요
+PATCH http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da/like
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
+
+###
+# 게시글 좋아요 취소
+PATCH http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da/unlike
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
+
+
+
+
+### 
+# 자유게시판 댓글 조회
+GET http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments
+
+### 
+# 자유게시판 댓글 커서 조회
+GET http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments?cursor=4f9cd26c-09fa-441c-997f-2fdec0fb443e
+
+###
+# 자유게시판 댓글 등록
+POST http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
+
+{
+  "content":"판다가 너무 귀여워요2"
+}
+
+###
+# 자유게시판 댓글 수정
+PATCH http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments/31599931-2aac-47fb-85ad-8de4c0a4a56d
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
+
+{
+  "content":"판다가 너무 귀여워요 수정"
+}
+
+###
+# 자유게시판 댓글 삭제
+DELETE http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments/98b65e20-e12b-43fb-8b04-6525b019eb8b
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NDc2NywiZXhwIjoxNzE2ODc1NjY3fQ.chuRJN6EHR4x2r9-ocN1lKQKwYrSnZKYULaSgj5oU88
