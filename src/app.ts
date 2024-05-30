@@ -9,15 +9,17 @@ import path, { dirname } from "path";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { fileURLToPath } from "url";
-import passport from "./config/passport.js";
-import errorHandler from "./middlewares/errorHandler.js";
-import articlesRouter from "./routes/articleRoutes.js";
-import authRouter from "./routes/authRoutes.js";
-import imagesRouter from "./routes/imageRoutes.js";
-import productsRouter from "./routes/productRoutes.js";
-import swaggerOptions from "./swagger/swaggerOptions.js";
+import passport from "./config/passport";
+import errorHandler from "./middlewares/errorHandler";
+import articlesRouter from "./routes/articleRoutes";
+import authRouter from "./routes/authRoutes";
+import imagesRouter from "./routes/imageRoutes";
+import productsRouter from "./routes/productRoutes";
+import swaggerOptions from "./swagger/swaggerOptions";
 dotenv.config();
-const { JWT_SECRET } = process.env;
+
+const JWT_SECRET = process.env.JWT_SECRET || "kingPanda";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -27,8 +29,8 @@ const specs = swaggerJsdoc(swaggerOptions);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
-morgan.token("date", (req, res, tz) => {
-  return moment().tz(tz).format("YYYY-MM-DD HH:mm:ss");
+morgan.token("date", (req, res, tz = "UTC") => {
+  return moment().tz(tz.toString()).format("YYYY-MM-DD HH:mm:ss");
 });
 
 const customFormat = ":method :url :status :res[content-length] - :response-time ms - :date[Asia/Seoul]";

@@ -1,9 +1,27 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
+import AppError from "../utils/errors";
 
 const prisma = new PrismaClient();
 
-export const getArticles = async ({ offset, limit, orderBy, keyword }) => {
-  const order = orderBy === "like" ? { likeCount: "desc" } : { createdAt: "desc" };
+interface getArticlesParams {
+  offset: number;
+  limit: number;
+  orderBy: string;
+  keyword: string;
+}
+
+interface Article {
+  title: string;
+  content: string;
+  imageUrl?: string;
+  userId: number;
+  writer?: string;
+}
+
+export const getArticles = async ({ offset, limit, orderBy, keyword }: getArticlesParams) => {
+  const order: Prisma.ArticleOrderByWithRelationInput =
+    orderBy === "like" ? { likeCount: "desc" } : { createdAt: "desc" };
+
   const articles = await prisma.article.findMany({
     select: {
       id: true,
@@ -14,8 +32,8 @@ export const getArticles = async ({ offset, limit, orderBy, keyword }) => {
       writer: true,
     },
     orderBy: order,
-    skip: parseInt(offset),
-    take: parseInt(limit),
+    skip: offset,
+    take: limit,
     where: {
       OR: [
         {
@@ -48,13 +66,13 @@ export const getBestArticles = async () => {
   return bestArticles;
 };
 
-export const createArticle = async (articleData) => {
+export const createArticle = async (articleData: Article) => {
   return await prisma.article.create({
     data: articleData,
   });
 };
 
-export const getArticleById = async (id) => {
+export const getArticleById = async (id: string) => {
   return await prisma.article.findUniqueOrThrow({
     where: { id },
     select: {
@@ -69,7 +87,7 @@ export const getArticleById = async (id) => {
   });
 };
 
-export const updateArticle = async (articleId, userId, articleData) => {
+export const updateArticle = async (articleId: string, userId: number, articleData: Partial<Article>) => {
   const article = await prisma.article.findUniqueOrThrow({
     where: { id: articleId },
   });
@@ -80,11 +98,14 @@ export const updateArticle = async (articleId, userId, articleData) => {
 
   return await prisma.article.update({
     where: { id: articleId },
-    data: articleData,
+    data: {
+      ...articleData,
+      userId,
+    },
   });
 };
 
-export const deleteArticle = async (articleId, userId) => {
+export const deleteArticle = async (articleId: string, userId: number) => {
   const article = await prisma.article.findUniqueOrThrow({
     where: { id: articleId },
   });
@@ -98,7 +119,7 @@ export const deleteArticle = async (articleId, userId) => {
   });
 };
 
-export const likeArticle = async (articleId, userId) => {
+export const likeArticle = async (articleId: string, userId: number) => {
   const favorite = await prisma.favorite.findUnique({
     where: {
       userId_articleId: {
@@ -134,7 +155,7 @@ export const likeArticle = async (articleId, userId) => {
   return updatedArticle;
 };
 
-export const unlikeArticle = async (articleId, userId) => {
+export const unlikeArticle = async (articleId: string, userId: number) => {
   const favorite = await prisma.favorite.findUnique({
     where: {
       userId_articleId: {

@@ -1,14 +1,15 @@
 import dotenv from "dotenv";
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { assert } from "superstruct";
-import { createUser, findUserByEmail, findUserById, validatePassword } from "../services/authService.js";
-import { CreateUser } from "../structs.js";
-import { generateAccessToken, generateRefreshToken, regenerateRefreshToken } from "../utils/tokens.js";
+import { createUser, findUserByEmail, findUserById, validatePassword } from "../services/authService";
+import { CreateUser } from "../structs";
+import { generateAccessToken, generateRefreshToken, regenerateRefreshToken } from "../utils/tokens";
 
 dotenv.config();
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || "kingPanda";
 
-export const signUp = async (req, res) => {
+export const signUp = async (req: Request, res: Response) => {
   const { email, password, name, nickname } = req.body;
   assert(req.body, CreateUser);
 
@@ -23,12 +24,12 @@ export const signUp = async (req, res) => {
   res.status(201).json({ message: "회원가입이 완료되었습니다." });
 };
 
-export const signIn = async (req, res) => {
+export const signIn = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const user = await findUserByEmail(email);
 
-  if (!user) {
+  if (!user || !user.password) {
     return res.status(401).json({ message: "이메일과 비밀번호를 확인해주세요." });
   }
 
@@ -44,7 +45,7 @@ export const signIn = async (req, res) => {
   res.json({ accessToken, refreshToken });
 };
 
-export const refreshToken = async (req, res) => {
+export const refreshToken = async (req: Request, res: Response) => {
   const { refreshToken } = req.body;
 
   if (!refreshToken) {
@@ -53,7 +54,7 @@ export const refreshToken = async (req, res) => {
 
   try {
     const newRefreshToken = regenerateRefreshToken(refreshToken);
-    const decoded = jwt.verify(newRefreshToken, JWT_SECRET);
+    const decoded = jwt.verify(newRefreshToken, JWT_SECRET) as { userId: number };
     const user = await findUserById(decoded.userId);
 
     if (!user) {
@@ -68,7 +69,10 @@ export const refreshToken = async (req, res) => {
   }
 };
 
-export const googleCallback = (req, res) => {
+export const googleCallback = (req: Request, res: Response, next: NextFunction) => {
+  if (!req.user) {
+    return next(new Error("사용자 정보를 찾을 수 없습니다."));
+  }
   const { accessToken, refreshToken } = req.user;
   res.json({ accessToken, refreshToken });
 };
