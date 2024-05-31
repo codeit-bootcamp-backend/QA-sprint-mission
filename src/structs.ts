@@ -29,7 +29,7 @@ export const CreateComment = s.object({
 export const PatchComment = s.partial(CreateComment);
 
 export const CreateUser = s.object({
-  email: s.define("Email", isEmail),
+  email: s.define("Email", (value: unknown) => typeof value === "string" && isEmail(value)),
   password: s.size(s.string(), 1, 32),
   name: s.size(s.string(), 1, 16),
   nickname: s.size(s.string(), 1, 16),

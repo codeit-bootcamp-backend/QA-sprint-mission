@@ -1,53 +1,76 @@
+import { Request, Response } from "express";
 import { assert } from "superstruct";
-import * as commentService from "../services/commentService.js";
-import { CreateComment, PatchComment } from "../structs.js";
-import asyncHandler from "../utils/asyncHandler.js";
+import * as commentService from "../services/commentService";
+import { CreateComment, PatchComment } from "../structs";
 
-export const getCommentsByProductId = asyncHandler(async (req, res) => {
+interface UserRequest extends Request {
+  userId: number;
+}
+
+// GET /products/:id/comments
+export const getCommentsByProductId = async (
+  req: Request<{ id: string }, {}, {}, { cursor?: string }>,
+  res: Response
+) => {
   const { id: productId } = req.params;
   const { cursor } = req.query;
   const comments = await commentService.getCommentsByProductId(productId, cursor);
   res.send(comments);
-});
+};
 
-export const getCommentsByArticleId = asyncHandler(async (req, res) => {
+// GET /articles/:id/comments
+export const getCommentsByArticleId = async (
+  req: Request<{ id: string }, {}, {}, { cursor?: string }>,
+  res: Response
+) => {
   const { id: articleId } = req.params;
   const { cursor } = req.query;
   const comments = await commentService.getCommentsByArticleId(articleId, cursor);
   res.send(comments);
-});
+};
 
-export const createComment = asyncHandler(async (req, res) => {
+// POST /comments
+export const createComment = async (req: UserRequest, res: Response) => {
   assert(req.body, CreateComment);
 
   const { userId } = req;
-
   const commentData = {
     ...req.body,
-    ...req.params,
     userId,
   };
 
   const comment = await commentService.createComment(commentData);
   res.status(201).send(comment);
-});
+};
 
-export const updateComment = asyncHandler(async (req, res) => {
+// PATCH /comments/:commentId
+export const updateComment = async (req: UserRequest & Request<{ commentId: string }>, res: Response) => {
   assert(req.body, PatchComment);
 
   const { userId } = req;
   const { content } = req.body;
   const { commentId } = req.params;
 
+  if (!commentId) {
+    res.status(400).json({ message: "존재하지 않는 댓글입니다." });
+    return;
+  }
+
+  if (!content) {
+    res.status(400).json({ message: "댓글 내용은 필수값입니다." });
+    return;
+  }
+
   try {
     const updatedComment = await commentService.updateComment(commentId, userId, content);
     res.send(updatedComment);
   } catch (error) {
-    res.status(403).json({ message: error.message });
+    res.status(403).json({ message: (error as Error).message });
   }
-});
+};
 
-export const deleteComment = asyncHandler(async (req, res) => {
+// DELETE /comments/:commentId
+export const deleteComment = async (req: UserRequest & Request<{ commentId: string }>, res: Response) => {
   const { commentId } = req.params;
   const { userId } = req;
 
@@ -55,6 +78,6 @@ export const deleteComment = asyncHandler(async (req, res) => {
     await commentService.deleteComment(commentId, userId);
     res.sendStatus(204);
   } catch (error) {
-    res.status(403).json({ message: error.message });
+    res.status(403).json({ message: (error as Error).message });
   }
-});
+};

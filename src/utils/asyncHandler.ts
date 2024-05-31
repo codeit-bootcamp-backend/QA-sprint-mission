@@ -1,11 +1,15 @@
 import { Prisma } from "@prisma/client";
+import { NextFunction, Request, RequestHandler, Response } from "express";
+import { StructError } from "superstruct";
 
-const asyncHandler = (handler) => {
-  return async (req, res) => {
+type AsyncHandler<T extends Request> = (req: T, res: Response, next: NextFunction) => Promise<void>;
+
+const asyncHandler = <T extends Request>(handler: AsyncHandler<T>): RequestHandler => {
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      await handler(req, res);
+      return await handler(req as T, res, next);
     } catch (e) {
-      if (e.name === "StructError") {
+      if (e instanceof StructError) {
         const errors = e.failures().map((failure) => ({
           path: failure.path.join("."),
           message: failure.message,

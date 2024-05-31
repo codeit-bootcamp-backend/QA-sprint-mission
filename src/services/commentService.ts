@@ -1,10 +1,10 @@
-import { PrismaClient } from "@prisma/client";
-import AppError from "../utils/errors.js";
+import { Comment, Prisma, PrismaClient } from "@prisma/client";
+import AppError from "../utils/errors";
 
 const prisma = new PrismaClient();
 
-export const getCommentsByProductId = async (productId, cursor) => {
-  let queryOptions = {
+export const getCommentsByProductId = async (productId: string, cursor?: string): Promise<Comment[]> => {
+  const queryOptions: Prisma.CommentFindManyArgs = {
     take: 10,
     orderBy: {
       createdAt: "desc",
@@ -18,23 +18,15 @@ export const getCommentsByProductId = async (productId, cursor) => {
       createdAt: true,
       writer: true,
     },
+    cursor: cursor ? { id: cursor } : undefined,
+    skip: cursor ? 1 : undefined,
   };
-
-  if (cursor) {
-    queryOptions = {
-      ...queryOptions,
-      cursor: {
-        id: cursor,
-      },
-      skip: 1,
-    };
-  }
 
   return await prisma.comment.findMany(queryOptions);
 };
 
-export const getCommentsByArticleId = async (articleId, cursor) => {
-  let queryOptions = {
+export const getCommentsByArticleId = async (articleId: string, cursor?: string): Promise<Comment[]> => {
+  const queryOptions: Prisma.CommentFindManyArgs = {
     take: 10,
     orderBy: {
       createdAt: "desc",
@@ -48,28 +40,26 @@ export const getCommentsByArticleId = async (articleId, cursor) => {
       createdAt: true,
       writer: true,
     },
+    cursor: cursor ? { id: cursor } : undefined,
+    skip: cursor ? 1 : undefined,
   };
-
-  if (cursor) {
-    queryOptions = {
-      ...queryOptions,
-      cursor: {
-        id: cursor,
-      },
-      skip: 1,
-    };
-  }
 
   return await prisma.comment.findMany(queryOptions);
 };
 
-export const createComment = async (commentData) => {
+export const createComment = async (commentData: {
+  content: string;
+  imageUrl?: string;
+  userId: number;
+  productId?: string;
+  articleId?: string;
+}): Promise<Comment> => {
   return await prisma.comment.create({
     data: commentData,
   });
 };
 
-export const updateComment = async (commentId, userId, content) => {
+export const updateComment = async (commentId: string, userId: number, content: string): Promise<Comment> => {
   const comment = await prisma.comment.findUnique({
     where: { id: commentId },
   });
@@ -88,7 +78,7 @@ export const updateComment = async (commentId, userId, content) => {
   });
 };
 
-export const deleteComment = async (commentId, userId) => {
+export const deleteComment = async (commentId: string, userId: number): Promise<void> => {
   const comment = await prisma.comment.findUnique({
     where: { id: commentId },
   });
@@ -100,6 +90,7 @@ export const deleteComment = async (commentId, userId) => {
   if (comment.userId !== userId) {
     throw new AppError("이 댓글을 삭제할 권한이 없습니다.", 403);
   }
+
   await prisma.comment.delete({
     where: { id: commentId },
   });

@@ -1,8 +1,9 @@
-import AppError from "../utils/errors.js";
+import { NextFunction, Request, Response } from "express";
+import AppError from "../utils/errors";
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error("Error handler triggered:", err.stack);
-  console.log("Response object:", res);
+
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       status: err.status,

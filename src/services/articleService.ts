@@ -3,22 +3,17 @@ import AppError from "../utils/errors";
 
 const prisma = new PrismaClient();
 
-interface getArticlesParams {
+export const getArticles = async ({
+  offset,
+  limit,
+  orderBy,
+  keyword,
+}: {
   offset: number;
   limit: number;
   orderBy: string;
   keyword: string;
-}
-
-interface Article {
-  title: string;
-  content: string;
-  imageUrl?: string;
-  userId: number;
-  writer?: string;
-}
-
-export const getArticles = async ({ offset, limit, orderBy, keyword }: getArticlesParams) => {
+}) => {
   const order: Prisma.ArticleOrderByWithRelationInput =
     orderBy === "like" ? { likeCount: "desc" } : { createdAt: "desc" };
 
@@ -66,9 +61,14 @@ export const getBestArticles = async () => {
   return bestArticles;
 };
 
-export const createArticle = async (articleData: Article) => {
+export const createArticle = async (userId: number, articleData: Omit<Prisma.ArticleCreateInput, "user">) => {
   return await prisma.article.create({
-    data: articleData,
+    data: {
+      ...articleData,
+      user: {
+        connect: { id: userId },
+      },
+    },
   });
 };
 
@@ -87,7 +87,7 @@ export const getArticleById = async (id: string) => {
   });
 };
 
-export const updateArticle = async (articleId: string, userId: number, articleData: Partial<Article>) => {
+export const updateArticle = async (articleId: string, userId: number, articleData: Prisma.ArticleUpdateInput) => {
   const article = await prisma.article.findUniqueOrThrow({
     where: { id: articleId },
   });
@@ -98,10 +98,7 @@ export const updateArticle = async (articleId: string, userId: number, articleDa
 
   return await prisma.article.update({
     where: { id: articleId },
-    data: {
-      ...articleData,
-      userId,
-    },
+    data: articleData,
   });
 };
 
@@ -133,7 +130,7 @@ export const likeArticle = async (articleId: string, userId: number) => {
     throw new AppError("이미 좋아요 처리된 게시글입니다.", 409);
   }
 
-  const [createdFavorite, updatedArticle] = await prisma.$transaction([
+  const [, updatedArticle] = await prisma.$transaction([
     prisma.favorite.create({
       data: {
         userId,
@@ -169,7 +166,7 @@ export const unlikeArticle = async (articleId: string, userId: number) => {
     throw new AppError("아직 좋아요 처리되지 않은 게시글입니다.", 409);
   }
 
-  const [deletedFavorite, updatedArticle] = await prisma.$transaction([
+  const [, updatedArticle] = await prisma.$transaction([
     prisma.favorite.delete({
       where: {
         userId_articleId: {

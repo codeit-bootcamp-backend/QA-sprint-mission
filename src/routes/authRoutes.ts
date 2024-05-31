@@ -216,7 +216,7 @@ router.get("/google/callback", passport.authenticate("google", { failureRedirect
  *         description: 로그아웃 후 리디렉션
  */
 router.get("/logout", (req, res) => {
-  req.logout();
+  req.logout(() => console.log("로그아웃 되었습니다."));
   res.redirect("/");
 });
 

@@ -1,13 +1,26 @@
-import { PrismaClient } from "@prisma/client";
-import AppError from "../utils/errors.js";
+import { Prisma, PrismaClient, Product } from "@prisma/client";
+import AppError from "../utils/errors";
+
 const prisma = new PrismaClient();
 
-export const getProducts = async ({ offset, limit, orderBy, keyword }) => {
-  const order = orderBy === "favorite" ? { favoriteCount: "desc" } : { createdAt: "desc" };
+export const getProducts = async ({
+  offset,
+  limit,
+  orderBy,
+  keyword,
+}: {
+  offset: number;
+  limit: number;
+  orderBy: string;
+  keyword: string;
+}): Promise<Product[]> => {
+  const order: Prisma.ProductOrderByWithRelationInput =
+    orderBy === "favorite" ? { favoriteCount: "desc" } : { createdAt: "desc" };
+
   return await prisma.product.findMany({
     orderBy: order,
-    skip: parseInt(offset),
-    take: parseInt(limit),
+    skip: offset,
+    take: limit,
     where: {
       OR: [
         {
@@ -27,13 +40,13 @@ export const getProducts = async ({ offset, limit, orderBy, keyword }) => {
   });
 };
 
-export const createProduct = async (productData) => {
+export const createProduct = async (productData: Prisma.ProductCreateInput): Promise<Product> => {
   return await prisma.product.create({
     data: productData,
   });
 };
 
-export const getProductById = async (id) => {
+export const getProductById = async (id: string): Promise<Product | null> => {
   const product = await prisma.product.findUnique({
     where: { id },
   });
@@ -44,7 +57,11 @@ export const getProductById = async (id) => {
   return product;
 };
 
-export const updateProduct = async (productId, userId, productData) => {
+export const updateProduct = async (
+  productId: string,
+  userId: number,
+  productData: Prisma.ProductUpdateInput
+): Promise<Product> => {
   const product = await prisma.product.findUnique({
     where: { id: productId },
   });
@@ -63,7 +80,7 @@ export const updateProduct = async (productId, userId, productData) => {
   });
 };
 
-export const deleteProduct = async (productId, userId) => {
+export const deleteProduct = async (productId: string, userId: number): Promise<void> => {
   const product = await prisma.product.findUnique({
     where: { id: productId },
   });
@@ -81,7 +98,7 @@ export const deleteProduct = async (productId, userId) => {
   });
 };
 
-export const likeProduct = async (productId, userId) => {
+export const likeProduct = async (productId: string, userId: number): Promise<Product> => {
   const favorite = await prisma.favorite.findUnique({
     where: {
       userId_productId: {
@@ -92,10 +109,10 @@ export const likeProduct = async (productId, userId) => {
   });
 
   if (favorite) {
-    throw AppError("이미 좋아요 처리된 상품입니다.", 409);
+    throw new AppError("이미 좋아요 처리된 상품입니다.", 409);
   }
 
-  const [createdFavorite, updatedProduct] = await prisma.$transaction([
+  const [, updatedProduct] = await prisma.$transaction([
     prisma.favorite.create({
       data: {
         userId,
@@ -117,7 +134,7 @@ export const likeProduct = async (productId, userId) => {
   return updatedProduct;
 };
 
-export const unlikeProduct = async (productId, userId) => {
+export const unlikeProduct = async (productId: string, userId: number): Promise<Product> => {
   const favorite = await prisma.favorite.findUnique({
     where: {
       userId_productId: {
@@ -128,10 +145,10 @@ export const unlikeProduct = async (productId, userId) => {
   });
 
   if (!favorite) {
-    throw AppError("아직 좋아요 처리되지 않은 상품입니다.", 409);
+    throw new AppError("아직 좋아요 처리되지 않은 상품입니다.", 409);
   }
 
-  const [deletedFavorite, updatedProduct] = await prisma.$transaction([
+  const [, updatedProduct] = await prisma.$transaction([
     prisma.favorite.delete({
       where: {
         userId_productId: {

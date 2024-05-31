@@ -16,7 +16,8 @@ export const signUp = async (req: Request, res: Response) => {
   const existingUser = await findUserByEmail(email);
 
   if (existingUser) {
-    return res.status(400).json({ message: "이미 가입된 이메일입니다." });
+    res.status(400).json({ message: "이미 가입된 이메일입니다." });
+    return;
   }
 
   await createUser(email, password, name, nickname);
@@ -30,13 +31,15 @@ export const signIn = async (req: Request, res: Response) => {
   const user = await findUserByEmail(email);
 
   if (!user || !user.password) {
-    return res.status(401).json({ message: "이메일과 비밀번호를 확인해주세요." });
+    res.status(401).json({ message: "이메일과 비밀번호를 확인해주세요." });
+    return;
   }
 
   const isPasswordValid = await validatePassword(password, user.password);
 
   if (!isPasswordValid) {
-    return res.status(401).json({ message: "이메일과 비밀번호를 확인해주세요." });
+    res.status(401).json({ message: "이메일과 비밀번호를 확인해주세요." });
+    return;
   }
 
   const accessToken = generateAccessToken(user);
@@ -49,7 +52,8 @@ export const refreshToken = async (req: Request, res: Response) => {
   const { refreshToken } = req.body;
 
   if (!refreshToken) {
-    return res.status(401).json({ message: "토큰은 필수값입니다." });
+    res.status(401).json({ message: "토큰은 필수값입니다." });
+    return;
   }
 
   try {
@@ -58,20 +62,23 @@ export const refreshToken = async (req: Request, res: Response) => {
     const user = await findUserById(decoded.userId);
 
     if (!user) {
-      return res.status(401).json({ message: "유효하지 않은 토큰입니다." });
+      res.status(401).json({ message: "유효하지 않은 토큰입니다." });
+      return;
     }
 
     const accessToken = generateAccessToken(user);
 
     res.json({ accessToken, refreshToken: newRefreshToken });
   } catch (error) {
-    return res.status(401).json({ message: "유효하지 않은 토큰입니다." });
+    res.status(401).json({ message: "유효하지 않은 토큰입니다." });
+    return;
   }
 };
 
 export const googleCallback = (req: Request, res: Response, next: NextFunction) => {
   if (!req.user) {
-    return next(new Error("사용자 정보를 찾을 수 없습니다."));
+    next(new Error("사용자 정보를 찾을 수 없습니다."));
+    return;
   }
   const { accessToken, refreshToken } = req.user;
   res.json({ accessToken, refreshToken });
