@@ -22,9 +22,13 @@ export const getArticles = async ({
       id: true,
       title: true,
       content: true,
-      imageUrl: true,
       createdAt: true,
       writer: true,
+      images: {
+        select: {
+          imagePath: true,
+        },
+      },
     },
     orderBy: order,
     skip: offset,
@@ -52,6 +56,18 @@ export const getArticles = async ({
 
 export const getBestArticles = async () => {
   const bestArticles = await prisma.article.findMany({
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      createdAt: true,
+      writer: true,
+      images: {
+        select: {
+          imagePath: true,
+        },
+      },
+    },
     orderBy: {
       likeCount: "desc",
     },
@@ -61,26 +77,36 @@ export const getBestArticles = async () => {
   return bestArticles;
 };
 
-export const createArticle = async (userId: number, articleData: Omit<Prisma.ArticleCreateInput, "user">) => {
+export const createArticle = async (
+  userId: number,
+  articleData: Omit<Prisma.ArticleCreateInput, "user" | "writer" | "images">,
+  imageUrl: string
+) => {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: { name: true },
   });
 
   if (!user) {
-    throw new Error("User not found");
+    throw new Error("유저 정보를 찾을 수 없습니다.");
   }
 
-  const articleDataWithWriterName = {
+  const articleDataWithWriterName: Prisma.ArticleCreateInput = {
     ...articleData,
     writer: user.name!,
     user: {
       connect: { id: userId },
     },
+    images: {
+      create: [{ imagePath: imageUrl }],
+    },
   };
 
   return await prisma.article.create({
     data: articleDataWithWriterName,
+    include: {
+      images: true,
+    },
   });
 };
 
@@ -91,26 +117,56 @@ export const getArticleById = async (id: string) => {
       id: true,
       title: true,
       content: true,
-      imageUrl: true,
       createdAt: true,
       likeCount: true,
       writer: true,
+      images: {
+        select: {
+          imagePath: true,
+        },
+      },
     },
   });
 };
 
-export const updateArticle = async (articleId: string, userId: number, articleData: Prisma.ArticleUpdateInput) => {
+export const updateArticle = async (
+  id: string,
+  userId: number,
+  articleData: Prisma.ArticleUpdateInput,
+  imageUrl: string
+) => {
   const article = await prisma.article.findUniqueOrThrow({
-    where: { id: articleId },
+    where: { id },
+    include: { images: true },
   });
 
   if (article.userId !== userId) {
     throw new AppError("게시글을 수정할 권한이 없습니다.", 403);
   }
 
+  if (imageUrl) {
+    const existingImage = article.images[0];
+    if (existingImage) {
+      await prisma.image.update({
+        where: { id: existingImage.id },
+        data: { imagePath: imageUrl },
+      });
+    } else {
+      await prisma.image.create({
+        data: {
+          imagePath: imageUrl,
+          article: { connect: { id } },
+        },
+      });
+    }
+  }
+
   return await prisma.article.update({
-    where: { id: articleId },
+    where: { id },
     data: articleData,
+    include: {
+      images: true,
+    },
   });
 };
 

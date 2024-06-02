@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { assert } from "superstruct";
 import * as articleService from "../services/articleService";
@@ -30,10 +29,9 @@ export const getArticles = async (req: Request<{}, {}, {}, GetArticlesQuery>, re
 export const createArticle = async (req: UserRequest, res: Response) => {
   assert(req.body, CreateArticle);
   const { userId } = req;
+  const { imageUrl, ...articleData } = req.body;
 
-  const articleData: Omit<Prisma.ArticleCreateInput, "user"> = req.body;
-
-  const article = await articleService.createArticle(userId, articleData);
+  const article = await articleService.createArticle(userId!, articleData, imageUrl || "");
   res.status(201).send(article);
 };
 
@@ -47,18 +45,11 @@ export const getArticleById = async (req: Request<{ id: string }>, res: Response
 // PATCH /articles/:id
 export const updateArticle = async (req: UserRequest & Request<{ id: string }>, res: Response): Promise<void> => {
   assert(req.body, PatchArticle);
-  const { id: articleId } = req.params;
   const { userId } = req;
-  try {
-    const updatedArticle = await articleService.updateArticle(articleId, userId, req.body);
-    res.send(updatedArticle);
-  } catch (error) {
-    if (error instanceof AppError) {
-      res.status(error.statusCode).json({ message: error.message });
-      return;
-    }
-    throw error;
-  }
+  const { id } = req.params;
+  const { imageUrl, ...articleData } = req.body;
+  const updatedArticle = await articleService.updateArticle(id, userId!, articleData, imageUrl || "");
+  res.send(updatedArticle);
 };
 
 // DELETE /articles/:id

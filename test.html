@@ -19,7 +19,7 @@
 
       const form = event.target;
       const formData = new FormData(form);
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NTQ4MCwiZXhwIjoxNzE2ODc2MzgwfQ.c07c8gt-7uMUXVssa1cf5CtZFCFaWXHczV1m_rAtSJo'; // 여기에 실제 JWT 토큰을 넣습니다.
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNjg3NTQ4MCwiZXhwIjoxNzE2ODc2MzgwfQ.c07c8gt-7uMUXVssa1cf5CtZFCFaWXHczV1m_rAtSJo';
 
       try {
         const response = await fetch('http://localhost:3000/images/upload', {

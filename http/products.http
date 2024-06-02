@@ -18,7 +18,7 @@ GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc
 ###
 # 상품 등록
 POST http://localhost:3000/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzEyODc3NiwiZXhwIjoxNzE3MTI5Njc2fQ.1P-sxAljy-HP-1LQ3F53tJJLCry3--KdL6mJSZSy4bc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzMwNTM2MCwiZXhwIjoxNzE3MzA2MjYwfQ.oxUkWqPB86HyizeCuzU-KcWvnOGRiA1_8CNPh9HuO0A
 Content-Type: application/json
 
 {
@@ -26,20 +26,21 @@ Content-Type: application/json
   "description": "세종시청에서 교환원합니다.",
   "price": 20000,
   "tags": ["판다", "불곰"],
-  "images": ["https://www.wishbucket.io/_next/image?url=https%3A%2F%2Fd2gfz7wkiigkmv.cloudfront.net%2Fpickin%2F2%2F1%2F2%2FHereyhSJRMOmUw7I5uWAxg&w=640&q=75","https://wimg.mk.co.kr/meet/2021/09/image_listtop_2021_854860_1630738087.jpg"]
+  "imageUrl": "://www.wishbucket.io/_next/image?url=https%3A%2F%2Fd2gfz7wkiigkmv.cloudfront.net%2Fpickin%2F2%2F1%2F2%2FHereyhSJRMOmUw7I5uWAxg&w=640&q=75"
 }
 
 ###
 # 상품 수정
 PATCH http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzEyODc3NiwiZXhwIjoxNzE3MTI5Njc2fQ.1P-sxAljy-HP-1LQ3F53tJJLCry3--KdL6mJSZSy4bc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzMwNTM2MCwiZXhwIjoxNzE3MzA2MjYwfQ.oxUkWqPB86HyizeCuzU-KcWvnOGRiA1_8CNPh9HuO0A
 Content-Type: application/json
 
 {
   "name":"판다 안팔려서 안판다",
   "description":"안판다고 했지만 사실은 판다",
   "price":7000,
-  "tags":["판다","안판다"]
+  "tags":["판다","안판다"],
+  "imageUrl": "https://www.wishbucket.io/_next/image?url=https%3A%2F%2Fd2gfz7wkiigkmv.cloudfront.net%2Fpickin%2F2%2F1%2F2%2FHereyhSJRMOmUw7I5uWAxg&w=640&q=75"
 }
 
 ###

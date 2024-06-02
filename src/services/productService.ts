@@ -21,6 +21,23 @@ export const getProducts = async ({
     orderBy: order,
     skip: offset,
     take: limit,
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      price: true,
+      favoriteCount: true,
+      createdAt: true,
+      updatedAt: true,
+      writer: true,
+      tags: true,
+      userId: true,
+      images: {
+        select: {
+          imagePath: true,
+        },
+      },
+    },
     where: {
       OR: [
         {
@@ -40,32 +57,87 @@ export const getProducts = async ({
   });
 };
 
-export const createArticle = async (userId: number, articleData: Omit<Prisma.ArticleCreateInput, "user">) => {
+export const getBestProducts = async () => {
+  const bestProducts = await prisma.product.findMany({
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      price: true,
+      favoriteCount: true,
+      createdAt: true,
+      updatedAt: true,
+      writer: true,
+      tags: true,
+      userId: true,
+      images: {
+        select: {
+          imagePath: true,
+        },
+      },
+    },
+    orderBy: {
+      favoriteCount: "desc",
+    },
+    take: 4,
+  });
+
+  return bestProducts;
+};
+
+export const createProduct = async (
+  userId: number,
+  productData: Omit<Prisma.ProductCreateInput, "user" | "writer" | "images">,
+  imageUrl: string
+) => {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: { name: true },
   });
 
   if (!user) {
-    throw new Error("User not found");
+    throw new Error("유저 정보를 찾을 수 없습니다.");
   }
 
-  const articleDataWithWriterName = {
-    ...articleData,
+  const productDataWithWriterName = {
+    ...productData,
     writer: user.name!,
     user: {
       connect: { id: userId },
     },
+    images: {
+      create: [{ imagePath: imageUrl }],
+    },
   };
 
-  return await prisma.article.create({
-    data: articleDataWithWriterName,
+  return await prisma.product.create({
+    data: productDataWithWriterName,
+    include: {
+      images: true,
+    },
   });
 };
 
 export const getProductById = async (id: string): Promise<Product | null> => {
   const product = await prisma.product.findUnique({
     where: { id },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      price: true,
+      favoriteCount: true,
+      createdAt: true,
+      writer: true,
+      images: {
+        select: {
+          imagePath: true,
+        },
+      },
+      tags: true,
+      updatedAt: true,
+      userId: true,
+    },
   });
 
   if (!product) {
@@ -75,25 +147,43 @@ export const getProductById = async (id: string): Promise<Product | null> => {
 };
 
 export const updateProduct = async (
-  productId: string,
+  id: string,
   userId: number,
-  productData: Prisma.ProductUpdateInput
+  productData: Prisma.ProductUpdateInput,
+  imageUrl: string
 ): Promise<Product> => {
-  const product = await prisma.product.findUnique({
-    where: { id: productId },
+  const product = await prisma.product.findUniqueOrThrow({
+    where: { id },
+    include: { images: true },
   });
-
-  if (!product) {
-    throw new AppError("존재하지 않는 상품입니다.", 404);
-  }
 
   if (product.userId !== userId) {
     throw new AppError("상품을 수정할 권한이 없습니다.", 403);
   }
 
+  if (imageUrl) {
+    const existingImage = product.images[0];
+    if (existingImage) {
+      await prisma.image.update({
+        where: { id: existingImage.id },
+        data: { imagePath: imageUrl },
+      });
+    } else {
+      await prisma.image.create({
+        data: {
+          imagePath: imageUrl,
+          product: { connect: { id } },
+        },
+      });
+    }
+  }
+
   return await prisma.product.update({
-    where: { id: productId },
+    where: { id },
     data: productData,
+    include: {
+      images: true,
+    },
   });
 };
 

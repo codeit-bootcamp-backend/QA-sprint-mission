@@ -9,7 +9,7 @@ GET http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da
 ###
 # 게시글 등록
 POST http://localhost:3000/articles
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzEyODU1MiwiZXhwIjoxNzE3MTI5NDUyfQ.OAcMKEyrlzrtCOlz4HXu3mmDdEQ0s-oYBlbvlHWAJUY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzMwNDc2OCwiZXhwIjoxNzE3MzA1NjY4fQ.0Neh8i3gQWCU0o0y01-Co8jsW8kiXKl3dW7H6wK94pY
 Content-Type: application/json
 
 {
@@ -20,13 +20,14 @@ Content-Type: application/json
 
 ###
 # 게시글 수정
-PATCH http://localhost:3000/articles/dc196ae3-0d72-4f4d-9057-a83e6bece8bc
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzEyODU1MiwiZXhwIjoxNzE3MTI5NDUyfQ.OAcMKEyrlzrtCOlz4HXu3mmDdEQ0s-oYBlbvlHWAJUY
+PATCH http://localhost:3000/articles/802a7c2b-d3c5-48d7-8caf-13c6cc803d78
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzMwNDc2OCwiZXhwIjoxNzE3MzA1NjY4fQ.0Neh8i3gQWCU0o0y01-Co8jsW8kiXKl3dW7H6wK94pY
 Content-Type: application/json
 
 {
   "title":"판다 대박이네요",
-  "content":"대나무를 잘 먹네요 ㄷㄷ"
+  "content":"대나무를 잘 먹네요 ㄷㄷ",
+  "imageUrl":"https://cdn.011st.com/11dims/resize/600x600/quality/75/11src/product/5575072075/B.jpg?51000000"
 }
 
 ###

@@ -16,18 +16,17 @@ export const getProducts = async (
   const offsetNumber = parseInt(offset, 10);
   const limitNumber = parseInt(limit, 10);
   const products = await productService.getProducts({ offset: offsetNumber, limit: limitNumber, orderBy, keyword });
-  res.send(products);
+  const bestProducts = await productService.getBestProducts();
+  res.send({ products, bestProducts });
 };
 
 // POST /products
 export const createProduct = async (req: UserRequest, res: Response) => {
   assert(req.body, CreateProduct);
   const { userId } = req;
-  const productData = {
-    ...req.body,
-    user: { connect: { id: userId } },
-  };
-  const product = await productService.createProduct(productData);
+  const { imageUrl, ...productData } = req.body;
+
+  const product = await productService.createProduct(userId!, productData, imageUrl || "");
   res.status(201).send(product);
 };
 
@@ -42,11 +41,11 @@ export const getProductById = async (req: Request<{ id: string }>, res: Response
 export const updateProduct = async (req: UserRequest & Request<{ id: string }>, res: Response, next: NextFunction) => {
   assert(req.body, PatchProduct);
 
-  const { id: productId } = req.params;
   const { userId } = req;
-
+  const { id } = req.params;
+  const { imageUrl, ...productData } = req.body;
   try {
-    const updatedProduct = await productService.updateProduct(productId, userId, req.body);
+    const updatedProduct = await productService.updateProduct(id, userId, productData, imageUrl || "");
     res.send(updatedProduct);
   } catch (error) {
     res.status(403).json({ message: (error as Error).message });
