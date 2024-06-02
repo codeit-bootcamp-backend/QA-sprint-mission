@@ -1,0 +1,29 @@
+POST http://localhost:3000/auth/signUp
+Content-Type: application/json
+
+{
+  "email":"test52@gmail.com", 
+  "password":"pandapower", 
+  "name":"김판다",
+  "nickname":"판다의 왕"
+}
+
+###
+# 로그인
+
+POST http://localhost:3000/auth/signIn
+Content-Type: application/json
+
+{
+  "email":"test2@gmail.com", 
+  "password":"pandapower"
+}
+
+###
+# 토큰 재발급
+POST http://localhost:3000/auth/refresh-token
+Content-Type: application/json
+
+{
+  "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzEyODQ4MSwiZXhwIjoxNzE3NzMzMjgxfQ.d-h8rnnuG-lmptA_0ztr4XBDd45c32f73oWGGe_Rsak"
+}
