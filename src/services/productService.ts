@@ -40,9 +40,26 @@ export const getProducts = async ({
   });
 };
 
-export const createProduct = async (productData: Prisma.ProductCreateInput): Promise<Product> => {
-  return await prisma.product.create({
-    data: productData,
+export const createArticle = async (userId: number, articleData: Omit<Prisma.ArticleCreateInput, "user">) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { name: true },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const articleDataWithWriterName = {
+    ...articleData,
+    writer: user.name!,
+    user: {
+      connect: { id: userId },
+    },
+  };
+
+  return await prisma.article.create({
+    data: articleDataWithWriterName,
   });
 };
 

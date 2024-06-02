@@ -26,6 +26,7 @@ model User {
 model Product {
   id            String     @id @default(uuid())
   name          String
+  writer        String
   description   String
   price         Int
   tags          String[]
@@ -43,10 +44,10 @@ model Product {
 model Article {
   id        String     @id @default(uuid())
   title     String
+  writer    String
   content   String
   imageUrl  String?    @default("")
   likeCount Int        @default(0)
-  writer    String?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   comments  Comment[]
@@ -59,7 +60,7 @@ model Article {
 model Comment {
   id        String   @id @default(uuid())
   content   String
-  writer    String?
+  writer    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)

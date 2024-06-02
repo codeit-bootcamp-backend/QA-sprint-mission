@@ -62,13 +62,25 @@ export const getBestArticles = async () => {
 };
 
 export const createArticle = async (userId: number, articleData: Omit<Prisma.ArticleCreateInput, "user">) => {
-  return await prisma.article.create({
-    data: {
-      ...articleData,
-      user: {
-        connect: { id: userId },
-      },
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { name: true },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const articleDataWithWriterName = {
+    ...articleData,
+    writer: user.name!,
+    user: {
+      connect: { id: userId },
     },
+  };
+
+  return await prisma.article.create({
+    data: articleDataWithWriterName,
   });
 };
 

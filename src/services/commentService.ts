@@ -54,11 +54,24 @@ export const createComment = async (commentData: {
   productId?: string;
   articleId?: string;
 }): Promise<Comment> => {
+  const user = await prisma.user.findUnique({
+    where: { id: commentData.userId },
+    select: { name: true },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const commentDataWithWriterName = {
+    ...commentData,
+    writer: user.name!,
+  };
+
   return await prisma.comment.create({
-    data: commentData,
+    data: commentDataWithWriterName,
   });
 };
-
 export const updateComment = async (commentId: string, userId: number, content: string): Promise<Comment> => {
   const comment = await prisma.comment.findUnique({
     where: { id: commentId },

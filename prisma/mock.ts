@@ -7,6 +7,7 @@ export const PRODUCTS = [
     price: 700000,
     description: "판다인형 판다",
     name: "판다인형",
+    writer: "김판다",
     userId: 1,
   },
   {
@@ -19,6 +20,7 @@ export const PRODUCTS = [
     price: 7000,
     description: "판다인형 안판다",
     name: "불곰사세요",
+    writer: "박불곰",
     userId: 2,
   },
 ];
@@ -31,6 +33,7 @@ export const ARTICLES = [
     imageUrl: "https://sitem.ssgcdn.com/62/11/49/item/1000559491162_i1_1100.jpg",
     likeCount: 7,
     userId: 1,
+    writer: "김판다",
   },
   {
     id: "7c8b9d2e-5d45-4c9f-9b4b-7626f3c9c9a9",
@@ -39,6 +42,7 @@ export const ARTICLES = [
     imageUrl: "https://sitem.ssgcdn.com/62/11/49/item/1000559491162_i1_1100.jpg",
     likeCount: 2,
     userId: 1,
+    writer: "김판다",
   },
   {
     id: "287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3",
@@ -47,6 +51,7 @@ export const ARTICLES = [
     imageUrl: "https://wimg.mk.co.kr/meet/2021/09/image_listtop_2021_854860_1630738087.jpg",
     likeCount: 3,
     userId: 2,
+    writer: "김판다",
   },
 ];
 
