@@ -50,7 +50,7 @@
   "scripts": {
     "start": "tsx --loader ts-node/esm src/app.ts",
     "dev": "nodemon",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
