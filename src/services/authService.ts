@@ -18,7 +18,7 @@ export const createUser = async (email: string, password: string, name: string, 
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
       throw new Error("이미 존재하는 이메일입니다.");
     }
-    throw error; // 다른 에러는 그대로 던집니다.
+    throw error;
   }
 };
 
