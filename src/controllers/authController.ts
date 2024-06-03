@@ -1,32 +1,41 @@
 import dotenv from "dotenv";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { assert } from "superstruct";
+import { StructError, assert } from "superstruct";
 import { createUser, findUserByEmail, findUserById, validatePassword } from "../services/authService";
 import { CreateUser } from "../structs";
 import { generateAccessToken, generateRefreshToken, regenerateRefreshToken } from "../utils/tokens";
-
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || "kingPanda";
-
 export const signUp = async (req: Request, res: Response) => {
-  const { email, password, name, nickname } = req.body;
-  assert(req.body, CreateUser);
+  try {
+    const { email, password, name, nickname } = req.body;
+    assert(req.body, CreateUser);
 
-  const existingUser = await findUserByEmail(email);
+    const existingUser = await findUserByEmail(email);
 
-  if (existingUser) {
-    res.status(400).json({ message: "이미 가입된 이메일입니다." });
-    return;
+    if (existingUser) {
+      res.status(400).json({ message: "이미 가입된 이메일입니다." });
+      return;
+    }
+
+    await createUser(email, password, name, nickname);
+
+    res.status(201).json({ message: "회원가입이 완료되었습니다." });
+  } catch (error) {
+    if (error instanceof StructError) {
+      res.status(400).json({ message: `잘못된 입력값입니다: ${error.message}` });
+      return;
+    }
   }
-
-  await createUser(email, password, name, nickname);
-
-  res.status(201).json({ message: "회원가입이 완료되었습니다." });
 };
-
 export const signIn = async (req: Request, res: Response) => {
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    res.status(400).json({ message: "이메일과 비밀번호를 입력해주세요." });
+    return;
+  }
 
   const user = await findUserByEmail(email);
 
