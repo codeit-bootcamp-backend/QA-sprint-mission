@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+    />
+    <link rel="stylesheet" href="/src/style/sign.css" />
+    <link rel="stylesheet" href="/src/style/modal.css" />
+
+    <title>Signup</title>
+  </head>
+  <body>
+    <form>
+      <header>
+        <a href="/" class="title-logo"
+          ><img src="/src/assets/svg/Logo-Large.svg"
+        /></a>
+      </header>
+      <label for="sign-up"
+        >이메일<br />
+        <div class="input-container">
+          <input
+            id="sign-up"
+            type="email"
+            placeholder="아이디를 입력해주세요"
+          />
+        </div>
+        <div class="email-error-message">이메일을 입력해주세요.</div>
+      </label>
+      <label for="nickname"
+        >닉네임<br />
+        <div class="input-container">
+          <input
+            id="nickname"
+            type="text"
+            placeholder="닉네임을 입력해주세요"
+          />
+        </div>
+        <div class="email-error-message">이메일을 입력해주세요.</div>
+      </label>
+      <label for="password"
+        >비밀번호<br />
+        <div class="input-container">
+          <div class="helper">
+            <input
+              id="password"
+              type="password"
+              placeholder="비밀번호를 입력해주세요"
+            />
+            <div class="input-eye-off">
+              <div id="eyeImage-password">
+                <img src="/src/assets/svg/eye-close-icon.svg" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="password-error-message">비밀번호를 입력해주세요.</div>
+      </label>
+      <label for="password-re"
+        >비밀번호 확인<br />
+        <div class="input-container">
+          <div class="helper">
+            <input
+              id="password-re"
+              type="password"
+              placeholder="비밀번호를 다시 한번 입력해주세요"
+            />
+            <div class="input-eye-off">
+              <div id="eyeImage-password-re">
+                <img src="/src/assets/svg/eye-close-icon.svg" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="password-re-error-message"></div>
+      </label>
+      <div class="padding_helper">
+        <button type="submit" disabled>회원가입</button>
+      </div>
+      <div class="padding_helper">
+        <div class="another-signup">
+          <div class="another-signup-text">간편 로그인하기</div>
+          <div class="another-signup-logo">
+            <a href="https://www.google.com/" target="_blank">
+              <img
+                src="/src/assets/svg/google-login-icon.svg"
+                alt="google-logo"
+              />
+            </a>
+            <a href="https://www.kakaocorp.com/page/" target="_blank">
+              <img
+                src="/src/assets/svg/kakao-login-icon.svg"
+                alt="kakao-logo"
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="title-subtext">
+        이미 회원이신가요?
+        <a href="/pages/signin.html" class="deco_text">로그인</a>
+      </div>
+    </form>
+  </body>
+  <script type="module" src="../scripts/signup.js"></script>
+</html>
