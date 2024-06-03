@@ -1,10 +1,12 @@
 import { Request, Response, Router } from 'express';
 import path from 'path';
 import multer from 'multer';
+import fs from 'fs';
+import { asyncHandler } from '../asyncHandler';
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		cb(null, 'uploads/'); // 업로드된 파일을 저장할 디렉토리 지정
+		cb(null, 'images/'); // 업로드된 파일을 저장할 디렉토리 지정
 	},
 	filename: (req, file, cb) => {
 		cb(null, Date.now() + path.extname(file.originalname)); // 파일 이름에 현재 시간을 추가하여 고유하게 만듦
@@ -16,10 +18,6 @@ export const upload = multer({
 	storage,
 	limits: { fileSize: 5 * 1024 * 1024 }, // 파일 크기 제한 (10MB)
 	fileFilter: (req, file, cb) => {
-		if (!req.cookies.email) {
-			return cb(new Error('로그인이 되어있지 않습니다'));
-		}
-
 		if (!file.mimetype.startsWith('image/')) {
 			return cb(new Error('이미지 파일이 아닙니다'));
 		}
@@ -28,7 +26,9 @@ export const upload = multer({
 	},
 });
 
-const imageUploadRoutes = Router();
+const imageRoutes = Router();
+
+export default imageRoutes;
 
 /**
  * @openapi
@@ -70,15 +70,15 @@ const imageUploadRoutes = Router();
  *
  */
 
-imageUploadRoutes.post(
+imageRoutes.post(
 	'',
 	upload.array('images', 10),
-	(req: Request, res: Response) => {
+	asyncHandler((req: Request, res: Response) => {
 		try {
 			const fileList = req.files as Express.Multer.File[];
 
 			const fileUrls = fileList.map((file) => {
-				return `${req.protocol}://${req.get('host')}/uploads/${file.filename}`;
+				return `${req.protocol}://${req.get('host')}/images/${file.filename}`;
 			});
 
 			res.send({
@@ -87,17 +87,22 @@ imageUploadRoutes.post(
 		} catch (error: any) {
 			res.status(400).send({ error: error.message });
 		}
-	},
+	}),
 );
 
-imageUploadRoutes.use((err: any, req: Request, res: Response): void => {
-	if (err instanceof multer.MulterError) {
-		// Multer 관련 오류 처리
-		res.status(400).send({ error: err.message });
-	} else if (err) {
-		// 일반 오류 처리
-		res.status(500).send({ error: err.message });
-	}
-});
+imageRoutes.get(
+	'/:filename',
+	asyncHandler((req: Request, res: Response) => {
+		const { filename } = req.params;
+		const filePath = path.join(__dirname, '../../../images', filename);
+		console.log(filePath);
 
-export default imageUploadRoutes;
+		fs.access(filePath, fs.constants.F_OK, (err) => {
+			if (err) {
+				return res.status(404).send({ message: 'File not found' });
+			}
+
+			res.sendFile(filePath);
+		});
+	}),
+);

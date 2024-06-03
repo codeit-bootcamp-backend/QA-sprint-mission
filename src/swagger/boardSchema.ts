@@ -80,9 +80,9 @@
  *     SearchBoardBoardIdPath:
  *       in: path
  *       name: boardId
+ *       required: true
  *       schema:
  *         $ref: '#/components/schemas/Uuid'
- *       required: true
  *
  *
  *

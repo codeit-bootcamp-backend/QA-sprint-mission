@@ -6,7 +6,7 @@ const authRoutes = Router();
 
 /**
  * @openapi
- * 'auth/signUp':
+ * '/auth/signUp':
  *   post:
  *     tags:
  *     - Auth
@@ -25,7 +25,7 @@ const authRoutes = Router();
  *             schema:
  *               $ref: '#/components/schemas/AuthResponse'
  *
- * 'auth/signIn':
+ * '/auth/signIn':
  *   post:
  *     tags:
  *     - Auth
@@ -44,7 +44,7 @@ const authRoutes = Router();
  *             schema:
  *               $ref: '#/components/schemas/AuthResponse'
  *
- * 'auth/refresh-token':
+ * '/auth/refresh-token':
  *   post:
  *     tags:
  *     - Auth

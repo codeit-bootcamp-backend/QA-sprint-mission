@@ -9,6 +9,7 @@
  *     Uuid:
  *       type: string
  *       format: uuid
+ *       example: 'e0e72e5e-8a42-4005-9c56-e6bdee91f149'
  * 
  *     Nickname:
  *       type: string
@@ -42,7 +43,6 @@
  *           $ref: '#/components/schemas/Nickname'
  *         id:
  *           $ref: '#/components/schemas/Uuid'
- *           default: 'e0e72e5e-8a42-4005-9c56-e6bdee91f149'
  * 
  *     BoardContent:
  *       type: string
@@ -97,7 +97,9 @@
  *       pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$ 
  * 
  * 
- * 
+ *     Number:
+ *       type: number
+ *       format: double
  * 
  * 
  *     SearchPageQuery:
@@ -105,24 +107,22 @@
  *       name: page
  *       default: 1
  *       schema:
- *         type: number
- *         format: double
+ *         $ref: '#/components/schemas/Number'
  * 
  *     SearchPageSizeQuery:
  *       in: query
  *       name: pageSize
  *       default: 10
  *       schema:
- *         type: number
- *         format: double
+ *         $ref: '#/components/schemas/Number'
  * 
  *     SearchProductsOrderByQuery:
  *       in: query
  *       name: orderBy
+ *       default: recent
  *       schema:
  *         type: string
  *         enum: [favorite, recent]
- *       default: recent
  * 
  *     SearchBoardsOrderByQuery:
  *       in: query

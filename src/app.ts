@@ -7,11 +7,12 @@ import productRoutes from './module/products/products.controller';
 import boardRoutes from './module/board/board.controller';
 import commentRoutes from './module/comment/comment.controller';
 import { authValidate } from './helper/jwt';
-import imageUploadRoutes from './module/imageUpload/imageUpload.controller';
+import imageRoutes from './module/imageUpload/imageUpload.controller';
 import userRouters from './module/user/user.controller';
-import swaggerDocs from './swagger/swagger';
+
 import http from 'http';
 import WebSocket from 'ws';
+import { swaggerDocsRoute } from './swagger/swagger';
 
 dotenv.config();
 const app = express();
@@ -31,12 +32,8 @@ app.use('/auth', authRoutes);
 app.use('/user', userRouters);
 app.use('/boards', boardRoutes);
 app.use('/comments', commentRoutes);
-app.use('/images/upload', imageUploadRoutes);
-
-const handleListen = () => {
-	console.log('Server Started');
-	swaggerDocs(app);
-};
+app.use('/images', imageRoutes);
+app.use('/docs', swaggerDocsRoute);
 
 const server = http.createServer(app); // http 서버 (3000)
 
@@ -77,4 +74,6 @@ wss.on('connection', (ws: ExtWebSocket) => {
 	});
 });
 
-server.listen(process.env.PORT || 3000, handleListen);
+server.listen(process.env.PORT || 3000, () => {
+	console.log('Server Started');
+});
