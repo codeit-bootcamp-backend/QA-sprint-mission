@@ -17,11 +17,15 @@ import imagesRouter from "./routes/imageRoutes";
 import productsRouter from "./routes/productRoutes";
 import swaggerOptions from "./swagger/swaggerOptions";
 dotenv.config();
-
-const JWT_SECRET = process.env.JWT_SECRET || "kingPanda";
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: path.resolve(__dirname, "../.env") });
+} else {
+  dotenv.config({ path: path.resolve(__dirname, "../.env.production") });
+}
+const JWT_SECRET = process.env.JWT_SECRET || "kingPanda";
 
 const app = express();
 
