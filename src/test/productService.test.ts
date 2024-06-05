@@ -224,6 +224,26 @@ describe("상품 서비스", () => {
     await expect(getProductById("non-existent-product-id")).rejects.toThrow("존재하지 않는 상품입니다.");
   });
 
+  test("상품을 수정할 권한이 없으면 예외를 발생시킨다", async () => {
+    const anotherUserProduct = { ...mockProduct, userId: 2 };
+    (
+      prisma.product.findUniqueOrThrow as jest.MockedFunction<typeof prisma.product.findUniqueOrThrow>
+    ).mockResolvedValue(anotherUserProduct);
+
+    await expect(
+      updateProduct(
+        "test-product-id",
+        1,
+        {
+          name: "업데이트된 상품",
+          description: "업데이트된 설명",
+          price: 150,
+        },
+        "image1.jpg"
+      )
+    ).rejects.toThrow("상품을 수정할 권한이 없습니다.");
+  });
+
   test("상품을 업데이트한다", async () => {
     (
       prisma.product.findUniqueOrThrow as jest.MockedFunction<typeof prisma.product.findUniqueOrThrow>
@@ -483,25 +503,5 @@ describe("상품 서비스", () => {
         },
       },
     });
-  });
-
-  test("상품을 수정할 권한이 없으면 예외를 발생시킨다", async () => {
-    const anotherUserProduct = { ...mockProduct, userId: 2 };
-    (
-      prisma.product.findUniqueOrThrow as jest.MockedFunction<typeof prisma.product.findUniqueOrThrow>
-    ).mockResolvedValue(anotherUserProduct);
-
-    await expect(
-      updateProduct(
-        "test-product-id",
-        1,
-        {
-          name: "업데이트된 상품",
-          description: "업데이트된 설명",
-          price: 150,
-        },
-        "image1.jpg"
-      )
-    ).rejects.toThrow("상품을 수정할 권한이 없습니다.");
   });
 });

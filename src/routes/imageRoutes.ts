@@ -1,22 +1,8 @@
 import express from "express";
-import multer from "multer";
-import path from "path";
-import * as imageController from "../controllers/imageController.js";
-import authenticate from "../middlewares/authenticate.js";
-
+import * as imageController from "../controllers/imageController";
+import authenticate from "../middlewares/authenticate";
+import { uploadImageToS3 } from "../services/imageService";
 const router = express.Router();
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname));
-  },
-});
-
-const upload = multer({ storage: storage });
 
 /**
  * @swagger
@@ -65,6 +51,6 @@ const upload = multer({ storage: storage });
  *                type: string
  *                example: "이미지 파일을 선택해주세요."
  */
-router.post("/upload", authenticate, upload.single("image"), imageController.uploadImage);
+router.post("/upload", authenticate, uploadImageToS3, imageController.uploadImage);
 
 export default router;

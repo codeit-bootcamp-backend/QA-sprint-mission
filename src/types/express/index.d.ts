@@ -9,4 +9,8 @@ declare namespace Express {
   interface Request {
     user?: User;
   }
+
+  interface MulterS3File extends Multer.File {
+    location: string;
+  }
 }

@@ -1,6 +1,6 @@
 import cors from "cors";
 import dotenv from "dotenv";
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import session from "express-session";
 import fs from "fs";
 import moment from "moment-timezone";
@@ -44,6 +44,11 @@ app.use(cors());
 app.use(session({ secret: JWT_SECRET, resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
 
 app.use("/products", productsRouter);
 app.use("/articles", articlesRouter);
