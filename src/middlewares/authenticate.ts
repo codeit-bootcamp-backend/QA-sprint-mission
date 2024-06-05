@@ -6,10 +6,6 @@ dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 
-export interface UserRequest extends Request {
-  userId: number;
-}
-
 const authenticate: RequestHandler = (req: Request, res: Response, next: NextFunction): void => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
@@ -21,7 +17,7 @@ const authenticate: RequestHandler = (req: Request, res: Response, next: NextFun
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
-    (req as UserRequest).userId = decoded.userId;
+    req.user = { _id: decoded.userId }; // 기존 _id를 userId로 설정
     next();
   } catch (error) {
     res.status(401).json({ message: "올바르지 않은 토큰입니다." });

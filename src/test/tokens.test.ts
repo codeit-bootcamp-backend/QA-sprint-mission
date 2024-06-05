@@ -1,9 +1,11 @@
 import { describe, expect, jest, test } from "@jest/globals";
 import jwt from "jsonwebtoken";
-import { generateAccessToken, generateRefreshToken } from "../utils/tokens";
+import { generateAccessToken, generateRefreshToken, regenerateRefreshToken } from "../utils/tokens";
 
 jest.mock("jsonwebtoken");
-
+type JWTPayload = {
+  userId: number;
+};
 describe("Tokens Utility", () => {
   const mockUser = { id: 1 };
 
@@ -25,5 +27,30 @@ describe("Tokens Utility", () => {
 
     expect(jwt.sign).toHaveBeenCalledWith({ userId: mockUser.id }, secret, { expiresIn: "7d" });
     expect(token).toBe("refreshToken");
+  });
+  // 추가된 테스트 케이스: 유효한 리프레시 토큰을 사용하여 새로운 리프레시 토큰을 생성하는 경우
+
+  test("유효한 리프레시 토큰을 사용하여 새로운 리프레시 토큰을 생성한다", () => {
+    const refreshToken = "validRefreshToken";
+    const decodedToken = { userId: mockUser.id };
+    (jwt.verify as jest.Mock).mockReturnValue(decodedToken as JWTPayload);
+    (jwt.sign as jest.MockedFunction<typeof jwt.sign>).mockImplementation(() => "newRefreshToken");
+
+    const token = regenerateRefreshToken(refreshToken);
+
+    expect(jwt.verify).toHaveBeenCalledWith(refreshToken, secret);
+    expect(jwt.sign).toHaveBeenCalledWith({ userId: decodedToken.userId }, secret, { expiresIn: "7d" });
+    expect(token).toBe("newRefreshToken");
+  });
+
+  // 추가된 테스트 케이스: 유효하지 않은 리프레시 토큰으로 인해 오류가 발생하는 경우
+  test("유효하지 않은 리프레시 토큰으로 인해 오류가 발생한다", () => {
+    const refreshToken = "invalidRefreshToken";
+
+    (jwt.verify as jest.MockedFunction<typeof jwt.verify>).mockImplementation(() => {
+      throw new Error("Invalid token");
+    });
+
+    expect(() => regenerateRefreshToken(refreshToken)).toThrow("Invalid refresh token");
   });
 });

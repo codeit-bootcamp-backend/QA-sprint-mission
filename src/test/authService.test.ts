@@ -4,8 +4,6 @@ import bcrypt from "bcrypt";
 import prisma from "../client";
 import { createUser, findUserByEmail, findUserById, validatePassword } from "../services/authService";
 
-// [ ] 토큰 주는지도 테스트해야되나?
-
 jest.mock("../client", () => ({
   __esModule: true,
   default: {

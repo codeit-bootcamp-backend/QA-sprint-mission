@@ -1,9 +1,9 @@
 declare namespace Express {
   interface User {
-    accessToken: string;
-    refreshToken: string;
-    username: string;
-    _id?: number;
+    _id: number;
+    accessToken?: string;
+    refreshToken?: string;
+    username?: string;
   }
 
   interface Request {

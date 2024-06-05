@@ -5,8 +5,11 @@ import { StructError, assert } from "superstruct";
 import { createUser, findUserByEmail, findUserById, validatePassword } from "../services/authService";
 import { CreateUser } from "../structs";
 import { generateAccessToken, generateRefreshToken, regenerateRefreshToken } from "../utils/tokens";
+
 dotenv.config();
+
 const JWT_SECRET = process.env.JWT_SECRET || "kingPanda";
+
 export const signUp = async (req: Request, res: Response) => {
   try {
     const { email, password, name, nickname } = req.body;
@@ -24,11 +27,27 @@ export const signUp = async (req: Request, res: Response) => {
     res.status(201).json({ message: "회원가입이 완료되었습니다." });
   } catch (error) {
     if (error instanceof StructError) {
-      res.status(400).json({ message: `잘못된 입력값입니다: ${error.message}` });
-      return;
+      const errorMessages = new Set();
+      const uniqueFailures = [];
+
+      for (const failure of error.failures()) {
+        const errorMessage = JSON.stringify({ path: failure.path.join("."), message: failure.message });
+        if (!errorMessages.has(errorMessage)) {
+          errorMessages.add(errorMessage);
+          uniqueFailures.push({ path: failure.path.join("."), message: failure.message });
+        }
+      }
+
+      res.status(400).json({
+        message: "유효성 검사 오류입니다.",
+        errors: uniqueFailures,
+      });
+    } else {
+      res.status(500).json({ message: "서버 에러입니다." });
     }
   }
 };
+
 export const signIn = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
@@ -68,6 +87,7 @@ export const refreshToken = async (req: Request, res: Response) => {
   try {
     const newRefreshToken = regenerateRefreshToken(refreshToken);
     const decoded = jwt.verify(newRefreshToken, JWT_SECRET) as { userId: number };
+    req.user = { _id: decoded.userId };
     const user = await findUserById(decoded.userId);
 
     if (!user) {
