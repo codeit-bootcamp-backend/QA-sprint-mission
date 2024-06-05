@@ -5,36 +5,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Upload Image</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
-  <form id="uploadForm" enctype="multipart/form-data">
+  <form id="uploadForm">
     <input type="file" name="image" id="image">
     <input type="submit" value="Upload">
   </form>
 
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     document.getElementById('uploadForm').addEventListener('submit', async function (event) {
       event.preventDefault();
 
-      const form = event.target;
-      const formData = new FormData(form);
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzU3NjczNCwiZXhwIjoxNzE3NTc3NjM0fQ.xne1SC64b-ebpHbw9s2Cbj5l2Q6AuaRi6d3uWIry3wM';
+      const imageInput = document.getElementById('image');
+      const file = imageInput.files[0];
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzYyNTY0OSwiZXhwIjoxNzE3NjI2NTQ5fQ.ISwJLagoBzr3rfTWwWN4nUC2xxkuJeF7lVk6awBwatw';
+
+      if (!file) {
+        alert("이미지 파일을 선택해주세요.");
+        return;
+      }
 
       try {
-        const response = await axios.post('http://localhost:3000/images/upload', formData, {
+        console.log('Requesting presigned URL');
+
+        const presignedUrlResponse = await axios.post('http://localhost:3000/images/upload', {
+          fileName: file.name,
+          fileType: file.type
+        }, {
           headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'application/json'
           }
         });
 
-        console.log('Success:', response.data);
-        alert(`Image uploaded successfully: ${response.data.url}`);
+        const { url: presignedUrl } = presignedUrlResponse.data;
+
+        await axios.put(presignedUrl, file, {
+          headers: {
+            'Content-Type': file.type
+          }
+        });
+
+        const imageUrl = presignedUrl.split('?')[0];
+        alert(`Image uploaded successfully: ${imageUrl}`);
       } catch (error) {
         console.error('Error:', error);
-        alert('Error uploading image');
+        alert(`Error: ${error.message}`);
       }
     });
   </script>

@@ -1,7 +1,6 @@
 import express from "express";
 import * as imageController from "../controllers/imageController";
 import authenticate from "../middlewares/authenticate";
-import { uploadImageToS3 } from "../services/imageService";
 const router = express.Router();
 
 /**
@@ -51,6 +50,6 @@ const router = express.Router();
  *                type: string
  *                example: "이미지 파일을 선택해주세요."
  */
-router.post("/upload", authenticate, uploadImageToS3, imageController.uploadImage);
+router.post("/upload", authenticate, imageController.getPresignedUrl);
 
 export default router;

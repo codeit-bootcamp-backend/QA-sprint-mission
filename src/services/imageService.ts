@@ -1,10 +1,6 @@
-import { S3Client } from "@aws-sdk/client-s3";
-import { PrismaClient } from "@prisma/client";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { Request } from "express";
-import multer from "multer";
-import multerS3 from "multer-s3";
-
-const prisma = new PrismaClient();
 
 const s3Config = new S3Client({
   region: "ap-northeast-2",
@@ -14,36 +10,22 @@ const s3Config = new S3Client({
   },
 });
 
-const upload = multer({
-  storage: multerS3({
-    s3: s3Config,
-    bucket: process.env.AWS_S3_BUCKET_NAME || "",
-    acl: "public-read",
-    metadata: function (req, file, cb) {
-      cb(null, { fieldName: file.fieldname });
-    },
-    key: function (req, file, cb) {
-      cb(null, `images/${Date.now().toString()}_${file.originalname}`);
-    },
-  }),
-});
+export const generatePresignedUrl = async (req: Request): Promise<string> => {
+  const { fileName, fileType } = req.body;
 
-export const uploadImageToS3 = upload.single("image");
-
-export const uploadImage = async (req: Request): Promise<string> => {
-  const file = req.file as Express.MulterS3File;
-
-  if (!file) {
+  if (!fileName || !fileType) {
     throw new Error("이미지 파일을 선택해주세요.");
   }
 
-  const imageUrl: string = file.location;
+  const params = {
+    Bucket: process.env.AWS_S3_BUCKET_NAME || "",
+    Key: `images/${Date.now().toString()}_${fileName}`,
+    ContentType: fileType,
+  };
 
-  await prisma.image.create({
-    data: {
-      imagePath: imageUrl,
-    },
-  });
+  const command = new PutObjectCommand(params);
 
-  return imageUrl;
+  const presignedUrl = await getSignedUrl(s3Config, command, { expiresIn: 3600 });
+
+  return presignedUrl;
 };
