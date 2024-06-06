@@ -1,8 +1,5 @@
 import pkg from 'jsonwebtoken';
-import * as dotenv from 'dotenv';
 import { NextFunction, Request, Response } from 'express';
-
-dotenv.config();
 
 const { sign, verify } = pkg;
 

@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import express from 'express';
@@ -13,8 +12,13 @@ import userRouters from './module/user/user.controller';
 import http from 'http';
 import WebSocket from 'ws';
 import { swaggerDocsRoute } from './swagger/swagger';
+import DotenvFlow from 'dotenv-flow';
 
-dotenv.config();
+DotenvFlow.config({
+	path: './',
+	node_env: process.env.NODE_ENV || 'development',
+});
+
 const app = express();
 
 app.use(
