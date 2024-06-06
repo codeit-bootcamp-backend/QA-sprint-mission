@@ -35,16 +35,7 @@ const mockArticle = {
   likeCount: 0,
   writer: "김판다",
   userId: 1,
-  images: [
-    {
-      id: "image-id",
-      imagePath: "image1.jpg",
-      articleId: "test-article-id",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      productId: null,
-    },
-  ],
+  images: ["image1.jpg"],
 };
 
 describe("게시글 컨트롤러", () => {

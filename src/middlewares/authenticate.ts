@@ -17,7 +17,7 @@ const authenticate: RequestHandler = (req: Request, res: Response, next: NextFun
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
-    req.user = { _id: decoded.userId }; // 기존 _id를 userId로 설정
+    req.user = { _id: decoded.userId };
     next();
   } catch (error) {
     res.status(401).json({ message: "올바르지 않은 토큰입니다." });

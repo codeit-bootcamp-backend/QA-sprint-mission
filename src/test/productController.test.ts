@@ -18,16 +18,7 @@ const mockProducts = [
     writer: "테스트 유저",
     tags: [],
     userId: 1,
-    images: [
-      {
-        id: "image-id",
-        imagePath: "image1.jpg",
-        productId: null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        articleId: null,
-      },
-    ],
+    images: ["image1.jpg"],
   },
 ];
 
@@ -43,16 +34,7 @@ const mockBestProducts = [
     writer: "베스트 유저",
     tags: [],
     userId: 1,
-    images: [
-      {
-        id: "image-id",
-        imagePath: "bestimage1.jpg",
-        productId: null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        articleId: null,
-      },
-    ],
+    images: ["bestimage1.jpg"],
   },
 ];
 
@@ -121,16 +103,7 @@ describe("상품 컨트롤러", () => {
         writer: "테스트 유저",
         tags: [],
         userId: 1,
-        images: [
-          {
-            id: "image-id",
-            imagePath: "image1.jpg",
-            productId: null,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            articleId: null,
-          },
-        ],
+        images: ["image1.jpg"],
       };
 
       (productService.createProduct as jest.MockedFunction<typeof productService.createProduct>).mockResolvedValue(
@@ -162,16 +135,7 @@ describe("상품 컨트롤러", () => {
         writer: "테스트 유저",
         tags: [],
         userId: 1,
-        images: [
-          {
-            id: "image-id",
-            imagePath: "image1.jpg",
-            productId: null,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            articleId: null,
-          },
-        ],
+        images: ["image1.jpg"],
       };
 
       (productService.getProductById as jest.MockedFunction<typeof productService.getProductById>).mockResolvedValue(
@@ -202,16 +166,7 @@ describe("상품 컨트롤러", () => {
         writer: "테스트 유저",
         tags: [],
         userId: 1,
-        images: [
-          {
-            id: "image-id",
-            imagePath: "image1.jpg",
-            productId: null,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            articleId: null,
-          },
-        ],
+        images: ["image1.jpg"],
       };
 
       (productService.updateProduct as jest.MockedFunction<typeof productService.updateProduct>).mockResolvedValue(
@@ -283,16 +238,7 @@ describe("상품 컨트롤러", () => {
         writer: "테스트 유저",
         tags: [],
         userId: 1,
-        images: [
-          {
-            id: "image-id",
-            imagePath: "image1.jpg",
-            productId: null,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            articleId: null,
-          },
-        ],
+        images: ["image1.jpg"],
       };
 
       (productService.likeProduct as jest.MockedFunction<typeof productService.likeProduct>).mockResolvedValue(
@@ -336,16 +282,7 @@ describe("상품 컨트롤러", () => {
         writer: "테스트 유저",
         tags: [],
         userId: 1,
-        images: [
-          {
-            id: "image-id",
-            imagePath: "image1.jpg",
-            productId: null,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            articleId: null,
-          },
-        ],
+        images: ["image1.jpg"],
       };
 
       (productService.unlikeProduct as jest.MockedFunction<typeof productService.unlikeProduct>).mockResolvedValue(

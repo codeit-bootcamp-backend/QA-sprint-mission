@@ -35,7 +35,7 @@ describe("getPresignedUrl", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     originalConsoleError = console.error;
-    console.error = jest.fn(); // suppress console.error during tests
+    console.error = jest.fn();
   });
 
   afterEach(() => {

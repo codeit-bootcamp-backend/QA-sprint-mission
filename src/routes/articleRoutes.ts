@@ -3,6 +3,7 @@ import * as articleController from "../controllers/articleController";
 import * as commentController from "../controllers/commentController";
 import authenticate from "../middlewares/authenticate";
 const router = express.Router();
+
 /**
  * @swagger
  * tags:
@@ -64,9 +65,11 @@ const router = express.Router();
  *                       content:
  *                         type: string
  *                         example: "게시글 내용"
- *                       imageUrl:
- *                         type: string
- *                         example: "http://example.com/image.jpg"
+ *                       images:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                           example: "http://example.com/image.jpg"
  *                       createdAt:
  *                         type: string
  *                         format: date-time
@@ -91,9 +94,11 @@ const router = express.Router();
  *                       content:
  *                         type: string
  *                         example: "인기 게시글 내용"
- *                       imageUrl:
- *                         type: string
- *                         example: "http://example.com/image.jpg"
+ *                       images:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                           example: "http://example.com/image.jpg"
  *                       createdAt:
  *                         type: string
  *                         format: date-time
@@ -111,7 +116,9 @@ const router = express.Router();
  *                     - id: "550e8400-e29b-41d4-a716-446655440000"
  *                       title: "게시글 제목"
  *                       content: "게시글 내용"
- *                       imageUrl: "http://example.com/image.jpg"
+ *                       images:
+ *                         - "https://sitem.ssgcdn.com/62/11/49/item/1000559491162_i1_1100.jpg"
+ *                         - "https://wimg.mk.co.kr/meet/2021/09/image_listtop_2021_854860_1630738087.jpg"
  *                       createdAt: "2023-01-01T00:00:00.000Z"
  *                       likeCount: 5
  *                       writer: "작성자"
@@ -119,7 +126,9 @@ const router = express.Router();
  *                     - id: "550e8400-e29b-41d4-a716-446655440000"
  *                       title: "인기 게시글 제목"
  *                       content: "인기 게시글 내용"
- *                       imageUrl: "http://example.com/image.jpg"
+ *                       images:
+ *                         - "https://sitem.ssgcdn.com/62/11/49/item/1000559491162_i1_1100.jpg"
+ *                         - "https://wimg.mk.co.kr/meet/2021/09/image_listtop_2021_854860_1630738087.jpg"
  *                       createdAt: "2023-01-01T00:00:00.000Z"
  *                       likeCount: 10
  *                       writer: "작성자"
@@ -161,9 +170,11 @@ const router = express.Router();
  *                 content:
  *                   type: string
  *                   example: "게시글 내용"
- *                 imageUrl:
- *                   type: string
- *                   example: "http://example.com/image.jpg"
+ *                 images:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                     example: "http://example.com/image.jpg"
  *                 createdAt:
  *                   type: string
  *                   format: date-time
@@ -180,7 +191,8 @@ const router = express.Router();
  *                   id: "550e8400-e29b-41d4-a716-446655440000"
  *                   title: "게시글 제목"
  *                   content: "게시글 내용"
- *                   imageUrl: "http://example.com/image.jpg"
+ *                   images:
+ *                     - "http://example.com/image.jpg"
  *                   createdAt: "2023-01-01T00:00:00.000Z"
  *                   likeCount: 0
  *                   writer: "작성자"
@@ -202,9 +214,9 @@ const router = express.Router();
  *                 summary: 유효하지 않은 토큰인 경우
  *                 value:
  *                   message: "유효하지 않은 토큰입니다."
- *
  */
 router.route("/").get(articleController.getArticles).post(authenticate, articleController.createArticle);
+
 /**
  * @swagger
  * /articles/{id}:
@@ -234,9 +246,11 @@ router.route("/").get(articleController.getArticles).post(authenticate, articleC
  *                 content:
  *                   type: string
  *                   example: "게시글 내용"
- *                 imageUrl:
- *                   type: string
- *                   example: "http://example.com/image.jpg"
+ *                 images:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                     example: "https://sitem.ssgcdn.com/62/11/49/item/1000559491162_i1_1100.jpg"
  *                 createdAt:
  *                   type: string
  *                   format: date-time
@@ -253,7 +267,9 @@ router.route("/").get(articleController.getArticles).post(authenticate, articleC
  *                   id: "550e8400-e29b-41d4-a716-446655440000"
  *                   title: "게시글 제목"
  *                   content: "게시글 내용"
- *                   imageUrl: "http://example.com/image.jpg"
+ *                   images:
+ *                     - "https://sitem.ssgcdn.com/62/11/49/item/1000559491162_i1_1100.jpg"
+ *                     - "https://wimg.mk.co.kr/meet/2021/09/image_listtop_2021_854860_1630738087.jpg"
  *                   createdAt: "2023-01-01T00:00:00.000Z"
  *                   likeCount: 5
  *                   writer: "작성자"
@@ -311,9 +327,11 @@ router.route("/").get(articleController.getArticles).post(authenticate, articleC
  *                 content:
  *                   type: string
  *                   example: "게시글 내용"
- *                 imageUrl:
- *                   type: string
- *                   example: "http://example.com/image.jpg"
+ *                 images:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                     example: "http://example.com/image.jpg"
  *                 createdAt:
  *                   type: string
  *                   format: date-time
@@ -330,7 +348,8 @@ router.route("/").get(articleController.getArticles).post(authenticate, articleC
  *                   id: "550e8400-e29b-41d4-a716-446655440000"
  *                   title: "게시글 제목"
  *                   content: "게시글 내용"
- *                   imageUrl: "http://example.com/image.jpg"
+ *                   images:
+ *                     - "http://example.com/image.jpg"
  *                   createdAt: "2023-01-01T00:00:00.000Z"
  *                   likeCount: 5
  *                   writer: "작성자"
@@ -472,9 +491,11 @@ router
  *                 content:
  *                   type: string
  *                   example: "게시글 내용"
- *                 imageUrl:
- *                   type: string
- *                   example: "http://example.com/image.jpg"
+ *                 images:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                     example: "http://example.com/image.jpg"
  *                 createdAt:
  *                   type: string
  *                   format: date-time
@@ -491,7 +512,8 @@ router
  *                   id: "550e8400-e29b-41d4-a716-446655440000"
  *                   title: "게시글 제목"
  *                   content: "게시글 내용"
- *                   imageUrl: "http://example.com/image.jpg"
+ *                   images:
+ *                     - "http://example.com/image.jpg"
  *                   createdAt: "2023-01-01T00:00:00.000Z"
  *                   likeCount: 6
  *                   writer: "작성자"
@@ -557,9 +579,11 @@ router.route("/:id/like").patch(authenticate, articleController.likeArticle);
  *                 content:
  *                   type: string
  *                   example: "게시글 내용"
- *                 imageUrl:
- *                   type: string
- *                   example: "http://example.com/image.jpg"
+ *                 images:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                     example: "http://example.com/image.jpg"
  *                 createdAt:
  *                   type: string
  *                   format: date-time
@@ -576,7 +600,8 @@ router.route("/:id/like").patch(authenticate, articleController.likeArticle);
  *                   id: "550e8400-e29b-41d4-a716-446655440000"
  *                   title: "게시글 제목"
  *                   content: "게시글 내용"
- *                   imageUrl: "http://example.com/image.jpg"
+ *                   images:
+ *                     - "http://example.com/image.jpg"
  *                   createdAt: "2023-01-01T00:00:00.000Z"
  *                   likeCount: 4
  *                   writer: "작성자"
@@ -610,6 +635,13 @@ router.route("/:id/like").patch(authenticate, articleController.likeArticle);
  *                example: "아직 좋아요 처리되지 않은 게시글입니다."
  */
 router.route("/:id/unlike").patch(authenticate, articleController.unlikeArticle);
+
+/**
+ * @swagger
+ * tags:
+ *   name: Comments
+ *   description: 댓글
+ */
 
 /**
  * @swagger
@@ -730,7 +762,6 @@ router.route("/:id/unlike").patch(authenticate, articleController.unlikeArticle)
  *               type: object
  *               properties:
  *                 message:
- *                   type: string
  *             examples:
  *               noToken:
  *                 summary: 토큰이 제공되지 않은 경우
@@ -750,13 +781,6 @@ router.route("/:id/unlike").patch(authenticate, articleController.unlikeArticle)
  *              message:
  *                type: string
  *                example: "존재하지 않는 게시글입니다."
- */
-
-/**
- * @swagger
- * tags:
- *   name: Comments
- *   description: 댓글
  */
 
 router
@@ -829,7 +853,6 @@ router
  *               type: object
  *               properties:
  *                 message:
- *                   type: string
  *             examples:
  *               noToken:
  *                 summary: 토큰이 제공되지 않은 경우
@@ -886,7 +909,6 @@ router
  *               type: object
  *               properties:
  *                 message:
- *                   type: string
  *             examples:
  *               noToken:
  *                 summary: 토큰이 제공되지 않은 경우

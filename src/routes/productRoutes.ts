@@ -45,42 +45,137 @@ const router = express.Router();
  *         description: 검색 키워드
  *     responses:
  *       200:
- *         description: 상품 목록 조회 성공
+ *         description: 성공적으로 제품 목록을 반환합니다.
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "1"
- *                   name:
- *                     type: string
- *                     example: "상품 이름"
- *                   description:
- *                     type: string
- *                     example: "상품 설명"
- *                   price:
- *                     type: number
- *                     example: 1000
- *                   favoriteCount:
- *                     type: number
- *                     example: 5
- *                   createdAt:
- *                     type: string
- *                     format: date-time
- *                     example: "2023-01-01T00:00:00.000Z"
+ *               type: object
+ *               properties:
+ *                 products:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: "상품 ID"
+ *                       name:
+ *                         type: string
+ *                         example: "상품 이름"
+ *                       description:
+ *                         type: string
+ *                         example: "상품 설명"
+ *                       price:
+ *                         type: number
+ *                         example: 1000
+ *                       favoriteCount:
+ *                         type: number
+ *                         example: 5
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: "2024-06-05T09:10:51.099Z"
+ *                       updatedAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: "2024-06-05T09:10:51.099Z"
+ *                       writer:
+ *                         type: string
+ *                         example: "작성자"
+ *                       tags:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                           example: "태그"
+ *                       userId:
+ *                         type: number
+ *                         example: 1
+ *                       images:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                           example: "https://example.com/image.jpg"
+ *                 bestProducts:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: "상품 ID"
+ *                       name:
+ *                         type: string
+ *                         example: "상품 이름"
+ *                       description:
+ *                         type: string
+ *                         example: "상품 설명"
+ *                       price:
+ *                         type: number
+ *                         example: 7000
+ *                       favoriteCount:
+ *                         type: number
+ *                         example: 7
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: "2024-06-05T09:10:51.099Z"
+ *                       updatedAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: "2024-06-05T09:10:51.099Z"
+ *                       writer:
+ *                         type: string
+ *                         example: "김판다"
+ *                       tags:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                           example: "판다인형"
+ *                       userId:
+ *                         type: number
+ *                         example: 1
+ *                       images:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                           example: "https://sitem.ssgcdn.com/62/11/49/item/1000559491162_i1_1100.jpg"
  *             examples:
  *               application/json:
  *                 value:
- *                   - id: "1"
- *                     name: "상품 이름"
- *                     description: "상품 설명"
- *                     price: 1000
- *                     favoriteCount: 5
- *                     createdAt: "2023-01-01T00:00:00.000Z"
+ *                   products: []
+ *                   bestProducts:
+ *                     - id: "377ce06c-23c8-46de-b86f-2cfd43d41cbc"
+ *                       name: "판다인형"
+ *                       description: "판다인형 판다"
+ *                       price: 700000
+ *                       favoriteCount: 7
+ *                       createdAt: "2024-06-05T09:10:51.099Z"
+ *                       updatedAt: "2024-06-05T09:10:51.099Z"
+ *                       writer: "김판다"
+ *                       tags:
+ *                         - "판다인형"
+ *                         - "인형"
+ *                         - "판다"
+ *                       userId: 1
+ *                       images:
+ *                         - "https://sitem.ssgcdn.com/62/11/49/item/1000559491162_i1_1100.jpg"
+ *                         - "https://wimg.mk.co.kr/meet/2021/09/image_listtop_2021_854860_1630738087.jpg"
+ *                     - id: "d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9"
+ *                       name: "불곰사세요"
+ *                       description: "판다인형 안판다"
+ *                       price: 7000
+ *                       favoriteCount: 2
+ *                       createdAt: "2024-06-05T09:10:51.099Z"
+ *                       updatedAt: "2024-06-05T09:10:51.099Z"
+ *                       writer: "박불곰"
+ *                       tags:
+ *                         - "판다인형"
+ *                         - "인형"
+ *                         - "판다"
+ *                         - "불곰"
+ *                       userId: 2
+ *                       images:
+ *                         - "https://view01.wemep.co.kr/wmp-product/4/879/2515748794/pm_ebifv5nrjsyf.jpg?1683280710&f=webp&w=460&h=460"
  *   post:
  *     summary: 상품 생성
  *     tags: [Products]
@@ -181,32 +276,62 @@ router.route("/").get(productController.getProducts).post(authenticate, productC
  *               properties:
  *                 id:
  *                   type: string
- *                   example: "1"
+ *                   example: "377ce06c-23c8-46de-b86f-2cfd43d41cbc"
  *                 name:
  *                   type: string
- *                   example: "상품 이름"
+ *                   example: "판다인형"
  *                 description:
  *                   type: string
- *                   example: "상품 설명"
+ *                   example: "판다인형 판다"
  *                 price:
  *                   type: number
- *                   example: 1000
+ *                   example: 700000
  *                 favoriteCount:
  *                   type: number
- *                   example: 5
+ *                   example: 7
  *                 createdAt:
  *                   type: string
  *                   format: date-time
- *                   example: "2023-01-01T00:00:00.000Z"
+ *                   example: "2024-06-05T09:10:51.099Z"
+ *                 writer:
+ *                   type: string
+ *                   example: "김판다"
+ *                 images:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                     example: "https://sitem.ssgcdn.com/62/11/49/item/1000559491162_i1_1100.jpg"
+ *                 tags:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                     example: "판다인형"
+ *                 updatedAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2024-06-05T09:10:51.099Z"
+ *                 userId:
+ *                   type: number
+ *                   example: 1
  *             examples:
  *               application/json:
  *                 value:
- *                   id: "1"
- *                   name: "상품 이름"
- *                   description: "상품 설명"
- *                   price: 1000
- *                   favoriteCount: 5
- *                   createdAt: "2023-01-01T00:00:00.000Z"
+ *                   id: "377ce06c-23c8-46de-b86f-2cfd43d41cbc"
+ *                   name: "판다인형"
+ *                   description: "판다인형 판다"
+ *                   price: 700000
+ *                   favoriteCount: 7
+ *                   createdAt: "2024-06-05T09:10:51.099Z"
+ *                   writer: "김판다"
+ *                   images:
+ *                     - "https://sitem.ssgcdn.com/62/11/49/item/1000559491162_i1_1100.jpg"
+ *                     - "https://wimg.mk.co.kr/meet/2021/09/image_listtop_2021_854860_1630738087.jpg"
+ *                   tags:
+ *                     - "판다인형"
+ *                     - "인형"
+ *                     - "판다"
+ *                   updatedAt: "2024-06-05T09:10:51.099Z"
+ *                   userId: 1
  *       404:
  *         description: 상품을 찾을 수 없음
  *         content:
@@ -608,7 +733,7 @@ router.route("/:id/unlike").patch(authenticate, productController.unlikeProduct)
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: articleId
+ *         name: productId
  *         required: true
  *         schema:
  *           type: string
@@ -797,7 +922,7 @@ router
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: articleId
+ *         name: productId
  *         required: true
  *         schema:
  *           type: string

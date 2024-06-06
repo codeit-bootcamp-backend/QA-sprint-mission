@@ -28,7 +28,6 @@ describe("Tokens Utility", () => {
     expect(jwt.sign).toHaveBeenCalledWith({ userId: mockUser.id }, secret, { expiresIn: "7d" });
     expect(token).toBe("refreshToken");
   });
-  // 추가된 테스트 케이스: 유효한 리프레시 토큰을 사용하여 새로운 리프레시 토큰을 생성하는 경우
 
   test("유효한 리프레시 토큰을 사용하여 새로운 리프레시 토큰을 생성한다", () => {
     const refreshToken = "validRefreshToken";
@@ -43,7 +42,6 @@ describe("Tokens Utility", () => {
     expect(token).toBe("newRefreshToken");
   });
 
-  // 추가된 테스트 케이스: 유효하지 않은 리프레시 토큰으로 인해 오류가 발생하는 경우
   test("유효하지 않은 리프레시 토큰으로 인해 오류가 발생한다", () => {
     const refreshToken = "invalidRefreshToken";
 

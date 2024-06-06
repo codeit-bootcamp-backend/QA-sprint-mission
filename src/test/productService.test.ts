@@ -51,7 +51,16 @@ describe("상품 서비스", () => {
     writer: "테스트 유저",
     tags: [],
     userId: 1,
-    images: [{ id: "image-id", imagePath: "image1.jpg" }],
+    images: [
+      {
+        id: "image-id",
+        imagePath: "image1.jpg",
+        productId: "test-product-id",
+        articleId: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ],
   };
 
   const mockUser = {
@@ -88,7 +97,12 @@ describe("상품 서비스", () => {
     (prisma.product.findMany as jest.MockedFunction<typeof prisma.product.findMany>).mockResolvedValue(products);
 
     const result = await getProducts({ offset: 0, limit: 10, orderBy: "recent", keyword: "" });
-    expect(result).toEqual(products);
+    expect(result).toEqual(
+      products.map((product) => ({
+        ...product,
+        images: product.images.map((image) => image.imagePath),
+      }))
+    );
     expect(prisma.product.findMany).toHaveBeenCalledWith({
       orderBy: { createdAt: "desc" },
       skip: 0,
@@ -119,7 +133,12 @@ describe("상품 서비스", () => {
     (prisma.product.findMany as jest.MockedFunction<typeof prisma.product.findMany>).mockResolvedValue(products);
 
     const result = await getBestProducts();
-    expect(result).toEqual(products);
+    expect(result).toEqual(
+      products.map((product) => ({
+        ...product,
+        images: product.images.map((image) => image.imagePath),
+      }))
+    );
     expect(prisma.product.findMany).toHaveBeenCalledWith({
       orderBy: { favoriteCount: "desc" },
       take: 4,
@@ -155,7 +174,10 @@ describe("상품 서비스", () => {
       "image1.jpg"
     );
 
-    expect(result).toEqual(mockProduct);
+    expect(result).toEqual({
+      ...mockProduct,
+      images: ["image1.jpg"],
+    });
     expect(prisma.user.findUnique).toHaveBeenCalledWith({
       where: { id: 1 },
       select: { name: true },
@@ -196,7 +218,10 @@ describe("상품 서비스", () => {
     (prisma.product.findUnique as jest.MockedFunction<typeof prisma.product.findUnique>).mockResolvedValue(mockProduct);
 
     const result = await getProductById("test-product-id");
-    expect(result).toEqual(mockProduct);
+    expect(result).toEqual({
+      ...mockProduct,
+      images: ["image1.jpg"],
+    });
     expect(prisma.product.findUnique).toHaveBeenCalledWith({
       where: { id: "test-product-id" },
       select: {
@@ -263,7 +288,10 @@ describe("상품 서비스", () => {
       "image1.jpg"
     );
 
-    expect(result).toEqual(mockProduct);
+    expect(result).toEqual({
+      ...mockProduct,
+      images: ["image1.jpg"],
+    });
     expect(prisma.product.findUniqueOrThrow).toHaveBeenCalledWith({
       where: { id: "test-product-id" },
       include: { images: true },
@@ -312,7 +340,10 @@ describe("상품 서비스", () => {
       ""
     );
 
-    expect(result).toEqual(mockProduct);
+    expect(result).toEqual({
+      ...mockProduct,
+      images: mockProduct.images.map((image) => image.imagePath),
+    });
     expect(prisma.product.findUniqueOrThrow).toHaveBeenCalledWith({
       where: { id: "test-product-id" },
       include: { images: true },
@@ -370,7 +401,10 @@ describe("상품 서비스", () => {
       "image1.jpg"
     );
 
-    expect(result).toEqual(mockProduct);
+    expect(result).toEqual({
+      ...mockProduct,
+      images: ["image1.jpg"],
+    });
     expect(prisma.product.findUniqueOrThrow).toHaveBeenCalledWith({
       where: { id: "test-product-id" },
       include: { images: true },
@@ -440,7 +474,10 @@ describe("상품 서비스", () => {
     (prisma.$transaction as jest.MockedFunction<typeof prisma.$transaction>).mockResolvedValue([null, updatedProduct]);
 
     const result = await likeProduct("test-product-id", 1);
-    expect(result).toEqual(updatedProduct);
+    expect(result).toEqual({
+      ...updatedProduct,
+      images: ["image1.jpg"],
+    });
     expect(result.favoriteCount).toBe(mockProduct.favoriteCount + 1);
     expect(prisma.favorite.findUnique).toHaveBeenCalledWith({
       where: {
@@ -478,7 +515,10 @@ describe("상품 서비스", () => {
     (prisma.$transaction as jest.MockedFunction<typeof prisma.$transaction>).mockResolvedValue([null, updatedProduct]);
 
     const result = await unlikeProduct("test-product-id", 1);
-    expect(result).toEqual(updatedProduct);
+    expect(result).toEqual({
+      ...updatedProduct,
+      images: ["image1.jpg"],
+    });
     expect(result.favoriteCount).toBe(mockProduct.favoriteCount - 1);
     expect(prisma.favorite.findUnique).toHaveBeenCalledWith({
       where: {

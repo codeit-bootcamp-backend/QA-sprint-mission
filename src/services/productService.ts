@@ -12,11 +12,11 @@ export const getProducts = async ({
   limit: number;
   orderBy: string;
   keyword: string;
-}): Promise<Product[]> => {
+}): Promise<(Product & { images: string[] })[]> => {
   const order: Prisma.ProductOrderByWithRelationInput =
     orderBy === "favorite" ? { favoriteCount: "desc" } : { createdAt: "desc" };
 
-  return await prisma.product.findMany({
+  const products = await prisma.product.findMany({
     orderBy: order,
     skip: offset,
     take: limit,
@@ -54,9 +54,14 @@ export const getProducts = async ({
       ],
     },
   });
+
+  return products.map((product) => ({
+    ...product,
+    images: product.images.map((image) => image.imagePath),
+  }));
 };
 
-export const getBestProducts = async () => {
+export const getBestProducts = async (): Promise<(Product & { images: string[] })[]> => {
   const bestProducts = await prisma.product.findMany({
     select: {
       id: true,
@@ -81,14 +86,17 @@ export const getBestProducts = async () => {
     take: 4,
   });
 
-  return bestProducts;
+  return bestProducts.map((product) => ({
+    ...product,
+    images: product.images.map((image) => image.imagePath),
+  }));
 };
 
 export const createProduct = async (
   userId: number,
   productData: Omit<Prisma.ProductCreateInput, "user" | "writer" | "images">,
   imageUrl: string
-) => {
+): Promise<Product & { images: string[] }> => {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: { name: true },
@@ -109,15 +117,20 @@ export const createProduct = async (
     },
   };
 
-  return await prisma.product.create({
+  const createdProduct = await prisma.product.create({
     data: productDataWithWriterName,
     include: {
       images: true,
     },
   });
+
+  return {
+    ...createdProduct,
+    images: createdProduct.images.map((image) => image.imagePath),
+  };
 };
 
-export const getProductById = async (id: string): Promise<Product | null> => {
+export const getProductById = async (id: string): Promise<(Product & { images: string[] }) | null> => {
   const product = await prisma.product.findUnique({
     where: { id },
     select: {
@@ -142,7 +155,11 @@ export const getProductById = async (id: string): Promise<Product | null> => {
   if (!product) {
     throw new AppError("존재하지 않는 상품입니다.", 404);
   }
-  return product;
+
+  return {
+    ...product,
+    images: product.images.map((image) => image.imagePath),
+  };
 };
 
 export const updateProduct = async (
@@ -150,7 +167,7 @@ export const updateProduct = async (
   userId: number,
   productData: Prisma.ProductUpdateInput,
   imageUrl: string
-): Promise<Product> => {
+): Promise<Product & { images: string[] }> => {
   const product = await prisma.product.findUniqueOrThrow({
     where: { id },
     include: { images: true },
@@ -177,13 +194,18 @@ export const updateProduct = async (
     }
   }
 
-  return await prisma.product.update({
+  const updatedProduct = await prisma.product.update({
     where: { id },
     data: productData,
     include: {
       images: true,
     },
   });
+
+  return {
+    ...updatedProduct,
+    images: updatedProduct.images.map((image) => image.imagePath),
+  };
 };
 
 export const deleteProduct = async (productId: string, userId: number): Promise<void> => {
@@ -204,7 +226,7 @@ export const deleteProduct = async (productId: string, userId: number): Promise<
   });
 };
 
-export const likeProduct = async (productId: string, userId: number): Promise<Product> => {
+export const likeProduct = async (productId: string, userId: number): Promise<Product & { images: string[] }> => {
   const favorite = await prisma.favorite.findUnique({
     where: {
       userId_productId: {
@@ -234,13 +256,17 @@ export const likeProduct = async (productId: string, userId: number): Promise<Pr
           increment: 1,
         },
       },
+      include: { images: true },
     }),
   ]);
 
-  return updatedProduct;
+  return {
+    ...updatedProduct,
+    images: updatedProduct.images.map((image) => image.imagePath),
+  };
 };
 
-export const unlikeProduct = async (productId: string, userId: number): Promise<Product> => {
+export const unlikeProduct = async (productId: string, userId: number): Promise<Product & { images: string[] }> => {
   const favorite = await prisma.favorite.findUnique({
     where: {
       userId_productId: {
@@ -272,8 +298,12 @@ export const unlikeProduct = async (productId: string, userId: number): Promise<
           decrement: 1,
         },
       },
+      include: { images: true },
     }),
   ]);
 
-  return updatedProduct;
+  return {
+    ...updatedProduct,
+    images: updatedProduct.images.map((image) => image.imagePath),
+  };
 };

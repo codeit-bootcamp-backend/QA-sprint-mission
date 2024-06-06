@@ -50,7 +50,10 @@ export const getArticles = async ({
     },
   });
 
-  return articles;
+  return articles.map((article) => ({
+    ...article,
+    images: article.images.map((image) => image.imagePath),
+  }));
 };
 
 export const getBestArticles = async () => {
@@ -73,7 +76,10 @@ export const getBestArticles = async () => {
     take: 4,
   });
 
-  return bestArticles;
+  return bestArticles.map((article) => ({
+    ...article,
+    images: article.images.map((image) => image.imagePath),
+  }));
 };
 
 export const createArticle = async (
@@ -101,16 +107,21 @@ export const createArticle = async (
     },
   };
 
-  return await prisma.article.create({
+  const createdArticle = await prisma.article.create({
     data: articleDataWithWriterName,
     include: {
       images: true,
     },
   });
+
+  return {
+    ...createdArticle,
+    images: createdArticle.images.map((image) => image.imagePath),
+  };
 };
 
 export const getArticleById = async (id: string) => {
-  return await prisma.article.findUniqueOrThrow({
+  const article = await prisma.article.findUniqueOrThrow({
     where: { id },
     select: {
       id: true,
@@ -126,6 +137,11 @@ export const getArticleById = async (id: string) => {
       },
     },
   });
+
+  return {
+    ...article,
+    images: article.images.map((image) => image.imagePath),
+  };
 };
 
 export const updateArticle = async (
@@ -160,13 +176,18 @@ export const updateArticle = async (
     }
   }
 
-  return await prisma.article.update({
+  const updatedArticle = await prisma.article.update({
     where: { id },
     data: articleData,
     include: {
       images: true,
     },
   });
+
+  return {
+    ...updatedArticle,
+    images: updatedArticle.images.map((image) => image.imagePath),
+  };
 };
 
 export const deleteArticle = async (articleId: string, userId: number) => {
@@ -213,10 +234,20 @@ export const likeArticle = async (articleId: string, userId: number) => {
           increment: 1,
         },
       },
+      include: {
+        images: {
+          select: {
+            imagePath: true,
+          },
+        },
+      },
     }),
   ]);
 
-  return updatedArticle;
+  return {
+    ...updatedArticle,
+    images: updatedArticle.images.map((image) => image.imagePath),
+  };
 };
 
 export const unlikeArticle = async (articleId: string, userId: number) => {
@@ -251,8 +282,18 @@ export const unlikeArticle = async (articleId: string, userId: number) => {
           decrement: 1,
         },
       },
+      include: {
+        images: {
+          select: {
+            imagePath: true,
+          },
+        },
+      },
     }),
   ]);
 
-  return updatedArticle;
+  return {
+    ...updatedArticle,
+    images: updatedArticle.images.map((image) => image.imagePath),
+  };
 };

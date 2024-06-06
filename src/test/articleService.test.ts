@@ -87,7 +87,12 @@ describe("게시글 서비스", () => {
       (prisma.article.findMany as jest.MockedFunction<typeof prisma.article.findMany>).mockResolvedValue(articles);
 
       const result = await getArticles({ offset: 0, limit: 10, orderBy: "recent", keyword: "" });
-      expect(result).toEqual(articles);
+      expect(result).toEqual(
+        articles.map((article) => ({
+          ...article,
+          images: article.images.map((image) => image.imagePath),
+        }))
+      );
       expect(prisma.article.findMany).toHaveBeenCalledWith({
         orderBy: { createdAt: "desc" },
         skip: 0,
@@ -113,7 +118,12 @@ describe("게시글 서비스", () => {
       (prisma.article.findMany as jest.MockedFunction<typeof prisma.article.findMany>).mockResolvedValue(articles);
 
       const result = await getBestArticles();
-      expect(result).toEqual(articles);
+      expect(result).toEqual(
+        articles.map((article) => ({
+          ...article,
+          images: article.images.map((image) => image.imagePath),
+        }))
+      );
       expect(prisma.article.findMany).toHaveBeenCalledWith({
         orderBy: { likeCount: "desc" },
         take: 4,
@@ -138,7 +148,10 @@ describe("게시글 서비스", () => {
 
       const result = await createArticle(1, { title: "새로운 게시글", content: "새로운 게시글 내용" }, "image1.jpg");
 
-      expect(result).toEqual(mockArticle);
+      expect(result).toEqual({
+        ...mockArticle,
+        images: mockArticle.images.map((image) => image.imagePath),
+      });
       expect(prisma.user.findUnique).toHaveBeenCalledWith({
         where: { id: 1 },
         select: { name: true },
@@ -170,7 +183,10 @@ describe("게시글 서비스", () => {
       ).mockResolvedValue(mockArticle);
 
       const result = await getArticleById("test-article-id");
-      expect(result).toEqual(mockArticle);
+      expect(result).toEqual({
+        ...mockArticle,
+        images: mockArticle.images.map((image) => image.imagePath),
+      });
       expect(prisma.article.findUniqueOrThrow).toHaveBeenCalledWith({
         where: { id: "test-article-id" },
         select: {
@@ -224,7 +240,10 @@ describe("게시글 서비스", () => {
         "image1.jpg"
       );
 
-      expect(result).toEqual(mockArticle);
+      expect(result).toEqual({
+        ...mockArticle,
+        images: mockArticle.images.map((image) => image.imagePath),
+      });
       expect(prisma.article.findUniqueOrThrow).toHaveBeenCalledWith({
         where: { id: "test-article-id" },
         include: { images: true },
@@ -268,7 +287,10 @@ describe("게시글 서비스", () => {
         ""
       );
 
-      expect(result).toEqual(mockArticle);
+      expect(result).toEqual({
+        ...mockArticle,
+        images: mockArticle.images.map((image) => image.imagePath),
+      });
       expect(prisma.article.findUniqueOrThrow).toHaveBeenCalledWith({
         where: { id: "test-article-id" },
         include: { images: true },
@@ -302,7 +324,10 @@ describe("게시글 서비스", () => {
         "image1.jpg"
       );
 
-      expect(result).toEqual(mockArticle);
+      expect(result).toEqual({
+        ...mockArticle,
+        images: mockArticle.images.map((image) => image.imagePath),
+      });
       expect(prisma.article.findUniqueOrThrow).toHaveBeenCalledWith({
         where: { id: "test-article-id" },
         include: { images: true },
@@ -374,7 +399,10 @@ describe("게시글 서비스", () => {
       ]);
 
       const result = await likeArticle("test-article-id", 1);
-      expect(result).toEqual(updatedArticle);
+      expect(result).toEqual({
+        ...updatedArticle,
+        images: updatedArticle.images.map((image) => image.imagePath),
+      });
       expect(result.likeCount).toBe(mockArticle.likeCount + 1);
       expect(prisma.favorite.findUnique).toHaveBeenCalledWith({
         where: {
@@ -417,7 +445,10 @@ describe("게시글 서비스", () => {
       ]);
 
       const result = await unlikeArticle("test-article-id", 1);
-      expect(result).toEqual(updatedArticle);
+      expect(result).toEqual({
+        ...updatedArticle,
+        images: updatedArticle.images.map((image) => image.imagePath),
+      });
       expect(result.likeCount).toBe(mockArticle.likeCount - 1);
       expect(prisma.favorite.findUnique).toHaveBeenCalledWith({
         where: {
