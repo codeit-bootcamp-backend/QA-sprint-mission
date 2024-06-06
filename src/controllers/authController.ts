@@ -4,13 +4,14 @@ import jwt from "jsonwebtoken";
 import { StructError, assert } from "superstruct";
 import { createUser, findUserByEmail, findUserById, validatePassword } from "../services/authService";
 import { CreateUser } from "../structs";
+import asyncHandler from "../utils/asyncHandler";
 import { generateAccessToken, generateRefreshToken, regenerateRefreshToken } from "../utils/tokens";
 
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || "kingPanda";
 
-export const signUp = async (req: Request, res: Response) => {
+export const signUp = asyncHandler(async (req: Request, res: Response) => {
   try {
     const { email, password, name, nickname } = req.body;
     assert(req.body, CreateUser);
@@ -46,9 +47,9 @@ export const signUp = async (req: Request, res: Response) => {
       res.status(500).json({ message: "서버 에러입니다." });
     }
   }
-};
+});
 
-export const signIn = async (req: Request, res: Response) => {
+export const signIn = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -74,9 +75,9 @@ export const signIn = async (req: Request, res: Response) => {
   const refreshToken = generateRefreshToken(user);
 
   res.json({ accessToken, refreshToken });
-};
+});
 
-export const refreshToken = async (req: Request, res: Response) => {
+export const refreshToken = asyncHandler(async (req: Request, res: Response) => {
   const { refreshToken } = req.body;
 
   if (!refreshToken) {
@@ -102,7 +103,7 @@ export const refreshToken = async (req: Request, res: Response) => {
     res.status(401).json({ message: "유효하지 않은 토큰입니다." });
     return;
   }
-};
+});
 
 export const googleCallback = (req: Request, res: Response, next: NextFunction) => {
   if (!req.user) {

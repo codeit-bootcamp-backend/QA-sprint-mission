@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import prisma from "../client";
 import AppError from "../utils/errors";
-
-const prisma = new PrismaClient();
 
 export const getArticles = async ({
   offset,

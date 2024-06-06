@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { NextFunction, Request, RequestHandler, Response } from "express";
-import { StructError } from "superstruct";
+import AppError from "./errors";
 
 type AsyncHandler<T extends Request> = (req: T, res: Response, next: NextFunction) => Promise<void>;
 
@@ -9,12 +9,8 @@ const asyncHandler = <T extends Request>(handler: AsyncHandler<T>): RequestHandl
     try {
       return await handler(req as T, res, next);
     } catch (e) {
-      if (e instanceof StructError) {
-        const errors = e.failures().map((failure) => ({
-          path: failure.path.join("."),
-          message: failure.message,
-        }));
-        res.status(400).json({ message: "유효성 검사 오류입니다.", errors });
+      if (e instanceof AppError) {
+        res.status(e.statusCode).json({ message: e.message });
       } else if (e instanceof Prisma.PrismaClientValidationError) {
         res.status(400).json({ message: e.message });
       } else if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2025") {

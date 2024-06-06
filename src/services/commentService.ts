@@ -1,7 +1,6 @@
-import { Comment, Prisma, PrismaClient } from "@prisma/client";
+import { Comment, Prisma } from "@prisma/client";
+import prisma from "../client";
 import AppError from "../utils/errors";
-
-const prisma = new PrismaClient();
 
 export const getCommentsByProductId = async (productId: string, cursor?: string): Promise<Comment[]> => {
   const queryOptions: Prisma.CommentFindManyArgs = {

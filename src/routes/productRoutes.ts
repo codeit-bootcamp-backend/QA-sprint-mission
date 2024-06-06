@@ -2,7 +2,6 @@ import express from "express";
 import * as commentController from "../controllers/commentController";
 import * as productController from "../controllers/productController";
 import authenticate from "../middlewares/authenticate";
-import asyncHandler from "../utils/asyncHandler";
 const router = express.Router();
 
 /**
@@ -158,10 +157,7 @@ const router = express.Router();
  *                 value:
  *                   message: "유효하지 않은 토큰입니다."
  */
-router
-  .route("/")
-  .get(asyncHandler(productController.getProducts))
-  .post(authenticate, asyncHandler(productController.createProduct));
+router.route("/").get(productController.getProducts).post(authenticate, productController.createProduct);
 
 /**
  * @swagger
@@ -387,9 +383,9 @@ router
  */
 router
   .route("/:id")
-  .get(asyncHandler(productController.getProductById))
-  .patch(authenticate, asyncHandler(productController.updateProduct))
-  .delete(authenticate, asyncHandler(productController.deleteProduct));
+  .get(productController.getProductById)
+  .patch(authenticate, productController.updateProduct)
+  .delete(authenticate, productController.deleteProduct);
 
 /**
  * @swagger
@@ -470,7 +466,7 @@ router
  *                type: string
  *                example: "이미 좋아요 처리된 상품입니다."
  */
-router.route("/:id/like").patch(authenticate, asyncHandler(productController.likeProduct));
+router.route("/:id/like").patch(authenticate, productController.likeProduct);
 
 /**
  * @swagger
@@ -551,7 +547,7 @@ router.route("/:id/like").patch(authenticate, asyncHandler(productController.lik
  *                type: string
  *                example: "아직 좋아요 처리되지 않은 상품입니다."
  */
-router.route("/:id/unlike").patch(authenticate, asyncHandler(productController.unlikeProduct));
+router.route("/:id/unlike").patch(authenticate, productController.unlikeProduct);
 
 /**
  * @swagger
@@ -697,7 +693,7 @@ router.route("/:id/unlike").patch(authenticate, asyncHandler(productController.u
 router
   .route("/:productId/comments")
   .get(commentController.getCommentsByProductId)
-  .post(authenticate, asyncHandler(commentController.createComment));
+  .post(authenticate, commentController.createComment);
 
 /**
  * @swagger
@@ -855,7 +851,7 @@ router
 
 router
   .route("/:productId/comments/:commentId")
-  .patch(authenticate, asyncHandler(commentController.updateComment))
-  .delete(authenticate, asyncHandler(commentController.deleteComment));
+  .patch(authenticate, commentController.updateComment)
+  .delete(authenticate, commentController.deleteComment);
 
 export default router;

@@ -1,7 +1,6 @@
 import express from "express";
 import passport from "../config/passport.js";
 import { googleCallback, refreshToken, signIn, signUp } from "../controllers/authController.js";
-import asyncHandler from "../utils/asyncHandler.js";
 
 const router = express.Router();
 
@@ -64,7 +63,7 @@ const router = express.Router();
  *                   type: string
  *                   example: "이미 가입된 이메일입니다."
  */
-router.post("/signUp", asyncHandler(signUp));
+router.post("/signUp", signUp);
 
 /**
  * @swagger
@@ -113,7 +112,7 @@ router.post("/signUp", asyncHandler(signUp));
  *                   type: string
  *                   example: "이메일과 비밀번호를 확인해주세요."
  */
-router.post("/signIn", asyncHandler(signIn));
+router.post("/signIn", signIn);
 
 /**
  * @swagger
@@ -158,7 +157,7 @@ router.post("/signIn", asyncHandler(signIn));
  *                   type: string
  *                   example: "유효하지 않은 토큰입니다."
  */
-router.post("/refresh-token", asyncHandler(refreshToken));
+router.post("/refresh-token", refreshToken);
 
 /**
  * @swagger

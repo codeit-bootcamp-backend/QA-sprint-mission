@@ -1,8 +1,7 @@
-import express, { Request } from "express";
+import express from "express";
 import * as articleController from "../controllers/articleController";
 import * as commentController from "../controllers/commentController";
-import authenticate, { UserRequest } from "../middlewares/authenticate";
-import asyncHandler from "../utils/asyncHandler";
+import authenticate from "../middlewares/authenticate";
 const router = express.Router();
 /**
  * @swagger
@@ -205,10 +204,7 @@ const router = express.Router();
  *                   message: "유효하지 않은 토큰입니다."
  *
  */
-router
-  .route("/")
-  .get(asyncHandler(articleController.getArticles))
-  .post(authenticate, asyncHandler(articleController.createArticle));
+router.route("/").get(articleController.getArticles).post(authenticate, articleController.createArticle);
 /**
  * @swagger
  * /articles/{id}:
@@ -441,9 +437,9 @@ router
  */
 router
   .route("/:id")
-  .get(asyncHandler<Request<{ id: string }>>(articleController.getArticleById))
-  .patch(authenticate, asyncHandler<UserRequest & Request<{ id: string }>>(articleController.updateArticle))
-  .delete(authenticate, asyncHandler<UserRequest & Request<{ id: string }>>(articleController.deleteArticle));
+  .get(articleController.getArticleById)
+  .patch(authenticate, articleController.updateArticle)
+  .delete(authenticate, articleController.deleteArticle);
 
 /**
  * @swagger
@@ -528,7 +524,7 @@ router
  *                type: string
  *                example: "이미 좋아요 처리된 게시글입니다."
  */
-router.route("/:id/like").patch(authenticate, asyncHandler(articleController.likeArticle));
+router.route("/:id/like").patch(authenticate, articleController.likeArticle);
 
 /**
  * @swagger
@@ -613,7 +609,7 @@ router.route("/:id/like").patch(authenticate, asyncHandler(articleController.lik
  *                type: string
  *                example: "아직 좋아요 처리되지 않은 게시글입니다."
  */
-router.route("/:id/unlike").patch(authenticate, asyncHandler(articleController.unlikeArticle));
+router.route("/:id/unlike").patch(authenticate, articleController.unlikeArticle);
 
 /**
  * @swagger
@@ -765,8 +761,8 @@ router.route("/:id/unlike").patch(authenticate, asyncHandler(articleController.u
 
 router
   .route("/:articleId/comments")
-  .get(asyncHandler(commentController.getCommentsByProductId))
-  .post(authenticate, asyncHandler(commentController.createComment));
+  .get(commentController.getCommentsByProductId)
+  .post(authenticate, commentController.createComment);
 
 /**
  * @swagger
@@ -923,7 +919,7 @@ router
  */
 router
   .route("/:articleId/comments/:commentId")
-  .patch(authenticate, asyncHandler(commentController.updateComment))
-  .delete(authenticate, asyncHandler(commentController.deleteComment));
+  .patch(authenticate, commentController.updateComment)
+  .delete(authenticate, commentController.deleteComment);
 
 export default router;
