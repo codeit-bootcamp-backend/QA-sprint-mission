@@ -1,26 +1,27 @@
 import { Request, Response, Router } from 'express';
-import path from 'path';
 import multer from 'multer';
-import fs from 'fs';
 import multerS3 from 'multer-s3';
-import { asyncHandler } from '../asyncHandler';
-import DotenvFlow from 'dotenv-flow';
 import { S3Client } from '@aws-sdk/client-s3';
+import DotenvFlow from 'dotenv-flow';
 
 DotenvFlow.config({
 	path: './',
 	node_env: process.env.NODE_ENV || 'development',
 });
 
+const credentials = {
+	accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+};
+
+const s3 = new S3Client({
+	credentials,
+	region: 'ap-northeast-2',
+});
+
 const upload = multer({
 	storage: multerS3({
-		s3: new S3Client({
-			credentials: {
-				accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
-				secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
-			},
-			region: 'ap-northeast-2',
-		}),
+		s3,
 		bucket: process.env.S3_BUCKET_NAME as string,
 		contentType: multerS3.AUTO_CONTENT_TYPE,
 		key: (
@@ -106,26 +107,9 @@ imageRoutes.post(
 			const locations = files.map((file) => file.location);
 			res
 				.status(200)
-				.json({ message: 'Files uploaded successfully!', locations });
+				.send({ message: 'Files uploaded successfully!', locations });
 		} catch (error) {
-			res.status(500).json({ error: 'Failed to upload files.' });
+			res.status(500).send({ error: 'Failed to upload files.' });
 		}
 	},
-);
-
-imageRoutes.get(
-	'/:filename',
-	asyncHandler((req: Request, res: Response) => {
-		const { filename } = req.params;
-		const filePath = path.join(__dirname, '../../../images', filename);
-		console.log(filePath);
-
-		fs.access(filePath, fs.constants.F_OK, (err) => {
-			if (err) {
-				return res.status(404).send({ message: 'File not found' });
-			}
-
-			res.sendFile(filePath);
-		});
-	}),
 );
