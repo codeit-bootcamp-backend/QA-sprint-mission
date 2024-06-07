@@ -80,4 +80,5 @@ wss.on('connection', (ws: ExtWebSocket) => {
 
 server.listen(process.env.PORT || 3000, () => {
 	console.log('Server Started');
+	console.log(`Port listening on ${process.env.PORT}`);
 });

@@ -9,8 +9,6 @@ const prisma = new PrismaClient();
 export async function Product_findMany(req: Request, res: Response) {
 	const user = await User_findUnique(req);
 
-	console.log('b', user, 'b');
-
 	const {
 		offset = '0',
 		limit = '10',

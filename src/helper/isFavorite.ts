@@ -9,8 +9,6 @@ export async function isFavorite(
 	if (user === null) {
 		return false;
 	} else {
-		console.log(user!.id);
-
 		const dbResponse = await prisma.product.findUnique({
 			where: { id: findId },
 			include: {
