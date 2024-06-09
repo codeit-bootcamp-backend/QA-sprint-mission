@@ -5,7 +5,7 @@ import { CreateProduct, PatchProduct } from "../structs";
 import asyncHandler from "../utils/asyncHandler";
 
 interface UserRequest extends Request {
-  userId: number;
+  user: { _id: number };
 }
 // GET /products
 export const getProducts = asyncHandler(
@@ -30,7 +30,7 @@ export const getProducts = asyncHandler(
 // POST /products
 export const createProduct = asyncHandler(async (req: UserRequest, res: Response) => {
   assert(req.body, CreateProduct);
-  const { userId } = req;
+  const { _id: userId } = req.user;
   const { imageUrl, ...productData } = req.body;
 
   const product = await productService.createProduct(userId!, productData, imageUrl || "");
@@ -48,7 +48,7 @@ export const getProductById = asyncHandler(async (req: Request<{ id: string }>, 
 export const updateProduct = asyncHandler(async (req: UserRequest & Request<{ id: string }>, res: Response) => {
   assert(req.body, PatchProduct);
 
-  const { userId } = req;
+  const { _id: userId } = req.user;
   const { id } = req.params;
   const { imageUrl, ...productData } = req.body;
   const updatedProduct = await productService.updateProduct(id, userId, productData, imageUrl || "");
@@ -58,7 +58,7 @@ export const updateProduct = asyncHandler(async (req: UserRequest & Request<{ id
 // DELETE /products/:id
 export const deleteProduct = asyncHandler(async (req: UserRequest & Request<{ id: string }>, res: Response) => {
   const { id: productId } = req.params;
-  const { userId } = req;
+  const { _id: userId } = req.user;
   await productService.deleteProduct(productId, userId);
   res.sendStatus(204);
 });
@@ -66,7 +66,7 @@ export const deleteProduct = asyncHandler(async (req: UserRequest & Request<{ id
 // POST /products/:id/like
 export const likeProduct = asyncHandler(async (req: UserRequest & Request<{ id: string }>, res: Response) => {
   const { id: productId } = req.params;
-  const { userId } = req;
+  const { _id: userId } = req.user;
   const updatedProduct = await productService.likeProduct(productId, userId);
   res.send(updatedProduct);
 });
@@ -74,7 +74,7 @@ export const likeProduct = asyncHandler(async (req: UserRequest & Request<{ id: 
 // POST /products/:id/unlike
 export const unlikeProduct = asyncHandler(async (req: UserRequest & Request<{ id: string }>, res: Response) => {
   const { id: productId } = req.params;
-  const { userId } = req;
+  const { _id: userId } = req.user;
   const updatedProduct = await productService.unlikeProduct(productId, userId);
   res.send(updatedProduct);
 });

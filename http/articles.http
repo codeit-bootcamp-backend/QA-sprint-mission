@@ -9,7 +9,7 @@ GET http://localhost:3000/articles/2c027764-d7ef-4a94-8399-f15ffbf8f4da
 ###
 # 게시글 등록
 POST http://localhost:3000/articles
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzMwNDc2OCwiZXhwIjoxNzE3MzA1NjY4fQ.0Neh8i3gQWCU0o0y01-Co8jsW8kiXKl3dW7H6wK94pY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzkxMjA4MCwiZXhwIjoxNzE3OTEyOTgwfQ.zYdtc0Vud63UdEn1dQVkiZwc-cDbvRzPogs0CfV29nY
 Content-Type: application/json
 
 {
@@ -60,7 +60,7 @@ GET http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments
 # 자유게시판 댓글 등록
 POST http://localhost:3000/articles/287cb4c8-48c5-49e1-82fa-a1b9e2d7b4e3/comments
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzEyODU1MiwiZXhwIjoxNzE3MTI5NDUyfQ.OAcMKEyrlzrtCOlz4HXu3mmDdEQ0s-oYBlbvlHWAJUY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzkxMjA4MCwiZXhwIjoxNzE3OTEyOTgwfQ.zYdtc0Vud63UdEn1dQVkiZwc-cDbvRzPogs0CfV29nY
 
 {
   "content":"판다가 너무 귀여워요2"

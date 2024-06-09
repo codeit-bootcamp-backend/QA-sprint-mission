@@ -5,7 +5,7 @@ import { CreateComment, PatchComment } from "../structs";
 import asyncHandler from "../utils/asyncHandler";
 
 interface UserRequest extends Request {
-  userId: number;
+  user: { _id: number };
 }
 
 // GET /products/:id/comments
@@ -35,7 +35,7 @@ export const getCommentsByArticleId = asyncHandler(
 export const createComment = asyncHandler(async (req: UserRequest, res: Response) => {
   assert(req.body, CreateComment);
 
-  const { userId } = req;
+  const { _id: userId } = req.user;
   const commentData = {
     ...req.body,
     userId,
@@ -49,7 +49,7 @@ export const createComment = asyncHandler(async (req: UserRequest, res: Response
 export const updateComment = asyncHandler(async (req: UserRequest & Request<{ commentId: string }>, res: Response) => {
   assert(req.body, PatchComment);
 
-  const { userId } = req;
+  const { _id: userId } = req.user;
   const { content } = req.body;
   const { commentId } = req.params;
 
@@ -70,7 +70,7 @@ export const updateComment = asyncHandler(async (req: UserRequest & Request<{ co
 // DELETE /comments/:commentId
 export const deleteComment = asyncHandler(async (req: UserRequest & Request<{ commentId: string }>, res: Response) => {
   const { commentId } = req.params;
-  const { userId } = req;
+  const { _id: userId } = req.user;
 
   await commentService.deleteComment(commentId, userId);
   res.sendStatus(204);

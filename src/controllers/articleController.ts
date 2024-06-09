@@ -12,7 +12,7 @@ interface GetArticlesQuery {
 }
 
 export interface UserRequest extends Request {
-  userId: number;
+  user: { _id: number };
 }
 
 // GET /articles
@@ -33,7 +33,7 @@ export const getArticles = asyncHandler(async (req: Request<{}, {}, {}, GetArtic
 // POST /articles
 export const createArticle = asyncHandler(async (req: UserRequest, res: Response) => {
   assert(req.body, CreateArticle);
-  const { userId } = req;
+  const { _id: userId } = req.user;
   const { imageUrl, ...articleData } = req.body;
 
   const article = await articleService.createArticle(userId!, articleData, imageUrl || "");
@@ -51,7 +51,7 @@ export const getArticleById = asyncHandler(async (req: Request<{ id: string }>, 
 export const updateArticle = asyncHandler(
   async (req: UserRequest & Request<{ id: string }>, res: Response): Promise<void> => {
     assert(req.body, PatchArticle);
-    const { userId } = req;
+    const { _id: userId } = req.user;
     const { id } = req.params;
     const { imageUrl, ...articleData } = req.body;
     const updatedArticle = await articleService.updateArticle(id, userId!, articleData, imageUrl || "");
@@ -63,7 +63,7 @@ export const updateArticle = asyncHandler(
 export const deleteArticle = asyncHandler(
   async (req: UserRequest & Request<{ id: string }>, res: Response): Promise<void> => {
     const { id: articleId } = req.params;
-    const { userId } = req;
+    const { _id: userId } = req.user;
     await articleService.deleteArticle(articleId, userId);
     res.sendStatus(204);
   }
@@ -72,7 +72,7 @@ export const deleteArticle = asyncHandler(
 // POST /articles/:id/like
 export const likeArticle = asyncHandler(async (req: UserRequest & Request<{ id: string }>, res: Response) => {
   const { id: articleId } = req.params;
-  const { userId } = req;
+  const { _id: userId } = req.user;
   const updatedArticle = await articleService.likeArticle(articleId, userId);
   res.send(updatedArticle);
 });
@@ -80,7 +80,7 @@ export const likeArticle = asyncHandler(async (req: UserRequest & Request<{ id: 
 // POST /articles/:id/unlike
 export const unlikeArticle = asyncHandler(async (req: UserRequest & Request<{ id: string }>, res: Response) => {
   const { id: articleId } = req.params;
-  const { userId } = req;
+  const { _id: userId } = req.user;
   const updatedArticle = await articleService.unlikeArticle(articleId, userId);
   res.send(updatedArticle);
 });

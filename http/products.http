@@ -18,7 +18,7 @@ GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc
 ###
 # 상품 등록
 POST http://localhost:3000/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzM2ODk4OCwiZXhwIjoxNzE3MzY5ODg4fQ.KJMk2M5J_3fkHsYGljXhx30vBVUZI4rMYAOiROf6gLo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzkxMjA4MCwiZXhwIjoxNzE3OTEyOTgwfQ.zYdtc0Vud63UdEn1dQVkiZwc-cDbvRzPogs0CfV29nY
 Content-Type: application/json
 
 {
@@ -32,7 +32,7 @@ Content-Type: application/json
 ###
 # 상품 수정
 PATCH http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzMwNTM2MCwiZXhwIjoxNzE3MzA2MjYwfQ.oxUkWqPB86HyizeCuzU-KcWvnOGRiA1_8CNPh9HuO0A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzkxMjA4MCwiZXhwIjoxNzE3OTEyOTgwfQ.zYdtc0Vud63UdEn1dQVkiZwc-cDbvRzPogs0CfV29nY
 Content-Type: application/json
 
 {
@@ -51,7 +51,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhd
 ###
 # 상품 좋아요
 PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/like
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzEyODc3NiwiZXhwIjoxNzE3MTI5Njc2fQ.1P-sxAljy-HP-1LQ3F53tJJLCry3--KdL6mJSZSy4bc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzkxMjA4MCwiZXhwIjoxNzE3OTEyOTgwfQ.zYdtc0Vud63UdEn1dQVkiZwc-cDbvRzPogs0CfV29nY
 
 ###
 # 상품 좋아요 취소
