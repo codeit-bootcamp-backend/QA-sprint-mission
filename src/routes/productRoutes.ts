@@ -34,7 +34,7 @@ const router = express.Router();
  *         name: orderBy
  *         schema:
  *           type: string
- *           enum: [favorite, recent]
+ *           enum: [like, recent]
  *           example: recent
  *         description: 정렬 기준
  *       - in: query

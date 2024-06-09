@@ -28,6 +28,7 @@ export const getArticles = async ({
           imagePath: true,
         },
       },
+      likeCount: true,
     },
     orderBy: order,
     skip: offset,

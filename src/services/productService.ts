@@ -14,7 +14,7 @@ export const getProducts = async ({
   keyword: string;
 }): Promise<(Product & { images: string[] })[]> => {
   const order: Prisma.ProductOrderByWithRelationInput =
-    orderBy === "favorite" ? { favoriteCount: "desc" } : { createdAt: "desc" };
+    orderBy === "like" ? { favoriteCount: "desc" } : { createdAt: "desc" };
 
   const products = await prisma.product.findMany({
     orderBy: order,
