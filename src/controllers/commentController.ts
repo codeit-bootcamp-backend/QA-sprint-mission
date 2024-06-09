@@ -10,8 +10,8 @@ interface UserRequest extends Request {
 
 // GET /products/:id/comments
 export const getCommentsByProductId = asyncHandler(
-  async (req: Request<{ id: string }, {}, {}, { cursor?: string }>, res: Response) => {
-    const { id: productId } = req.params;
+  async (req: Request<{ productId: string }, {}, {}, { cursor?: string }>, res: Response) => {
+    const { productId } = req.params;
     const { cursor } = req.query;
     const comments = await commentService.getCommentsByEntityId("product", productId, cursor);
     const totalCount = await commentService.getCommentsCountByEntityId("product", productId);
@@ -22,8 +22,8 @@ export const getCommentsByProductId = asyncHandler(
 
 // GET /articles/:id/comments
 export const getCommentsByArticleId = asyncHandler(
-  async (req: Request<{ id: string }, {}, {}, { cursor?: string }>, res: Response) => {
-    const { id: articleId } = req.params;
+  async (req: Request<{ articleId: string }, {}, {}, { cursor?: string }>, res: Response) => {
+    const { articleId } = req.params;
     const { cursor } = req.query;
     const comments = await commentService.getCommentsByEntityId("article", articleId, cursor);
     const totalCount = await commentService.getCommentsCountByEntityId("article", articleId);
@@ -31,7 +31,6 @@ export const getCommentsByArticleId = asyncHandler(
     res.send({ totalCount, comments });
   }
 );
-
 // POST /comments
 export const createComment = asyncHandler(async (req: UserRequest, res: Response) => {
   assert(req.body, CreateComment);

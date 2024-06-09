@@ -799,7 +799,7 @@ router.route("/:id/unlike").patch(authenticate, articleController.unlikeArticle)
 
 router
   .route("/:articleId/comments")
-  .get(commentController.getCommentsByProductId)
+  .get(commentController.getCommentsByArticleId)
   .post(authenticate, commentController.createComment);
 
 /**
