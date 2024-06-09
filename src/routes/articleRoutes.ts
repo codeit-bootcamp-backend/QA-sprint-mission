@@ -51,6 +51,10 @@ const router = express.Router();
  *             schema:
  *               type: object
  *               properties:
+ *                 totalCount:
+ *                   type: number
+ *                   example: 100
+ *                   description: "전체 게시글 수"
  *                 articles:
  *                   type: array
  *                   items:
@@ -112,6 +116,7 @@ const router = express.Router();
  *             examples:
  *               application/json:
  *                 value:
+ *                   totalCount: 100
  *                   articles:
  *                     - id: "550e8400-e29b-41d4-a716-446655440000"
  *                       title: "게시글 제목"
@@ -661,30 +666,39 @@ router.route("/:id/unlike").patch(authenticate, articleController.unlikeArticle)
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "550e8400-e29b-41d4-a716-446655440000"
- *                   content:
- *                     type: string
- *                     example: "댓글 내용"
- *                   createdAt:
- *                     type: string
- *                     format: date-time
- *                     example: "2023-01-01T00:00:00.000Z"
- *                   writer:
- *                     type: string
- *                     example: "작성자"
+ *               type: object
+ *               properties:
+ *                 totalCount:
+ *                   type: number
+ *                   example: 100
+ *                   description: "전체 댓글 수"
+ *                 comments:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: "550e8400-e29b-41d4-a716-446655440000"
+ *                       content:
+ *                         type: string
+ *                         example: "댓글 내용"
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: "2023-01-01T00:00:00.000Z"
+ *                       writer:
+ *                         type: string
+ *                         example: "작성자"
  *             examples:
  *               application/json:
  *                 value:
- *                   - id: "550e8400-e29b-41d4-a716-446655440000"
- *                     content: "댓글 내용"
- *                     createdAt: "2023-01-01T00:00:00.000Z"
- *                     writer: "작성자"
+ *                   totalCount: 100
+ *                   comments:
+ *                     - id: "550e8400-e29b-41d4-a716-446655440000"
+ *                       content: "댓글 내용"
+ *                       createdAt: "2023-01-01T00:00:00.000Z"
+ *                       writer: "작성자"
  *       404:
  *         description: 게시글을 찾을 수 없음
  *         content:

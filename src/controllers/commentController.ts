@@ -13,8 +13,10 @@ export const getCommentsByProductId = asyncHandler(
   async (req: Request<{ id: string }, {}, {}, { cursor?: string }>, res: Response) => {
     const { id: productId } = req.params;
     const { cursor } = req.query;
-    const comments = await commentService.getCommentsByProductId(productId, cursor);
-    res.send(comments);
+    const comments = await commentService.getCommentsByEntityId("product", productId, cursor);
+    const totalCount = await commentService.getCommentsCountByEntityId("product", productId);
+
+    res.send({ totalCount, comments });
   }
 );
 
@@ -23,8 +25,10 @@ export const getCommentsByArticleId = asyncHandler(
   async (req: Request<{ id: string }, {}, {}, { cursor?: string }>, res: Response) => {
     const { id: articleId } = req.params;
     const { cursor } = req.query;
-    const comments = await commentService.getCommentsByArticleId(articleId, cursor);
-    res.send(comments);
+    const comments = await commentService.getCommentsByEntityId("article", articleId, cursor);
+    const totalCount = await commentService.getCommentsCountByEntityId("article", articleId);
+
+    res.send({ totalCount, comments });
   }
 );
 

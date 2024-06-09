@@ -82,6 +82,27 @@ export const getBestArticles = async () => {
   }));
 };
 
+export const getArticlesCount = async (keyword: string): Promise<number> => {
+  return await prisma.article.count({
+    where: {
+      OR: [
+        {
+          title: {
+            contains: keyword,
+            mode: "insensitive",
+          },
+        },
+        {
+          content: {
+            contains: keyword,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+  });
+};
+
 export const createArticle = async (
   userId: number,
   articleData: Omit<Prisma.ArticleCreateInput, "user" | "writer" | "images">,

@@ -20,9 +20,14 @@ export const getArticles = asyncHandler(async (req: Request<{}, {}, {}, GetArtic
   const { offset = "0", limit = "10", orderBy = "recent", keyword = "" } = req.query;
   const offsetNumber = parseInt(offset, 10);
   const limitNumber = parseInt(limit, 10);
-  const articles = await articleService.getArticles({ offset: offsetNumber, limit: limitNumber, orderBy, keyword });
+
+  const [articles, totalCount] = await Promise.all([
+    articleService.getArticles({ offset: offsetNumber, limit: limitNumber, orderBy, keyword }),
+    articleService.getArticlesCount(keyword),
+  ]);
+
   const bestArticles = await articleService.getBestArticles();
-  res.send({ articles, bestArticles });
+  res.send({ totalCount, articles, bestArticles });
 });
 
 // POST /articles

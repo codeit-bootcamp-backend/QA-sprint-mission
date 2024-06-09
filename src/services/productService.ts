@@ -92,6 +92,27 @@ export const getBestProducts = async (): Promise<(Product & { images: string[] }
   }));
 };
 
+export const getProductsCount = async (keyword: string): Promise<number> => {
+  return await prisma.product.count({
+    where: {
+      OR: [
+        {
+          name: {
+            contains: keyword,
+            mode: "insensitive",
+          },
+        },
+        {
+          description: {
+            contains: keyword,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+  });
+};
+
 export const createProduct = async (
   userId: number,
   productData: Omit<Prisma.ProductCreateInput, "user" | "writer" | "images">,

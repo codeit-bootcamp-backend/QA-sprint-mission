@@ -2,15 +2,19 @@ import { Comment, Prisma } from "@prisma/client";
 import prisma from "../client";
 import AppError from "../utils/errors";
 
-export const getCommentsByProductId = async (productId: string, cursor?: string): Promise<Comment[]> => {
+export const getCommentsByEntityId = async (
+  entityType: "product" | "article",
+  entityId: string,
+  cursor?: string
+): Promise<Comment[]> => {
+  const whereClause = entityType === "product" ? { productId: entityId } : { articleId: entityId };
+
   const queryOptions: Prisma.CommentFindManyArgs = {
     take: 10,
     orderBy: {
       createdAt: "desc",
     },
-    where: {
-      productId: productId,
-    },
+    where: whereClause,
     select: {
       id: true,
       content: true,
@@ -24,28 +28,18 @@ export const getCommentsByProductId = async (productId: string, cursor?: string)
   return await prisma.comment.findMany(queryOptions);
 };
 
-export const getCommentsByArticleId = async (articleId: string, cursor?: string): Promise<Comment[]> => {
-  const queryOptions: Prisma.CommentFindManyArgs = {
-    take: 10,
-    orderBy: {
-      createdAt: "desc",
-    },
-    where: {
-      articleId: articleId,
-    },
-    select: {
-      id: true,
-      content: true,
-      createdAt: true,
-      writer: true,
-    },
-    cursor: cursor ? { id: cursor } : undefined,
-    skip: cursor ? 1 : undefined,
-  };
+export const getCommentsCountByEntityId = async (
+  entityType: "product" | "article",
+  entityId: string
+): Promise<number> => {
+  const whereClause = entityType === "product" ? { productId: entityId } : { articleId: entityId };
 
-  return await prisma.comment.findMany(queryOptions);
+  const totalCount = await prisma.comment.count({
+    where: whereClause,
+  });
+
+  return totalCount;
 };
-
 export const createComment = async (commentData: {
   content: string;
   imageUrl?: string;

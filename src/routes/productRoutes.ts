@@ -51,6 +51,10 @@ const router = express.Router();
  *             schema:
  *               type: object
  *               properties:
+ *                 totalCount:
+ *                   type: number
+ *                   example: 100
+ *                   description: "전체 제품 수"
  *                 products:
  *                   type: array
  *                   items:
@@ -142,7 +146,24 @@ const router = express.Router();
  *             examples:
  *               application/json:
  *                 value:
- *                   products: []
+ *                   totalCount: 100
+ *                   products:
+ *                     - id: "377ce06c-23c8-46de-b86f-2cfd43d41cbc"
+ *                       name: "판다인형"
+ *                       description: "판다인형 판다"
+ *                       price: 700000
+ *                       favoriteCount: 7
+ *                       createdAt: "2024-06-05T09:10:51.099Z"
+ *                       updatedAt: "2024-06-05T09:10:51.099Z"
+ *                       writer: "김판다"
+ *                       tags:
+ *                         - "판다인형"
+ *                         - "인형"
+ *                         - "판다"
+ *                       userId: 1
+ *                       images:
+ *                         - "https://sitem.ssgcdn.com/62/11/49/item/1000559491162_i1_1100.jpg"
+ *                         - "https://wimg.mk.co.kr/meet/2021/09/image_listtop_2021_854860_1630738087.jpg"
  *                   bestProducts:
  *                     - id: "377ce06c-23c8-46de-b86f-2cfd43d41cbc"
  *                       name: "판다인형"
@@ -176,6 +197,7 @@ const router = express.Router();
  *                       userId: 2
  *                       images:
  *                         - "https://view01.wemep.co.kr/wmp-product/4/879/2515748794/pm_ebifv5nrjsyf.jpg?1683280710&f=webp&w=460&h=460"
+
  *   post:
  *     summary: 상품 생성
  *     tags: [Products]
@@ -692,30 +714,39 @@ router.route("/:id/unlike").patch(authenticate, productController.unlikeProduct)
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     example: "550e8400-e29b-41d4-a716-446655440000"
- *                   content:
- *                     type: string
- *                     example: "댓글 내용"
- *                   createdAt:
- *                     type: string
- *                     format: date-time
- *                     example: "2023-01-01T00:00:00.000Z"
- *                   writer:
- *                     type: string
- *                     example: "작성자"
+ *               type: object
+ *               properties:
+ *                 totalCount:
+ *                   type: number
+ *                   example: 100
+ *                   description: "전체 댓글 수"
+ *                 comments:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: "550e8400-e29b-41d4-a716-446655440000"
+ *                       content:
+ *                         type: string
+ *                         example: "댓글 내용"
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: "2023-01-01T00:00:00.000Z"
+ *                       writer:
+ *                         type: string
+ *                         example: "작성자"
  *             examples:
  *               application/json:
  *                 value:
- *                   - id: "550e8400-e29b-41d4-a716-446655440000"
- *                     content: "댓글 내용"
- *                     createdAt: "2023-01-01T00:00:00.000Z"
- *                     writer: "작성자"
+ *                   totalCount: 100
+ *                   comments:
+ *                     - id: "550e8400-e29b-41d4-a716-446655440000"
+ *                       content: "댓글 내용"
+ *                       createdAt: "2023-01-01T00:00:00.000Z"
+ *                       writer: "작성자"
  *       404:
  *         description: 게시글을 찾을 수 없음
  *         content:

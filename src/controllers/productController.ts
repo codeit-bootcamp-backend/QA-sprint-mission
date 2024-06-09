@@ -7,7 +7,6 @@ import asyncHandler from "../utils/asyncHandler";
 interface UserRequest extends Request {
   userId: number;
 }
-
 // GET /products
 export const getProducts = asyncHandler(
   async (
@@ -17,9 +16,14 @@ export const getProducts = asyncHandler(
     const { offset = "0", limit = "10", orderBy = "recent", keyword = "" } = req.query;
     const offsetNumber = parseInt(offset, 10);
     const limitNumber = parseInt(limit, 10);
-    const products = await productService.getProducts({ offset: offsetNumber, limit: limitNumber, orderBy, keyword });
+
+    const [products, totalCount] = await Promise.all([
+      productService.getProducts({ offset: offsetNumber, limit: limitNumber, orderBy, keyword }),
+      productService.getProductsCount(keyword),
+    ]);
+
     const bestProducts = await productService.getBestProducts();
-    res.send({ products, bestProducts });
+    res.send({ totalCount, products, bestProducts });
   }
 );
 
