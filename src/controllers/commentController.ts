@@ -34,14 +34,17 @@ export const getCommentsByArticleId = asyncHandler(
 // POST /comments
 export const createComment = asyncHandler(async (req: UserRequest, res: Response) => {
   assert(req.body, CreateComment);
-
+  const { productId, articleId } = req.params;
   const { _id: userId } = req.user;
   const commentData = {
+    productId: productId,
+    articleId: articleId,
     ...req.body,
     userId,
   };
 
   const comment = await commentService.createComment(commentData);
+  console.log(comment);
   res.status(201).send(comment);
 });
 

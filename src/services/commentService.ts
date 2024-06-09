@@ -65,6 +65,7 @@ export const createComment = async (commentData: {
     data: commentDataWithWriterName,
   });
 };
+
 export const updateComment = async (commentId: string, userId: number, content: string): Promise<Comment> => {
   const comment = await prisma.comment.findUnique({
     where: { id: commentId },
