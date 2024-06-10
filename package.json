@@ -1,6 +1,7 @@
 {
 	"version": "0.0.2",
 	"dependencies": {
+		"@aws-sdk/s3-request-presigner": "^3.592.0",
 		"@prisma/client": "^5.14.0",
 		"aws-sdk": "^2.1635.0",
 		"bcryptjs": "^2.4.3",
