@@ -3,6 +3,7 @@ os: linux
 files:
   - source: /
     destination: /home/ec2-user/server/QA-sprint-mission
+file_exists_behavior: OVERWRITE
 
 permissions:
   - object: /
