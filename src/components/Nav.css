@@ -1,0 +1,156 @@
+@import "../styles/reset";
+
+nav {
+  width: 100%;
+  background-color: var(--White);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.nav_logo {
+  width: 15.3rem;
+  height: 5.1rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  @media (min-width: 375px) and (max-width: 767px) {
+    display: none;
+  }
+}
+
+.mobile_nav_logo {
+  display: none;
+
+  width: 8.1rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  @media (min-width: 375px) and (max-width: 767px) {
+    display: inline-block;
+  }
+}
+
+.header_nav {
+  top: 0;
+  position: sticky;
+  max-width: 192rem;
+  margin: auto;
+  padding-left: 20rem;
+  padding-right: 20rem;
+  display: flex;
+  align-items: center;
+  background-color: var(--White);
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    padding-left: 2.4rem;
+    padding-right: 2.4rem;
+  }
+
+  @media (min-width: 375px) and (max-width: 767px) {
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+  }
+}
+
+.header_category {
+  width: 100%;
+  margin-left: 3.2rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    margin-left: 2rem;
+  }
+
+  @media (min-width: 375px) and (max-width: 767px) {
+    margin-left: 1.6rem;
+  }
+}
+
+.category_btn {
+  padding: 2.4rem 1.6rem;
+
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  color: var(--Cool-Gray600);
+
+  @media (min-width: 375px) and (max-width: 767px) {
+    font-size: 1.6rem;
+    padding: 2.4rem 0.4rem;
+  }
+}
+
+.category_btn.blue {
+  color: var(--Brand-Blue);
+}
+
+.login_btn {
+  height: 4.2rem;
+  padding: 1.2rem 2.3rem;
+  border-radius: 0.8rem;
+
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+
+  background: var(--Brand-Blue);
+  color: var(--White);
+
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.header_section {
+  width: 100%;
+  height: 54rem;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  background-color: #cfe5ff;
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    height: 77.1rem;
+    flex-direction: column;
+  }
+  @media (max-width: 767px) {
+    height: 54rem;
+    /* display: flex; */
+    flex-direction: column;
+  }
+}
+
+.header_container {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  /* 추가 */
+  overflow: hidden;
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
+}
