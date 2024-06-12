@@ -27,6 +27,7 @@
 - 위 과정을 통해 미션을 다 완료했다면, **PR**(Pull Request)을 올립니다.
 
   - ex) `jiwoo-im/백엔드-mission3` → `codeit-bootcamp-backend/백엔드`
+    a
 
 ### PR 템플릿
 
