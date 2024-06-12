@@ -28,8 +28,6 @@
 
   - ex) `jiwoo-im/백엔드-mission3` → `codeit-bootcamp-backend/백엔드`
 
-a
-
 ### PR 템플릿
 
 ```markdown
