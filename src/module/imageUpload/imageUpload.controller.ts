@@ -1,7 +1,11 @@
 import { Request, Response, Router } from 'express';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import {
+	S3Client,
+	PutObjectCommand,
+	GetObjectCommand,
+} from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import DotenvFlow from 'dotenv-flow';
 
@@ -43,7 +47,13 @@ imageRoutes.post(
 	(req: Request, res: Response) => {
 		try {
 			const files = req.files as Express.MulterS3.File[];
-			const locations = files.map((file) => file.location);
+			const locations = files.map((file) => {
+				const fileName = file.location.split('amazonaws.com/')[1];
+
+				const imagesURL = 'localhost:3000/images/';
+
+				return imagesURL + fileName;
+			});
 
 			res
 				.status(200)
@@ -72,6 +82,41 @@ imageRoutes.get('/presigned-url', async (req: Request, res: Response) => {
 	} catch (error) {
 		console.error('Failed to generate presigned URL:', error);
 		res.status(500).json({ error: 'Failed to generate presigned URL.' });
+	}
+});
+
+imageRoutes.get('/:level/:imageName', async (req: Request, res: Response) => {
+	const { imageName, level } = req.params;
+
+	// presigned URL 생성
+	const params = new GetObjectCommand({
+		Bucket: (process.env.S3_BUCKET_NAME as string) + '-' + level,
+		Key: imageName,
+	});
+
+	try {
+		const url = await getSignedUrl(s3, params, { expiresIn: 60 });
+
+		// presigned URL을 사용하여 이미지를 가져옴
+		const response = await fetch(url);
+
+		console.log(response);
+
+		if (!response.ok) {
+			throw new Error(`Error fetching image: ${response.statusText}`);
+		}
+		const arrayBuffer = await response.arrayBuffer();
+		const buffer = Buffer.from(arrayBuffer);
+
+		// 이미지 콘텐츠를 클라이언트에 전달
+		res.set(
+			'Content-Type',
+			response.headers.get('Content-Type') || 'image/jpeg',
+		);
+		res.send(buffer);
+	} catch (error) {
+		console.error('Error fetching image:', error);
+		res.status(500).send('Error fetching image');
 	}
 });
 
