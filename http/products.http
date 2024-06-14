@@ -1,0 +1,93 @@
+
+# 상품 조회 쿼리 x
+GET http://localhost:3000/products
+
+###
+# 상품 조회 쿼리 o
+
+GET http://localhost:3000/products?offset=1&limit=2&keyword=판다&orderBy=favorite
+
+###
+# 상품 조회 검색어 테스트
+GET http://localhost:3000/products?keyword=판다
+
+###
+# 상품 상세 조회
+GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc
+
+###
+# 상품 등록
+POST http://localhost:3000/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzkxMjA4MCwiZXhwIjoxNzE3OTEyOTgwfQ.zYdtc0Vud63UdEn1dQVkiZwc-cDbvRzPogs0CfV29nY
+Content-Type: application/json
+
+{
+  "name": "판다랑 불곰 교환원해요",
+  "description": "세종시청에서 교환원합니다.",
+  "price": 20000,
+  "tags": ["판다", "불곰"],
+  "imageUrl": "://www.wishbucket.io/_next/image?url=https%3A%2F%2Fd2gfz7wkiigkmv.cloudfront.net%2Fpickin%2F2%2F1%2F2%2FHereyhSJRMOmUw7I5uWAxg&w=640&q=75"
+}
+
+###
+# 상품 수정
+PATCH http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzkxMjA4MCwiZXhwIjoxNzE3OTEyOTgwfQ.zYdtc0Vud63UdEn1dQVkiZwc-cDbvRzPogs0CfV29nY
+Content-Type: application/json
+
+{
+  "name":"판다 안팔려서 안판다",
+  "description":"안판다고 했지만 사실은 판다",
+  "price":7000,
+  "tags":["판다","안판다"],
+  "imageUrl": "https://www.wishbucket.io/_next/image?url=https%3A%2F%2Fd2gfz7wkiigkmv.cloudfront.net%2Fpickin%2F2%2F1%2F2%2FHereyhSJRMOmUw7I5uWAxg&w=640&q=75"
+}
+
+###
+# 상품 삭제
+DELETE http://localhost:3000/products/d4e8c9a0-5d45-4c9f-9b4b-7626f3c9c9a9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzEyODc3NiwiZXhwIjoxNzE3MTI5Njc2fQ.1P-sxAljy-HP-1LQ3F53tJJLCry3--KdL6mJSZSy4bc
+
+###
+# 상품 좋아요
+PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/like
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzkxMjA4MCwiZXhwIjoxNzE3OTEyOTgwfQ.zYdtc0Vud63UdEn1dQVkiZwc-cDbvRzPogs0CfV29nY
+
+###
+# 상품 좋아요 취소
+PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/unlike
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzEyODc3NiwiZXhwIjoxNzE3MTI5Njc2fQ.1P-sxAljy-HP-1LQ3F53tJJLCry3--KdL6mJSZSy4bc
+
+### 
+# 상품 댓글 조회
+GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments
+
+### 
+# 상품 댓글 커서 조회
+GET http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments?cursor=2b3c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7q
+
+###
+# 상품 댓글 등록
+POST http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzEyODc3NiwiZXhwIjoxNzE3MTI5Njc2fQ.1P-sxAljy-HP-1LQ3F53tJJLCry3--KdL6mJSZSy4bc
+Content-Type: application/json
+
+{
+  "content":"판다가 너무 귀여워요",
+  "writer":"판다사랑나라사랑"
+}
+
+###
+# 상품 댓글 수정
+PATCH http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/3b2c5412-f7cd-454a-87d5-fee77aaab8d0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzEyODc3NiwiZXhwIjoxNzE3MTI5Njc2fQ.1P-sxAljy-HP-1LQ3F53tJJLCry3--KdL6mJSZSy4bc
+Content-Type: application/json
+
+{
+  "content":"판다가 너무 귀여워요 수정"
+}
+
+###
+# 상품 댓글 삭제
+DELETE http://localhost:3000/products/377ce06c-23c8-46de-b86f-2cfd43d41cbc/comments/3b2c5412-f7cd-454a-87d5-fee77aaab8d0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcxNzEyODc3NiwiZXhwIjoxNzE3MTI5Njc2fQ.1P-sxAljy-HP-1LQ3F53tJJLCry3--KdL6mJSZSy4bc
