@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Comment" ALTER COLUMN "product" DROP NOT NULL,
+ALTER COLUMN "board" DROP NOT NULL;
