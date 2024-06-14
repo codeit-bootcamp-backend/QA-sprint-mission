@@ -551,7 +551,7 @@ router
  *                type: string
  *                example: "이미 좋아요 처리된 게시글입니다."
  */
-router.route("/:id/like").patch(authenticate, articleController.likeArticle);
+router.route("/:id/like").post(authenticate, articleController.likeArticle);
 
 /**
  * @swagger
@@ -639,7 +639,7 @@ router.route("/:id/like").patch(authenticate, articleController.likeArticle);
  *                type: string
  *                example: "아직 좋아요 처리되지 않은 게시글입니다."
  */
-router.route("/:id/unlike").patch(authenticate, articleController.unlikeArticle);
+router.route("/:id/unlike").delete(authenticate, articleController.unlikeArticle);
 
 /**
  * @swagger

@@ -103,6 +103,7 @@ describe("게시글 서비스", () => {
         select: {
           id: true,
           title: true,
+          likeCount: true,
           content: true,
           createdAt: true,
           writer: true,

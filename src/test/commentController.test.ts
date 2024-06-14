@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, jest, test } from "@jest/globals";
+import { Comment } from '@prisma/client';
 import { NextFunction, Request, Response } from "express";
 import { assert } from "superstruct";
 import * as commentController from "../controllers/commentController";
@@ -15,13 +16,13 @@ jest.mock("superstruct", () => {
   };
 });
 
-const setup = () => {
+const setup = (params: { [key: string]: string } = {}) => {
   const req = {
     body: {},
-    params: {},
+    params: params,
     query: {},
-    userId: 1,
-  } as unknown as Request<{ id: string; commentId: string }> & { userId: number };
+    user: { _id: '1' },
+  } as unknown as Request & { user: { _id: string } };
 
   const res = {
     status: jest.fn().mockReturnThis(),
@@ -41,10 +42,10 @@ describe("댓글 컨트롤러", () => {
   });
 
   describe("getCommentsByProductId", () => {
-    test("상품의 댓글을 반환해야 한다", async () => {
-      const { req, res, next } = setup();
-      req.params.id = "1";
-      const mockComments = [
+    test("상품의 댓글과 댓글 수를 반환해야 한다", async () => {
+      const { req, res, next } = setup({ productId: "1" });
+
+      const mockComments: Comment[] = [
         {
           id: "1",
           content: "멋진 상품!",
@@ -56,21 +57,26 @@ describe("댓글 컨트롤러", () => {
           userId: 1,
         },
       ];
-      (
-        commentService.getCommentsByProductId as jest.MockedFunction<typeof commentService.getCommentsByProductId>
-      ).mockResolvedValue(mockComments);
+
+      const mockTotalCount = 1;
+
+      (commentService.getCommentsByEntityId as jest.MockedFunction<typeof commentService.getCommentsByEntityId>).mockResolvedValue(mockComments);
+      (commentService.getCommentsCountByEntityId as jest.MockedFunction<typeof commentService.getCommentsCountByEntityId>).mockResolvedValue(mockTotalCount);
 
       await commentController.getCommentsByProductId(req, res, next);
 
-      expect(res.send).toHaveBeenCalledWith(mockComments);
+      expect(commentService.getCommentsByEntityId).toHaveBeenCalledWith("product", "1", undefined);
+      expect(commentService.getCommentsCountByEntityId).toHaveBeenCalledWith("product", "1");
+      expect(res.send).toHaveBeenCalledWith({ comments: mockComments, totalCount: mockTotalCount });
+      expect(res.send).toHaveBeenCalledTimes(1);
     });
   });
 
   describe("getCommentsByArticleId", () => {
-    test("게시글의 댓글을 반환해야 한다", async () => {
-      const { req, res, next } = setup();
-      req.params.id = "1";
-      const mockComments = [
+    test("게시글의 댓글과 댓글 수를 반환해야 한다", async () => {
+      const { req, res, next } = setup({ articleId: "1" });
+
+      const mockComments: Comment[] = [
         {
           id: "1",
           content: "멋진 게시글!",
@@ -82,13 +88,18 @@ describe("댓글 컨트롤러", () => {
           userId: 1,
         },
       ];
-      (
-        commentService.getCommentsByArticleId as jest.MockedFunction<typeof commentService.getCommentsByArticleId>
-      ).mockResolvedValue(mockComments);
+
+      const mockTotalCount = 1;
+
+      (commentService.getCommentsByEntityId as jest.MockedFunction<typeof commentService.getCommentsByEntityId>).mockResolvedValue(mockComments);
+      (commentService.getCommentsCountByEntityId as jest.MockedFunction<typeof commentService.getCommentsCountByEntityId>).mockResolvedValue(mockTotalCount);
 
       await commentController.getCommentsByArticleId(req, res, next);
 
-      expect(res.send).toHaveBeenCalledWith(mockComments);
+      expect(commentService.getCommentsByEntityId).toHaveBeenCalledWith("article", "1", undefined);
+      expect(commentService.getCommentsCountByEntityId).toHaveBeenCalledWith("article", "1");
+      expect(res.send).toHaveBeenCalledWith({ comments: mockComments, totalCount: mockTotalCount });
+      expect(res.send).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -113,7 +124,7 @@ describe("댓글 컨트롤러", () => {
       await commentController.createComment(req, res, next);
 
       expect(assert).toHaveBeenCalledWith(req.body, CreateComment);
-      expect(commentService.createComment).toHaveBeenCalledWith({ ...req.body, userId: req.userId });
+      expect(commentService.createComment).toHaveBeenCalledWith({ ...req.body, userId: req.user._id });
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.send).toHaveBeenCalledWith(mockComment);
     });
@@ -121,8 +132,7 @@ describe("댓글 컨트롤러", () => {
 
   describe("updateComment", () => {
     test("댓글을 업데이트해야 한다", async () => {
-      const { req, res, next } = setup();
-      req.params.commentId = "1";
+      const { req, res, next } = setup({ commentId: "1" });
       req.body = { content: "업데이트된 댓글" };
 
       const mockUpdatedComment = {
@@ -142,13 +152,12 @@ describe("댓글 컨트롤러", () => {
       await commentController.updateComment(req, res, next);
 
       expect(assert).toHaveBeenCalledWith(req.body, PatchComment);
-      expect(commentService.updateComment).toHaveBeenCalledWith("1", req.userId, "업데이트된 댓글");
+      expect(commentService.updateComment).toHaveBeenCalledWith("1", req.user._id, "업데이트된 댓글");
       expect(res.send).toHaveBeenCalledWith(mockUpdatedComment);
     });
 
     test("댓글 수정 시 commentId가 없으면 400 에러를 반환해야 한다", async () => {
-      const { req, res, next } = setup();
-      req.params.commentId = "";
+      const { req, res, next } = setup({ commentId: "" });
 
       await commentController.updateComment(req, res, next);
 
@@ -157,8 +166,7 @@ describe("댓글 컨트롤러", () => {
     });
 
     test("댓글 수정 시 content가 없으면 400 에러를 반환해야 한다", async () => {
-      const { req, res, next } = setup();
-      req.params.commentId = "1";
+      const { req, res, next } = setup({ commentId: "1" });
       req.body.content = "";
 
       await commentController.updateComment(req, res, next);
@@ -168,8 +176,7 @@ describe("댓글 컨트롤러", () => {
     });
 
     test("댓글 수정 시 권한이 없으면 예외를 발생시켜야 한다", async () => {
-      const { req, res, next } = setup();
-      req.params.commentId = "1";
+      const { req, res, next } = setup({ commentId: "1" });
       req.body = { content: "업데이트된 댓글" };
 
       (commentService.updateComment as jest.MockedFunction<typeof commentService.updateComment>).mockRejectedValue(
@@ -185,18 +192,16 @@ describe("댓글 컨트롤러", () => {
 
   describe("deleteComment", () => {
     test("댓글을 삭제해야 한다", async () => {
-      const { req, res, next } = setup();
-      req.params.commentId = "1";
+      const { req, res, next } = setup({ commentId: "1" });
 
       await commentController.deleteComment(req, res, next);
 
-      expect(commentService.deleteComment).toHaveBeenCalledWith("1", req.userId);
+      expect(commentService.deleteComment).toHaveBeenCalledWith("1", req.user._id);
       expect(res.sendStatus).toHaveBeenCalledWith(204);
     });
 
     test("댓글 삭제 시 권한이 없으면 예외를 발생시켜야 한다", async () => {
-      const { req, res, next } = setup();
-      req.params.commentId = "1";
+      const { req, res, next } = setup({ commentId: "1" });
 
       (commentService.deleteComment as jest.MockedFunction<typeof commentService.deleteComment>).mockRejectedValue(
         new AppError("댓글을 삭제할 권한이 없습니다.", 403)

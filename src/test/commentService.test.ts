@@ -54,7 +54,7 @@ describe("Comment Service", () => {
     test("상품 ID로 댓글을 가져와야 한다", async () => {
       (prisma.comment.findMany as jest.MockedFunction<typeof prisma.comment.findMany>).mockResolvedValue(mockComments);
 
-      const comments = await commentService.getCommentsByProductId("1");
+      const comments = await commentService.getCommentsByEntityId('product', "1");
 
       expect(prisma.comment.findMany).toHaveBeenCalledWith({
         take: 10,
@@ -72,7 +72,7 @@ describe("Comment Service", () => {
     test("게시글 ID로 댓글을 가져와야 한다", async () => {
       (prisma.comment.findMany as jest.MockedFunction<typeof prisma.comment.findMany>).mockResolvedValue(mockComments);
 
-      const comments = await commentService.getCommentsByArticleId("1");
+      const comments = await commentService.getCommentsByEntityId('article',"1");
 
       expect(prisma.comment.findMany).toHaveBeenCalledWith({
         take: 10,

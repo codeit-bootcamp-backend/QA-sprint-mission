@@ -53,7 +53,9 @@ const setup = () => {
     body: {},
     params: {},
     query: {},
-    userId: 1,
+    user: {
+      _id:1
+    },
   } as unknown as Request<{ id: string }> & { userId: number };
 
   const res = {
@@ -113,7 +115,7 @@ describe("상품 컨트롤러", () => {
       await productController.createProduct(req, res, next);
 
       expect(assert).toHaveBeenCalledWith(req.body, CreateProduct);
-      expect(productService.createProduct).toHaveBeenCalledWith(req.userId, req.body, "");
+      expect(productService.createProduct).toHaveBeenCalledWith(req.user?._id, req.body, "");
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.send).toHaveBeenCalledWith(mockProduct);
     });
@@ -176,7 +178,7 @@ describe("상품 컨트롤러", () => {
       await productController.updateProduct(req, res, next);
 
       expect(assert).toHaveBeenCalledWith(req.body, PatchProduct);
-      expect(productService.updateProduct).toHaveBeenCalledWith("1", req.userId, req.body, "");
+      expect(productService.updateProduct).toHaveBeenCalledWith("1", req.user?._id, req.body, "");
       expect(res.send).toHaveBeenCalledWith(mockUpdatedProduct);
     });
 
@@ -203,7 +205,7 @@ describe("상품 컨트롤러", () => {
 
       await productController.deleteProduct(req, res, next);
 
-      expect(productService.deleteProduct).toHaveBeenCalledWith("1", req.userId);
+      expect(productService.deleteProduct).toHaveBeenCalledWith("1", req.user?._id);
       expect(res.sendStatus).toHaveBeenCalledWith(204);
     });
 
@@ -247,7 +249,7 @@ describe("상품 컨트롤러", () => {
 
       await productController.likeProduct(req, res, next);
 
-      expect(productService.likeProduct).toHaveBeenCalledWith("1", req.userId);
+      expect(productService.likeProduct).toHaveBeenCalledWith("1", req.user?._id);
       expect(res.send).toHaveBeenCalledWith(mockUpdatedProduct);
     });
 
@@ -291,7 +293,7 @@ describe("상품 컨트롤러", () => {
 
       await productController.unlikeProduct(req, res, next);
 
-      expect(productService.unlikeProduct).toHaveBeenCalledWith("1", req.userId);
+      expect(productService.unlikeProduct).toHaveBeenCalledWith("1", req.user?._id);
       expect(res.send).toHaveBeenCalledWith(mockUpdatedProduct);
     });
 

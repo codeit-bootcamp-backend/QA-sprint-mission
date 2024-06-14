@@ -44,7 +44,6 @@ export const createComment = asyncHandler(async (req: UserRequest, res: Response
   };
 
   const comment = await commentService.createComment(commentData);
-  console.log(comment);
   res.status(201).send(comment);
 });
 

@@ -11,7 +11,9 @@ const setup = () => {
     body: {},
     params: {},
     query: {},
-    userId: 1,
+    user:{
+      _id:1
+    }
   } as unknown as Request<{ id: string }> & { userId: number };
 
   const res = {
@@ -84,7 +86,7 @@ describe("게시글 컨트롤러", () => {
       await articleController.createArticle(req, res, next);
 
       expect(articleService.createArticle).toHaveBeenCalledWith(
-        req.userId,
+        req.user?._id,
         { title: "새로운 게시글", content: "새로운 게시글 내용" },
         "image1.jpg"
       );
@@ -139,7 +141,7 @@ describe("게시글 컨트롤러", () => {
 
       expect(articleService.updateArticle).toHaveBeenCalledWith(
         "1",
-        req.userId,
+        req.user?._id,
         { title: "수정된 게시글", content: "수정된 게시글 내용" },
         "image1.jpg"
       );
@@ -169,7 +171,7 @@ describe("게시글 컨트롤러", () => {
 
       await articleController.deleteArticle(req, res, next);
 
-      expect(articleService.deleteArticle).toHaveBeenCalledWith("1", req.userId);
+      expect(articleService.deleteArticle).toHaveBeenCalledWith("1", req.user?._id);
       expect(res.sendStatus).toHaveBeenCalledWith(204);
     });
 
@@ -201,7 +203,7 @@ describe("게시글 컨트롤러", () => {
 
       await articleController.likeArticle(req, res, next);
 
-      expect(articleService.likeArticle).toHaveBeenCalledWith("1", req.userId);
+      expect(articleService.likeArticle).toHaveBeenCalledWith("1", req.user?._id);
       expect(res.send).toHaveBeenCalledWith(mockUpdatedArticle);
     });
 
@@ -233,7 +235,7 @@ describe("게시글 컨트롤러", () => {
 
       await articleController.unlikeArticle(req, res, next);
 
-      expect(articleService.unlikeArticle).toHaveBeenCalledWith("1", req.userId);
+      expect(articleService.unlikeArticle).toHaveBeenCalledWith("1", req.user?._id);
       expect(res.send).toHaveBeenCalledWith(mockUpdatedArticle);
     });
 

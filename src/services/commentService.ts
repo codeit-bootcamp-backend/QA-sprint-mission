@@ -40,6 +40,7 @@ export const getCommentsCountByEntityId = async (
 
   return totalCount;
 };
+
 export const createComment = async (commentData: {
   content: string;
   imageUrl?: string;
