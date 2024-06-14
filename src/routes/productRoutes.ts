@@ -530,7 +530,7 @@ router.route("/").get(productController.getProducts).post(authenticate, productC
  */
 router
   .route("/:id")
-  .get(productController.getProductById)
+  .get(authenticate,productController.getProductById)
   .patch(authenticate, productController.updateProduct)
   .delete(authenticate, productController.deleteProduct);
 

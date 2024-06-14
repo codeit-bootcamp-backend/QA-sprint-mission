@@ -138,6 +138,7 @@ describe("상품 컨트롤러", () => {
         tags: [],
         userId: 1,
         images: ["image1.jpg"],
+        isLiked: false
       };
 
       (productService.getProductById as jest.MockedFunction<typeof productService.getProductById>).mockResolvedValue(
@@ -146,7 +147,7 @@ describe("상품 컨트롤러", () => {
 
       await productController.getProductById(req, res, next);
 
-      expect(productService.getProductById).toHaveBeenCalledWith("1");
+      expect(productService.getProductById).toHaveBeenCalledWith("1",req.user?._id);
       expect(res.send).toHaveBeenCalledWith(mockProduct);
     });
   });

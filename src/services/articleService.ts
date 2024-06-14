@@ -142,9 +142,9 @@ export const createArticle = async (
   };
 };
 
-export const getArticleById = async (id: string) => {
+export const getArticleById = async (articleId: string,userId?:number) => {
   const article = await prisma.article.findUniqueOrThrow({
-    where: { id },
+    where: { id: articleId },
     select: {
       id: true,
       title: true,
@@ -160,9 +160,21 @@ export const getArticleById = async (id: string) => {
     },
   });
 
+  const isLiked = userId
+    ? await prisma.favorite.findUnique({
+        where: {
+          userId_articleId: {
+            userId,
+            articleId,
+          },
+        },
+      })
+    : null;
+
   return {
     ...article,
     images: article.images.map((image) => image.imagePath),
+    isLiked: Boolean(isLiked),
   };
 };
 

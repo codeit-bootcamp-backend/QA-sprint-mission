@@ -461,7 +461,7 @@ router.route("/").get(articleController.getArticles).post(authenticate, articleC
  */
 router
   .route("/:id")
-  .get(articleController.getArticleById)
+  .get(authenticate,articleController.getArticleById)
   .patch(authenticate, articleController.updateArticle)
   .delete(authenticate, articleController.deleteArticle);
 

@@ -100,13 +100,26 @@ describe("게시글 컨트롤러", () => {
       const { req, res, next } = setup();
       req.params = { id: "1" };
 
+      const mockArticle = {
+        id: "1",
+        title: "새로운 게시글",
+        content: "새로운 게시글 내용",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        likeCount: 0,
+        writer: "김판다",
+        userId: 1,
+        images: ["image1.jpg"],
+        isLiked: false,
+      };
+
       (articleService.getArticleById as jest.MockedFunction<typeof articleService.getArticleById>).mockResolvedValue(
         mockArticle
       );
 
       await articleController.getArticleById(req, res, next);
 
-      expect(articleService.getArticleById).toHaveBeenCalledWith("1");
+      expect(articleService.getArticleById).toHaveBeenCalledWith("1",req.user?._id);
       expect(res.send).toHaveBeenCalledWith(mockArticle);
     });
 

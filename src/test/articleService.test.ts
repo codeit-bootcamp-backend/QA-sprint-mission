@@ -103,9 +103,9 @@ describe("게시글 서비스", () => {
         select: {
           id: true,
           title: true,
-          likeCount: true,
           content: true,
           createdAt: true,
+          likeCount: true,
           writer: true,
           images: {
             select: { imagePath: true },
@@ -187,6 +187,7 @@ describe("게시글 서비스", () => {
       expect(result).toEqual({
         ...mockArticle,
         images: mockArticle.images.map((image) => image.imagePath),
+        isLiked: false,
       });
       expect(prisma.article.findUniqueOrThrow).toHaveBeenCalledWith({
         where: { id: "test-article-id" },

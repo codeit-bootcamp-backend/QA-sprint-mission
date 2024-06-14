@@ -151,9 +151,9 @@ export const createProduct = async (
   };
 };
 
-export const getProductById = async (id: string): Promise<(Product & { images: string[] }) | null> => {
+export const getProductById = async (productId: string,userId?:number) => {
   const product = await prisma.product.findUnique({
-    where: { id },
+    where: { id:productId },
     select: {
       id: true,
       name: true,
@@ -173,13 +173,25 @@ export const getProductById = async (id: string): Promise<(Product & { images: s
     },
   });
 
+  const isLiked = userId
+  ? await prisma.favorite.findUnique({
+      where: {
+        userId_productId: {
+          userId,
+          productId,
+        },
+      },
+    })
+  : null;
+
   if (!product) {
     throw new AppError("존재하지 않는 상품입니다.", 404);
   }
 
   return {
     ...product,
-    images: product.images.map((image) => image.imagePath),
+    images: product.images.map((image) => image.imagePath), 
+    isLiked: Boolean(isLiked),
   };
 };
 

@@ -41,9 +41,10 @@ export const createArticle = asyncHandler(async (req: UserRequest, res: Response
 });
 
 // GET /articles/:id
-export const getArticleById = asyncHandler(async (req: Request<{ id: string }>, res: Response): Promise<void> => {
+export const getArticleById = asyncHandler(async (req: UserRequest & Request<{ id: string }>, res: Response): Promise<void> => {
   const { id } = req.params;
-  const article = await articleService.getArticleById(id);
+  const { _id: userId } = req.user;
+  const article = await articleService.getArticleById(id,userId);
   res.send(article);
 });
 

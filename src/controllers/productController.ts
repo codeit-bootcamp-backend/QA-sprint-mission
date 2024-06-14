@@ -38,9 +38,10 @@ export const createProduct = asyncHandler(async (req: UserRequest, res: Response
 });
 
 // GET /products/:id
-export const getProductById = asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
+export const getProductById = asyncHandler(async (req: UserRequest & Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
-  const product = await productService.getProductById(id);
+  const { _id: userId } = req.user;
+  const product = await productService.getProductById(id, userId);
   res.send(product);
 });
 

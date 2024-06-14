@@ -221,6 +221,7 @@ describe("상품 서비스", () => {
     expect(result).toEqual({
       ...mockProduct,
       images: ["image1.jpg"],
+      isLiked:false
     });
     expect(prisma.product.findUnique).toHaveBeenCalledWith({
       where: { id: "test-product-id" },
