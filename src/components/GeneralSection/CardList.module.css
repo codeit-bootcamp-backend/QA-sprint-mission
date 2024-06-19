@@ -1,0 +1,49 @@
+.card_list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  justify-content: center;
+  gap: 40px 24px;
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    grid-template-columns: repeat(3, auto);
+  }
+
+  @media (min-width: 375px) and (max-width: 767px) {
+    grid-template-columns: repeat(2, auto);
+    padding: 0 1.5rem;
+    gap: 32px 15px;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 4rem auto 6.4rem auto;
+}
+
+.pagination button {
+  margin: 0 5px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--Cool-Gray200);
+  background-color: var(--White);
+  cursor: pointer;
+  border-radius: 40px;
+  font-size: 1.6rem;
+  color: var(--Cool-Gray500);
+}
+
+.pagination button.active {
+  background-color: #2f80ed;
+  color: white;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+}
+
+.arrow_left {
+  width: 16px;
+  height: 16px;
+}

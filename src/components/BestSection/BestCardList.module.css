@@ -1,0 +1,29 @@
+.best_card_list {
+  width: 100%;
+  display: grid;
+  justify-content: center;
+  gap: 40px 24px;
+  grid-template-columns: repeat(4, auto);
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    grid-template-columns: repeat(2, auto);
+  }
+
+  @media (max-width: 767px) {
+    grid-template-columns: auto;
+    padding: 0 1.5rem;
+    gap: 16px 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .best_card_list > .best_card_container:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .best_card_list > .best_card_container:nth-child(n + 2) {
+    display: none;
+  }
+}

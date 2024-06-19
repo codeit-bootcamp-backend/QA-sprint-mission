@@ -1,0 +1,27 @@
+@import "../../styles/reset.css";
+
+.btn {
+  height: 4.2rem;
+  padding: 1.2rem 2.3rem;
+  border: none;
+  border-radius: 0.8rem;
+
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+
+  color: var(--White);
+
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.btn.blue {
+  background-color: var(--Brand-Blue);
+}
+
+.btn.blue:disabled {
+  background-color: var(--Cool-Gray400);
+}
